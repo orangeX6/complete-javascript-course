@@ -219,7 +219,7 @@ else if (avgT2 > avgT1 && avgT2 < 100) {
     console.log(`NO RESULT. Both scored ${avgT2}`)
 }
 
-*/
+
 
 const day = 'cat';
 
@@ -249,3 +249,31 @@ switch (day) {
     default:
         console.log('Thats not a day!! Is it ? ?  ? ')
 }
+
+
+
+//TERNARY OPERATOR 
+const age = 25;
+age > 17 ? age <45 ? console.log('You can drink wine') : console.log('You probably should not') : console.log('You are too young') 
+
+const drink = age>17 ? age<45 ? 'wine' : 'beer' : 'juice'
+console.log(drink);
+
+console.log(`I like to drink ${age > 17 ? age < 45 ? 'wine' : 'beer' : 'juice'}`)
+
+
+
+const bill = 275;
+// const bill = 40;
+// const bill = 430;
+const tip = bill < 51 || bill > 299 ? bill * 0.2 : bill * 0.15;
+const total = bill + tip;
+
+console.log(`The bill was ${bill}, the tip was ${tip} and the total value is 
+ ${total}`);
+
+const tipsy = bill > 49 && bill < 299 ? bill * 0.15 : bill * 0.2;
+
+console.log(`The bill was ${bill}, the tip was ${tipsy} and the total value is 
+ ${bill + tipsy}`);
+*/
