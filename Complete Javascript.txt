@@ -1,0 +1,206 @@
+Complete JS 
+JS 
+Scripting language 
+Compile time language
+Uses Just in time compiling
+Client side as well as server side code 
+
+
+
+
+Adds interactivity to your website
+
+Founded by - Brendan Eich (Co founder of Mozilla)
+Dynamic Programming Language (Run time compilation)
+Compact and Flexible 
+
+Application Programming Interfaces (API)
+
+
+var i = 0; i++        // <-- semicolon obligatory
+                      //     (but optional before newline)
+var i = 0             // <-- semicolon optional
+    i++               // <-- semicolon optional
+    
+    
+Variables - var,let,const
+var - function scope
+let - block scope
+
+
+Comments - // /* */
+
+Type conversion and type coercion
+conversion is when we manually convert from one type to another
+coercion is when java script automatically convert types behind the scenes for us.
+
+
+Mathematical Operators - +, -, *, %, /
+Assignment operators -  =, +=, -=,*=, ++,--
+Comparison operators - > , < , <=, >= ,  
+Equality Operators -  ===, !, !==
+Logical Boolean Operatorss - AND, OR, NOT
+
+=== -> Strict eequality. does not allow coercion;
+== -> Allows coercion
+
+
+Conditionals ->  if,if..else, ternary
+
+Since ternary operator is an expression we can use it template literal, unlike if else
+
+JS has 5 falsy values - 0, '', undefined, null, NaN
+
+Functions 
+Difference between argument and parameter - parameter is the placeholder in the function where as the argument is the actual value that is passed to the function.
+Function Declaration can be called before they are defined in the code. We can call it first and then define.
+In function expression we cannot call it first and then define.
+
+Arrow functions are great for a quick one line code. They dont have "this" keyword.
+
+Events (Listen for activity in the browser)
+
+For avoiding errors when script in head 
+Internal JS - <script> 
+			document.addEventListener("DOMContentLoaded", function () {})
+		   </script>
+External JS - Async and defer. Ezample - <script src="script.js" defer></script>
+
+
+Biggest Difference between var and let - 
+var - Supports Hoisting (Declaring a variable after use)
+let 
+const 
+
+Strict mode - The purpose of "use strict" is to indicate that the code should be executed in "strict mode".
+With strict mode, you can not, for example, use undeclared variables.You can use strict mode in all your programs. It helps you to write cleaner code, like preventing you from using undeclared variables.
+As an example, in normal JavaScript, mistyping a variable name creates a new global variable. In strict mode, this will throw an error, making it impossible to accidentally create a global variable.
+
+typeof - returns type of variable. Eg - number, String, etc.
+
+
+Strings - 
+
+length
+indexOf
+slice
+toLowerCase
+toUpperCase
+replace
+
+stringName.length
+stringName.indexOf('stringPart')
+stringName.slice(0,3)
+stringName.toLowerCase();
+stringName.toUpperCase();
+stringName.replace('moz','van');
+
+
+Arrays
+
+let shopping = ['bread', 'milk', 'cheese', 'hummus', 'noodles'];
+let sequence = [1, 1, 2, 3, 5, 8, 13];
+let random = ['tree', 795, [0, 1, 2]];
+
+
+split
+toString
+join
+
+push and unshift - add to array
+pop and shift - remove from array
+
+friends.push('Rosh'); //adds element to the end of the array
+friends.unshift('Akash') // add element to the beginning of the array
+friends.shift(); //removes the first element
+friends.pop() // removes the last element
+
+//In dot notation we have to use the real property name and can not use the expression.
+// we can also store an expression in bracket notation which can hold the key 
+//For eg 
+const nameKey = 'Name'
+console.log(Pranav['first' + nameKey]);
+console.log(Pranav['last' + nameKey]);
+
+//When we need to compute the property name we have to use the bracket notation.In other cases we use the dot notation mostly
+
+
+
+addEventListener()
+removeEventListener()
+
+Abort Signal
+const controller = new AbortController()
+controller.abort();
+
+ e.stopPropagation();
+ 
+ 
+ encapsulation 
+ stored inside an object package
+  
+abstraction 
+
+instantiation
+
+polymorphism
+
+inheritance
+
+
+Constructors and Object instances 
+Constructor function name usually starts with a capital letter.
+
+Function constructor
+function Person(name) {
+	this.name = name;
+	this.greeting = function() {alert('Hi I am ' + this.name)}
+}
+
+Object Constructor
+let person1 = new Object();
+
+let person1 = new Object({
+  name: 'Chris',
+  age: 38,
+  greeting: function() {
+    alert('Hi! I\'m ' + this.name + '.');
+  }
+});
+
+
+Using create method 
+create()
+
+let person2 = Object.create(person1);
+
+
+
+Prototypes - mechanism by which js objects inherit features from one another 
+An object's prototype object may also have a prototype object, 
+which it inherits methods and properties from, and so on. This is often referred to as a prototype chain, 
+and explains why different objects have properties and methods defined on other objects available to them.
+__proto__ 
+
+
+JSON - JavaScript Object Notation
+Converting a string to a native object is called deserialization, 
+while converting a native object to a string so it can be transmitted 
+across the network is called serialization.
+
+XMLHttpRequest - XHR - API to call JSON 
+we use an API called XMLHttpRequest (often called XHR). This is a very useful JavaScript object 
+that allows us to make network requests to retrieve resources from a server via JavaScript
+ (e.g. images, text, JSON, even HTML snippets), 
+meaning that we can update small sections of content without having to reload the entire page
+
+
+
+A thread is basically a single process that a program can use to complete tasks.
+
+
+Each task will be run sequentially; a task has to complete before the next one can be started.
+
+As we said earlier, many computers now have multiple cores, so can do multiple things at once. 
+Programming languages that can support multiple threads can use multiple
+cores to complete multiple tasks simultaneously

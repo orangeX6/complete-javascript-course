@@ -1,0 +1,10 @@
+***************************IMPORTANT ***************************
+Ways to use live server 
+----install live server extension  in VS code
+
+---- USING NODE 
+npm install live-server -g
+live-server
+
+-- THE SCRIPT 
+ 
