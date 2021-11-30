@@ -5,9 +5,6 @@ Compile time language
 Uses Just in time compiling
 Client side as well as server side code 
 
-
-
-
 Adds interactivity to your website
 
 Founded by - Brendan Eich (Co founder of Mozilla)
@@ -124,6 +121,10 @@ console.log(Pranav['last' + nameKey]);
 
 //When we need to compute the property name we have to use the bracket notation.In other cases we use the dot notation mostly
 
+DOM - Document Object Model - Is a structural representation of HTML documents. Allows Javascript to access 
+HTML elements and styles to manipulate them.
+Document - special element that is the entry point to DOM. Example - document.querySelector()
+DOM is not actually the part of javascript. It is a part of Web APIs that browser use from where we can access our JS code.
 
 
 addEventListener()
