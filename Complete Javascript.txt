@@ -127,8 +127,17 @@ Document - special element that is the entry point to DOM. Example - document.qu
 DOM is not actually the part of javascript. It is a part of Web APIs that browser use from where we can access our JS code.
 
 
+//WE DONT HAVE TO WRITE BRACKETS FOR ONE LINE OF LOOP
+EG - for (let i = 0; i < btnOpenModal.length; i++)
+        console.log(btnOpenModal[i].textContent);
+
 addEventListener()
 removeEventListener()
+
+//KEYBOARD EVENTS ARE GLOBAL EVENTS, BECAUSE DO NOT HAPPEN ON ONE
+// SPECIFIC ELEMENT, AND FOR GLOBAL EVENTS LIKE KEYBOARD EVENTS, WE LISTEN ON
+// WHOLE DOCUMENTS
+Keyboard events - 1. keydown 2.keypress 3. keyup
 
 Abort Signal
 const controller = new AbortController()
