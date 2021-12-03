@@ -139,6 +139,19 @@ removeEventListener()
 // WHOLE DOCUMENTS
 Keyboard events - 1. keydown 2.keypress 3. keyup
 
+GET ELEMENT BY ID - 
+
+const score0 = document.querySelector('#score--0');
+const score1 = document.querySelector('#score--1');
+
+//THE ABOVE CAN ALSO BE WRITTEN AS
+const score0 = document.getElementById('score--0');
+const score1 = document.getElementById('score--1');
+//getElementById is faster than querySelector. We dont need to 
+use the # symbol in getElementById
+
+
+
 Abort Signal
 const controller = new AbortController()
 controller.abort();
