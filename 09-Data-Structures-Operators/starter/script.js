@@ -6,6 +6,8 @@ const flights =
 
 // Data needed for first part of the section
 
+const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
 const openingHours = {
   thu: {
     open: 12,
@@ -59,6 +61,53 @@ const restaurant = {
   },
 };
 
+
+//CHALLENGE EXAMPLE
+const game= {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    [
+      'Neuer',
+      'Pavard',
+      'Martinez',
+      'Alaba',
+      'Davies',
+      'Kimmich',
+      'Goretzka',
+      'Coman',
+      'Muller',
+      'Gnarby',
+      'Lewandowski',
+    ],
+    [
+      'Burki',
+      'Schulz',
+      'Hummels',
+      'Akanji',
+      'Hakimi',
+      'Weigl',
+      'Witsel',
+      'Hazard',
+      'Brandt',
+      'Sancho',
+      'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+  printGoals: function (...players) {
+    console.log(`${players.length} goals were scored`);
+    console.log(...players);
+  },
+};
+
 /*
 // 9.1 ARRAY DESTRUCTURING
 // 9.2 OBJECT DESTRUCTURING
@@ -71,11 +120,8 @@ const restaurant = {
 //9.9 LOOPING ARRAYS: THE FOR-OF LOOP
 //9.10 ENHANCED OBJECT LITERALS
 //9.11 OPTIONAL CHAINING (.?)
-
 //9.12 LOOPING OBJECTS: OBJECT KEYS, VALUES, and ENTRIES
-
 //9.13 CODING CHALLENGE #2
-
 //9.14 SETS
 
 //9.15 MAPS: FUNDAMENTALS
@@ -690,6 +736,165 @@ const openingHoursCompute = {
 //
 //
 
+
+
+//9.11 OPTIONAL CHAINING (.?) (ES 2020)
+//With optional chaining if a certain property does not exist then undefined is returned immediately
+
+//console.log(restaurant.openingHours.mon.open);    
+//The above will give the following error. 
+//Uncaught TypeError: Cannot read properties of undefined (reading 'open')
+
+if(restaurant.openingHours && restaurant.openingHours.mon)
+  console.log(restaurant.openingHours.mon.open);    //No output
+
+//WITH OPTIONAL CHAIN  (?.)
+console.log(restaurant.openingHours.mon?.open); //returns undefined
+//Only if the property that is before the '?' exists then the property after it will be read. Else it will return undefined 
+
+//We can use it multiple times 
+console.log(restaurant.openingHours?.mon?.open);  
+
+//EXAMPLE 
+for (const  day of days){
+  const open = restaurant.openingHours[day]?.open ?? 'closed'
+  console.log(`On ${day} we open at ${open}`);
+}
+
+//On Methods
+console.log(restaurant.order?.(0,1) ?? `No method available`);
+console.log(restaurant.orderRisotto?.(0,1) ?? `No method available`);
+
+//On ARRAYS
+const users = 
+[{
+  name: 'Pranav',
+  email:'hi@mail.com',
+},
+{
+ name:'Sakshi',
+ email:'hello@mail.com',
+}]
+
+console.log(users[1]?.name ?? `Nope not available`);
+console.log(users[4] ?.name?? `Nope not available`);
+console.log(users[1] ?.sub?? `Nope not available`);
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+//9.12 LOOPING OBJECTS: OBJECT KEYS, VALUES, and ENTRIES
+
+//PROPERTY NAMES  (Object.keys(objName))
+const properties = Object.keys(openingHours);
+console.log(properties);
+
+let openStr = `We are open on ${properties.length} days: `;
+
+for(const day of  properties){
+  openStr+= `${day}, `
+}
+
+console.log(openStr);
+
+//PROPERTY VALUES  (Object.values(objName))
+const values = Object.values(openingHours);
+console.log(values);
+
+//ENTRIES  (FOR ENTIRE OBJECT ) (Object,entries(objName))
+const  entries = Object.entries(openingHours);
+console.log(entries);
+
+for (const [key, {open,close}] of entries) {
+  console.log(`On ${key} we open at ${open} and close at ${close}`);
+}
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+//9.13 CODING CHALLENGE #2
+//1.
+for (const [i,el] of game.scored.entries()) {
+  console.log(`Goal ${i+1}:  ${el}`);
+}
+
+//2.
+const oddsArr = Object.values(game.odds)
+console.log(oddsArr);
+let avg = 0;
+for (const item of oddsArr) 
+avg+=item;
+
+avg/=oddsArr.length
+console.log(avg);
+
+//3.
+const odds = Object.entries(game.odds)
+console.log(game.team1);
+console.log(odds);
+for(const [key,val] of odds){
+  const teamStr = key ==='x' ? 'draw' : `victory ${game[key]}`
+  console.log(`Odds of ${teamStr}: ${val}`);
+  // console.log(key,val);
+}
+
+//4.
+let scores ={}
+for (const player of game.scored){
+  console.log(player);
+  scores[player] ?scores[player]++ :scores[player]=1;
+}
+console.log(scores);
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 */
 
-//9.11 OPTIONAL CHAINING (.?)
+//9.14 SETS

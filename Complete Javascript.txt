@@ -356,6 +356,32 @@ console.log(guests); //outputs 10
 const guestCorrect = restaurant.numGuests ?? 10;
 console.log(guestCorrect); //outputs 0
 
+FOR OF Loop
+Ex - for (const item of menu) console.log(item);
+//FOR OF allows continue and break;
+//Some ways of looping arrays wont allow you to do so
+
+//9.10 ENHANCED OBJECT LITERALS
+//1 Adding an existing object can be done with a better syntax
+//2 Methods can be written without function keyword
+//3 We can compute property names instead of writing them out manually
+
+
+//9.11 OPTIONAL CHAINING (.?)
+//With optional chaining if a certain property does not exist then undefined is returned immediately
+
+  console.log(restaurant.openingHours.mon.open);    
+  //The above will give the following error. 
+  //Uncaught TypeError: Cannot read properties of undefined (reading 'open')
+
+  //WITH OPTIONAL CHAIN  (?.)
+  console.log(restaurant.openingHours.mon?.open); //returns undefined
+//Only if the property that is before the '?' exists then the property after it will be read. Else it will return undefined 
+
+//9.12 LOOPING OBJECTS: OBJECT KEYS, VALUES, and ENTRIES
+
+
+
 Garbage Collected
 
 Interpreted or just-in-time compiled
