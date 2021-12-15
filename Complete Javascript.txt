@@ -62,6 +62,7 @@ Function Declaration can be called before they are defined in the code. We can c
 In function expression we cannot call it first and then define.
 
 Arrow functions are great for a quick one line code. They dont have "this" keyword.
+Arrow functions dont have argument objects and this keyword.
 
 Events (Listen for activity in the browser)
 
@@ -176,8 +177,6 @@ DOM is not actually the part of javascript. It is a part of Web APIs that browse
 
 
 
-
-
 //WE DONT HAVE TO WRITE BRACKETS FOR ONE LINE OF LOOP
 EG - for (let i = 0; i < btnOpenModal.length; i++)
         console.log(btnOpenModal[i].textContent);
@@ -251,7 +250,7 @@ Source code --Compilation-- >  Machine code-- Execution--> Program running.
 This is lot faster than executing code line by line
 
 JIT compilation 
- 			Parsing 
+ 			Parsing (Parse basically is - Read the code)
  		(Abstract Syntax Tree)
 				|
 				V
@@ -268,6 +267,51 @@ A typical javascript runtime also includes a so called javascript callback queue
 Its a data structure that contain all the callback functions that are ready to be executed. 
 For eg - click, timer, data ... 
 APIs eg - web apis, c++ threads,binding in nodeJS 
+
+COMPONENTS OF EXECTION CONTEXT - 
+VARIABLE env
+SCOPE CHAIN
+THIS Keyword
+
+Scopes - 
+Global scope, Function Scope, Block Scope(ES6)
+Const and let and functions(in strict) declared in block have scope of that block.
+let and const are block scoped
+var is function scoped
+
+Hoisting - Makes some types of variables accessible/usable in the code before they are actually declared. 
+
+Before Execution - code is scanned for variable declarations and for each variable, a new property is created in the variable env obj. 
+
+Temporal Dead Zone - 
+Zone where if u use const and let before initialization will give u an error.
+WHY TDZ ? - Makes easier to avoid and catch errors.
+		  - Make const variables actually work.
+
+Variables declared with var will create a property on the global window object. Let and const won't.
+
+THIS KEYWORD - Special variable that is created for every Execution context(every function).
+- Takes the value of(points to) the "OWNER" of the function in which the THIS KEYWORD is used 
+- THIS is NOT static. IT depends on how the function is called, and its value is only assigned when the function is actually called.
+
+Method 👉 this = 				<Object that is calling the method>
+Simple function call 👉 this = 	undefined(In strict mode, Otherwise window(in the browser))
+Arrow functions 👉 this = 		<this of surrounding function.(lexical this)>
+Event Listener 👉 this = 		<DOM element that the handler is attached to>
+new,apply,call,bind 👉 this = 	? ? ?
+
+- This does NOT point to the function itself, and also NOT the variable environment.
+
+
+//PRIMITIVES VS OBJECTS(PRIMITIVES VS REFERENCE TYPES)
+
+//Copying objects (Objects.assign(obj,objToBeCopied) method)
+//There is still a problem in using Object.assign(). It only creates a shallow copy i.e. it only works on first level. For example if we have an object inside an object then the inner object will still be the same i.e. it will still point to the same place in memory.
+
+// We want to create a deep clone and not a shallow copy. A shallow copy will only copy the properties on the first level while the deep copy will copy everything.
+//One way this can be achieved is by using lodash, an external library. 
+
+
 
 
 Garbage Collected

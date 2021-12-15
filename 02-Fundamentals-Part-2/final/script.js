@@ -542,7 +542,6 @@ while (dice !== 6) {
 // Coding Challenge #4
 
 /*
-Let's improve Steven's tip calculator even more, this time using loops!
 
 1. Create an array 'bills' containing all 10 test bill values
 2. Create empty arrays for the tips and the totals ('tips' and 'totals')
