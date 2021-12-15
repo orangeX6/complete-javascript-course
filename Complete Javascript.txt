@@ -311,8 +311,50 @@ new,apply,call,bind 👉 this = 	? ? ?
 // We want to create a deep clone and not a shallow copy. A shallow copy will only copy the properties on the first level while the deep copy will copy everything.
 //One way this can be achieved is by using lodash, an external library. 
 
+SPREAD OPERATOR - 
+//Spread operator expands the array into all its elements, basically unpacking all the array elements at once.
 
+//WITHOUT SPREAD OPERATOR
+const arr = [7, 8, 9];
+const badNewArr = [1, 2, arr[0], arr[1], arr[2]];
+console.log(badNewArr); //outputs [1, 2, 7, 8, 9]
+//WITH SPREAD OPERATOR
+const newArr = [1, 2, ...arr];
+console.log(newArr); //outputs [1, 2, 7, 8, 9]
+//When we need the individual elements of the array we use spread operator, and that is useful when we write an array and we pass multiple elements into a function
+//Difference in array destructuring and spread operator is spread operator takes all the elements out from the array and doesnt create new variables and as a consequence we can only use it in places where we write values seperated by commas.
+//We can use Spread operator on all Iterables: arrays, strings,maps,sets.
+//Since 2018 spread operator also works on objects
+//Wont work in template literals -
+//Ex this wont work  - console.log(`${..str} abc`);
 
+//SAME SYNTAX AS SPREAD OPERATOR BUT DOES THE OPPOSITE THING.
+
+//SPREAD is used on the right side of assignment operator
+const arr = [1, 2, ...[3, 4]];
+
+//REST is used on the left side of assignment operator
+const [a, b, ...others] = [1, 2, 3, 4, 5];
+console.log(a, b, others); //outputs 1 2 (3) [3, 4, 5]
+
+//It does not include the skipped element, hence the rest pattern must be the last element
+
+//Spread and the rest syntax both look exactly the same.
+// But they work in opposite ways depending on where they are used.
+// The spread operator is used where we would otherwise write values separated by comma
+//The rest pattern is used where we would otherwise write variable names separated by comma and not values.
+
+//9.6 THE NULLISH COALESCING OPERATOR (??)
+restaurant.numGuests = 0;
+const guests = restaurant.numGuests || 10;
+console.log(guests); //outputs 10
+
+//As we can see the result is wrong as if there are 0 guests the output should be 0. The solution to this is a new operator in ES 2020 i.e. the NULLISH COALESCING OPERATOR (??)
+
+//The NULLISH COALESCING operator works with the idea of nullish values instead of falsy values.
+//NULLISH VALUES are null and undefined. So it does not include (NOT, 0 or ' ' );
+const guestCorrect = restaurant.numGuests ?? 10;
+console.log(guestCorrect); //outputs 0
 
 Garbage Collected
 
