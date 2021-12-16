@@ -380,6 +380,90 @@ Ex - for (const item of menu) console.log(item);
 
 //9.12 LOOPING OBJECTS: OBJECT KEYS, VALUES, and ENTRIES
 
+//SETS 
+//A set is just a collection of unique values.
+//Set can never have duplicate values.
+//All the duplicate values are removed
+//Set vs Array
+// In set order of element  is irrelevant.
+//All elements in set are unique
+//There are no indexes in set
+//There is no way of getting values out of set. Thats because there is no need to get data out of set as all values are unique and their orders does not matter and there is no point in retrieving values out of set. All we need to know is if a value is present in set or not
+//The main use case of set is to remove duplicate values of arrays
+//Has method in set is equivalent to include method in arrays
+
+//Set methods -
+//has,delete,add,clear
+
+//MAPS 
+// A map is a data structure used to map values to keys.
+//Just like objects data is stored in key value pair in maps
+//The difference between map and objects is that in maps the keys can have any type. Even arrays or objects
+//Map Methods -  set,delete,has,size,get
+
+//9.17 SUMMARY: WHICH DATA STRUCTURE TO USE?
+
+
+
+//9.17 SUMMARY: WHICH DATA STRUCTURE TO USE?
+
+// DATA STRUCTURES OVERVIEW 
+// 🚅 SOURCES OF DATA 
+// 1 FROM THE PROGRAM ITSELF 
+// 2 FROM THE UI 
+// 3 FROM THE EXTERNAL SOURCES (APIs) 
+
+//WHAT IS AN API ? 
+// API stands for Application Programming Interface and we can use the API to get data from other web applications. 
+//For eg. we can use the API to get weather info on any city, data about movies, currency conversion rates, etc 
+
+//SOURCES OF DATA => COLLECTION OF DATA ==Store in ==>DATA STRUCTURE 
+
+//DATA STRUCTURES IN JS 
+//ARRAYS 
+//OBJECTS
+//MAPS
+//SETS
+//WEAK MAP
+//WEAK SET
+
+//NOT BUILT IN 
+//STACKS
+//QUEUES
+//LINKED LIST
+//TREES
+//HASH TABLES
+
+//WHICH DATA STRUCTURE TO USE ? 
+//Do we need a simple list of values ? 
+//We ll useARRAYS or SETS 
+//Do we need Key/Value Pairs ? 
+//We ll use OBJECTS or MAPS 
+
+//WHEN TO USE ARRAYS ?
+//- When you need ORDERED list of values
+//- Use when you need to MANIPULATE data
+
+//WHEN TO USE SETS
+//-When you need to work with UNIQUE values
+//- HIGH PERFORMANCE is important
+//- REMOVE DUPLICATES from arrays
+
+//WHEN TO USE OBJECTS 
+//-  More TRADITIONAL Key/Value store
+//- Easier to write and access values with . and []
+//- When you need to include FUNCTIONS (METHODS)
+//- When working with JSON  (Can convert to MAP)
+
+//WHEN TO USE MAPS
+//-  BETTER PERFORMANCE 
+//- KEYS can have ANY data type
+//- EASY TO ITERATE
+//- EASY TO COMPUTE SIZE
+//- When you simply need to map key to values
+//- Use when you need keys that are NOT strings
+
+
 
 
 Garbage Collected

@@ -61,9 +61,8 @@ const restaurant = {
   },
 };
 
-
 //CHALLENGE EXAMPLE
-const game= {
+const game = {
   team1: 'Bayern Munich',
   team2: 'Borrussia Dortmund',
   players: [
@@ -123,15 +122,10 @@ const game= {
 //9.12 LOOPING OBJECTS: OBJECT KEYS, VALUES, and ENTRIES
 //9.13 CODING CHALLENGE #2
 //9.14 SETS
-
 //9.15 MAPS: FUNDAMENTALS
-
 //9.16 MAPS: ITERATION
-
 //9.17 SUMMARY: WHICH DATA STRUCTURE TO USE?
-
 //9.18 CODING CHALLENGE #3
-
 //9.19 WORKING WITH STRINGS - PART 1
 
 //9.20 WORKING WITH STRINGS - PART 2
@@ -895,6 +889,391 @@ console.log(scores);
 //
 
 
-*/
+
 
 //9.14 SETS
+//A set is just a collection of unique values.
+//Set can never have duplicate values.
+
+const ordersSet = new Set([
+  'Pasta',
+  'Pizza',
+  'Pizza',
+  'Risotto',
+  'Pasta',
+  'Pizza',
+]);
+
+console.log(ordersSet); //outputs  {'Pasta', 'Pizza', 'Risotto'}
+//All the duplicate values are removed
+//Set vs Array
+// In set order of element  is irrelevant.
+//All elements in set are unique
+//There are no indexes in set
+//There is no way of getting values out of set. Thats because there is no need to get data out of set as all values are unique and their orders does not matter and there is no point in retrieving values out of set. All we need to know is if a value is present in set or not
+//The main use case of set is to remove duplicate values of arrays
+//Has method in set is equivalent to include method in arrays
+
+//Set methods -
+//has,delete,add,clear
+
+console.log(new Set('Pranav'));
+console.log(ordersSet.size);
+console.log(ordersSet.has('Pizza'));
+console.log(ordersSet.has('Bread'));
+ordersSet.add('Garlic Bread');
+ordersSet.add('Garlic Bread');
+console.log(ordersSet);
+ordersSet.delete('Pizza');
+console.log(ordersSet);
+// ordersSet.clear();
+// console.log(ordersSet);
+for (const items of ordersSet) {
+  console.log(items);
+}
+
+// EXAMPLE
+const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter'];
+//Making array unique and converting set to array
+const staffUnique = [...new Set(staff)];
+console.log(staffUnique);
+//Check unique positions in an array
+console.log(
+  new Set(['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter']).size
+);
+console.log(new Set('pranavnaringrekar').size);
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+//9.15 MAPS: FUNDAMENTALS
+// A map is a data structure used to map values to keys.
+//Just like objects data is stored in key value pair in maps
+//The difference between map and objects is that in maps the keys can have any type. Even arrays or objects
+//Map Methods -  set,delete,has,size,get,entries,keys,values
+
+const rest = new Map();
+rest.set('name', 'Classico Italiano');
+rest.set(1, 'Firenze, Italy');
+console.log(rest.set(2, 'Lisbon, Portugal')); //returns entire map
+//We can chain the set method of the map
+//Example
+rest
+  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+  .set('open', 11)
+  .set('close', 23)
+  .set(true, 'We are open')
+  .set(false, 'We are closed');
+
+console.log(rest.get('name'));
+console.log(rest.get(true));
+
+const time = 2;
+console.log(rest.get(time > rest.get('open') && time < rest.get('close')));
+console.log(rest.has('categories'));
+console.log(rest);
+// rest.delete(2);
+//Object also has the delete method but its not encouraged to use it. Its also slow.
+//USING ARRAY AS MAP KEY
+rest.set([1, 3], 'Test');
+//FETCHING MAP VALUES WITH ARRAY AS ITS KEY
+console.log(rest.get([1, 2])); // This wont work and  return undefined. Thats because the array in get and set method are not the same objects
+//So we actually need to declare an array and then use the variable to set it as map key
+const arr = [1, 2];
+rest.set(arr, 'Test');
+console.log(rest.get(arr));
+
+//USING DOM ELEMENTS AS KEY 
+rest.set(document.querySelector('h1'),'Heading')
+console.log(rest);
+console.log(rest.size);
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+//9.16 MAPS: ITERATION
+//THERE is another method to populate maps other than set method, but when we keep adding new elements programmatically the set method is the one that is to be used
+
+const question = new Map([
+  ['question', 'What is the best programming language in the world?'],
+  [1, 'C'],
+  [2, 'Java'],
+  [3, 'JavaScript'],
+  ['correct', 3],
+  [true, 'Correct'],
+  [false, 'Try Again!'],
+]);
+
+console.log(question);
+
+//CONVERT OBJECT TO MAP 
+console.log(Object.entries(openingHours));
+const hours = new Map(Object.entries(openingHours))
+console.log(hours);
+
+
+//QUIZ APP 
+console.log(question.get('question'));
+//ITERATIONS 
+for(const [key,value] of question){
+  if(typeof key === 'number') console.log(`Answer ${key}: ${value}`);
+}
+
+// const answer = Number(prompt(question.get('question')));
+const answer =3
+console.log(answer);
+console.log(question.get('correct'));
+console.log(question.get(  answer === question.get('correct')  ));
+
+//CONVERT MAP TO ARRAY 
+const questArr = [...question];
+console.log(questArr);
+console.log(...question.entries());
+console.log(...question.keys());
+console.log(...question.values());
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+//9.17 SUMMARY: WHICH DATA STRUCTURE TO USE?
+
+// DATA STRUCTURES OVERVIEW
+// 🚅 SOURCES OF DATA
+// 1 FROM THE PROGRAM ITSELF
+// 2 FROM THE UI
+// 3 FROM THE EXTERNAL SOURCES (APIs)
+
+//WHAT IS AN API ?
+// API stands for Application Programming Interface and we can use the API to get data from other web applications.
+//For eg. we can use the API to get weather info on any city, data about movies, currency conversion rates, etc
+
+//SOURCES OF DATA => COLLECTION OF DATA ==Store in ==>DATA STRUCTURE
+
+//DATA STRUCTURES IN JS
+//ARRAYS
+//OBJECTS
+//MAPS
+//SETS
+//WEAK MAP
+//WEAK SET
+
+//NOT BUILT IN
+//STACKS
+//QUEUES
+//LINKED LIST
+//TREES
+//HASH TABLES
+
+//WHICH DATA STRUCTURE TO USE ?
+//Do we need a simple list of values ?
+//We ll useARRAYS or SETS
+//Do we need Key/Value Pairs ?
+//We ll use OBJECTS or MAPS
+
+//WHEN TO USE ARRAYS ?
+//- When you need ORDERED list of values
+//- Use when you need to MANIPULATE data
+
+//WHEN TO USE SETS
+//-When you need to work with UNIQUE values
+//- HIGH PERFORMANCE is important
+//- REMOVE DUPLICATES from arrays
+
+//WHEN TO USE OBJECTS
+//-  More TRADITIONAL Key/Value store
+//- Easier to write and access values with . and []
+//- When you need to include FUNCTIONS (METHODS)
+//- When working with JSON  (Can convert to MAP)
+
+//WHEN TO USE MAPS
+//-  BETTER PERFORMANCE
+//- KEYS can have ANY data type
+//- EASY TO ITERATE
+//- EASY TO COMPUTE SIZE
+//- When you simply need to map key to values
+//- Use when you need keys that are NOT strings
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+//9.18 CODING CHALLENGE #3
+const gameEvents = new Map([
+  [17, '⚽ GOAL'],
+  [36, '� Substitution'],
+  [47, '⚽ GOAL'],
+  [61, '� Substitution'],
+  [64, '� Yellow card'],
+  [69, '� Red card'],
+  [70, '� Substitution'],
+  [72, '� Substitution'],
+  [76, '⚽ GOAL'],
+  [80, '⚽ GOAL'],
+  [92, '� Yellow card'],
+]);
+
+//1.
+const events = [...new Set(gameEvents.values())];
+console.log(events);
+
+//2.
+gameEvents.delete(64);
+console.log(gameEvents);
+
+//3.
+//Sol 1
+console.log(
+  `An even happened, on average, every ${90 / gameEvents.size} minute`
+);
+
+//Sol 2
+const time = [...gameEvents.keys()].pop();
+// console.log(time);
+console.log(
+  `An even happened, on average, every ${time / gameEvents.size} minute`
+);
+
+//4.
+for (const [key, event] of gameEvents.entries()) {
+  const half = key <= 45 ? '[FIRST HALF]' : '[SECOND HALF]';
+  console.log(`${half} ${key}: ${event}`);
+}
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+*/
+
+
+//9.19 WORKING WITH STRINGS - PART 1
+//STRINGS ARE PRIMITIVES 
+//SO WHY DO THEY HAVE METHODS ? 
+//SHOULD'NT METHODS BE JUST AVAILABLE ON OBJECTS, SUCH AS ARRAYS ?
+//WHENEVER WE CALL A METHOD ON A STRING, JS WILL AUTOMATICALLY BEHIND THE SCENES CONVERT THAT STRING PRIMITIVE TO STRING OBJECT WITH THE SAME CONTENT AND THEN ITS ON THAT OBJECT THAT THE METHODS ARE CALLED.
+//THIS PROCESS IS CALLED BOXING BECAUSE IT BASICALLY TAKES OUR STRING AND PUTS IT IN A BOX WHICH IS THE OBJECT AND THEN AGAIN CONVERTS THE RESULT TO PRIMITIVE TYPE 
+
+const airLine = 'TAP Air Portugal';
+const plane = 'A320';
+
+console.log(plane[0]);
+console.log(plane[1]);
+console.log(plane[2]);
+console.log('B737'[0]);
+
+console.log(plane.length);
+console.log(airLine.length);
+console.log('B737'.length);
+
+//STRING METHODS 
+
+// indexOf (CASE SENSITIVE )
+// lastIndexOf
+console.log(airLine.indexOf('r'));
+console.log(airLine.lastIndexOf('r'));
+console.log(airLine.indexOf('Portugal'));
+console.log(airLine.indexOf('portugal'));
+
+//slice 
+console.log(airLine.slice(4));
+console.log( airLine.slice(4,7));
+console.log( airLine.slice(4,-5));
+console.log(airLine.slice(0,airLine.indexOf(' ')));
+console.log(airLine.slice(airLine.lastIndexOf(' ')+1));
+console.log( airLine.slice(1,-1));
+
+//EXAMPLE 
+const checkMiddleSeat = function(seat){
+    //B and E are middle Seats
+    const s = seat.slice(-1);
+    if(s === 'B' || s === 'E') console.log(`You got middle seat`);
+    else console.log('You got lucky');
+}
+
+
+checkMiddleSeat('11B');
+checkMiddleSeat('23C');
+checkMiddleSeat('3E');
+
+console.log(new String('Pranav'));
+console.log(typeof new String('Pranav'));
+console.log(typeof new String('Pranav').slice());
+
+//toLowerCase AND toUpperCase
+console.log(airLine.toLowerCase());
+console.log(airLine.toUpperCase());
+
