@@ -1,7 +1,7 @@
 'use strict';
 
 // Data needed for a later exercise
-const flights =
+const flights1 =
   '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
 
 // Data needed for first part of the section
@@ -114,7 +114,7 @@ const game = {
 //9.4 REST PATTERN AND PARAMETERS
 //9.5 SHORT CIRCUITING (&&  and ||)
 //9.6 THE NULLISH COALESCING OPERATOR (??)
-//9.7 LOGICAL ASSIGNMENT OPERATORS
+//9.7 LOGICAL ASSIGNMENT OPERATORS (||= , ??= , &&=)
 //9.8 CODING CHALLENGE #1
 //9.9 LOOPING ARRAYS: THE FOR-OF LOOP
 //9.10 ENHANCED OBJECT LITERALS
@@ -127,14 +127,19 @@ const game = {
 //9.17 SUMMARY: WHICH DATA STRUCTURE TO USE?
 //9.18 CODING CHALLENGE #3
 //9.19 WORKING WITH STRINGS - PART 1
-
 //9.20 WORKING WITH STRINGS - PART 2
-
 //9,21 WORKING WITH STRINGS - PART 3
-
 //9.22 CODING CHALLENGE #4
+//9,23 STRING METHODS PRACTICE 
+//(Keeping this here //£)
 
-//9,23 STRING METHODS PRACTICE
+//
+//
+//
+//
+//
+//
+//
 
 //9.1 DESTRUCTURING ARRAYS 
 //We use [] brackets to destructure arrays
@@ -1217,18 +1222,40 @@ for (const [key, event] of gameEvents.entries()) {
 //
 
 
-*/
 
 
 //9.19 WORKING WITH STRINGS - PART 1
-//STRINGS ARE PRIMITIVES 
-//SO WHY DO THEY HAVE METHODS ? 
+//STRINGS ARE PRIMITIVES
+//SO WHY DO THEY HAVE METHODS ?
 //SHOULD'NT METHODS BE JUST AVAILABLE ON OBJECTS, SUCH AS ARRAYS ?
 //WHENEVER WE CALL A METHOD ON A STRING, JS WILL AUTOMATICALLY BEHIND THE SCENES CONVERT THAT STRING PRIMITIVE TO STRING OBJECT WITH THE SAME CONTENT AND THEN ITS ON THAT OBJECT THAT THE METHODS ARE CALLED.
-//THIS PROCESS IS CALLED BOXING BECAUSE IT BASICALLY TAKES OUR STRING AND PUTS IT IN A BOX WHICH IS THE OBJECT AND THEN AGAIN CONVERTS THE RESULT TO PRIMITIVE TYPE 
+//THIS PROCESS IS CALLED BOXING BECAUSE IT BASICALLY TAKES OUR STRING AND PUTS IT IN A BOX WHICH IS THE OBJECT AND THEN AGAIN CONVERTS THE RESULT TO PRIMITIVE TYPE
+
+//LIST OF STRING METHODS USED  -
+//1 indexOf
+//2 lastIndexOf
+//3 trim
+//4 slice
+//5 toUpperCase
+//6 toLowerCase
+//7 trimStart
+//8 trimEnd
+//9 replace - only replaces first occurrence
+//10 replaceAll
+//11 split
+//12 join
+//13 padStart
+//14 padEnd
+//15 repeat
+//BOOLEAN METHODS -
+//1.1 includes
+//1.2 startsWith
+//1.3 endsWith
+
+
 
 const airLine = 'TAP Air Portugal';
-const plane = 'A320';
+const plane = 'A320neo';
 
 console.log(plane[0]);
 console.log(plane[1]);
@@ -1239,7 +1266,7 @@ console.log(plane.length);
 console.log(airLine.length);
 console.log('B737'.length);
 
-//STRING METHODS 
+//STRING METHODS
 
 // indexOf (CASE SENSITIVE )
 // lastIndexOf
@@ -1248,22 +1275,21 @@ console.log(airLine.lastIndexOf('r'));
 console.log(airLine.indexOf('Portugal'));
 console.log(airLine.indexOf('portugal'));
 
-//slice 
+//slice
 console.log(airLine.slice(4));
-console.log( airLine.slice(4,7));
-console.log( airLine.slice(4,-5));
-console.log(airLine.slice(0,airLine.indexOf(' ')));
-console.log(airLine.slice(airLine.lastIndexOf(' ')+1));
-console.log( airLine.slice(1,-1));
+console.log(airLine.slice(4, 7));
+console.log(airLine.slice(4, -5));
+console.log(airLine.slice(0, airLine.indexOf(' ')));
+console.log(airLine.slice(airLine.lastIndexOf(' ') + 1));
+console.log(airLine.slice(1, -1));
 
-//EXAMPLE 
-const checkMiddleSeat = function(seat){
-    //B and E are middle Seats
-    const s = seat.slice(-1);
-    if(s === 'B' || s === 'E') console.log(`You got middle seat`);
-    else console.log('You got lucky');
-}
-
+//EXAMPLE
+const checkMiddleSeat = function (seat) {
+  //B and E are middle Seats
+  const s = seat.slice(-1);
+  if (s === 'B' || s === 'E') console.log(`You got middle seat`);
+  else console.log('You got lucky');
+};
 
 checkMiddleSeat('11B');
 checkMiddleSeat('23C');
@@ -1273,7 +1299,290 @@ console.log(new String('Pranav'));
 console.log(typeof new String('Pranav'));
 console.log(typeof new String('Pranav').slice());
 
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+//9.20 WORKING WITH STRINGS - PART 2
+
 //toLowerCase AND toUpperCase
 console.log(airLine.toLowerCase());
 console.log(airLine.toUpperCase());
 
+//Fix Capitalization in name
+const passenger = 'pRanAv'; //Pranav
+const passengerLower = passenger.toLowerCase();
+const passengerCorrect =
+  passengerLower[0].toUpperCase() + passengerLower.slice(1);
+console.log(passengerCorrect);
+
+//Comparing email
+const email = 'hello@Pranav.io';
+const loginEmail = '  Hello@Pranav.Io \n';
+
+const lowerEmail = email.toLowerCase();
+// const lowerLoginEmail = loginEmail.toLowerCase();
+// const trimLoginEmail = lowerLoginEmail.trim();
+// console.log(trimLoginEmail);
+const normalizedEmail = loginEmail.toLowerCase().trim();
+
+const compareEmail = function (email, userEnteredEmail) {
+  const correct = email === userEnteredEmail ? true : false;
+  return correct;
+};
+
+console.log(compareEmail(lowerEmail, normalizedEmail));
+
+let stringX = '   this is a string blah! ! !  ';
+// stringX = stringX.trimStart();
+stringX = stringX.trimEnd();
+console.log(stringX);
+
+//replacing
+//£
+
+const priceGB = '288,97£';
+const priceUS = priceGB.replace('£', '$').replace(',', '.');
+const priceUSFormat =
+  priceGB.slice(-1).replace('£', '$') + priceGB.slice(0, -1).replace(',', '.');
+console.log(priceUS);
+console.log(priceUSFormat);
+
+const announcement = `All passengers come to boarding door 23. Boarding door 23!`;
+
+// replaceAll
+console.log(announcement.replaceAll('door', 'gate'));
+
+// replacing all occurrences using Regular Expressions
+//In regular expression we need to write a string in / instead of ', " or `
+//we add a g flag to the door which means global, and will replace all the occurrences of door
+console.log(announcement.replace(/door/g, 'gate'));
+
+console.log(plane, airLine);
+console.log(plane.includes('A320'));
+console.log(plane.includes('Boeing'));
+console.log(plane.includes('a320'));
+console.log(airLine.startsWith('TAP '));
+console.log(plane.endsWith('neo'));
+
+if (plane.startsWith('A') && plane.endsWith('neo')) {
+  console.log(`Part of NEW Airbus family`);
+}
+
+//EXERCISE
+const checkBaggage = function (items) {
+  const baggage = items.toLowerCase();
+  if (baggage.includes('knife') || baggage.includes('gun')) {
+    console.log(`You are NOT allowed on board`);
+  } else {
+    console.log('Welcome aboard!');
+  }
+};
+
+checkBaggage(`I have a laptop, some Food and a pocket Knife`);
+checkBaggage(`Socks and camera`);
+checkBaggage(`Got some snacks and a gun for protection`);
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+//9.21 WORKING WITH STRINGS - PART 3
+
+//LIST OF STRING METHODS USED  -
+//1 indexOf
+//2 lastIndexOf
+//3 trim
+//4 slice
+//5 toUpperCase
+//6 toLowerCase
+//7 trimStart
+//8 trimEnd
+//9 replace - only replaces first occurrence
+//10 replaceAll
+//11 split
+//12 join
+//13 padStart
+//14 padEnd
+//15 repeat
+//BOOLEAN METHODS -
+//1.1 includes
+//1.2 startsWith
+//1.3 endsWith
+
+//Split and join
+console.log('a+very+nice+string'.split('+'));
+console.log('Pranav Naringrekar'.split(' '));
+
+const [firstName, lastName] = 'Pranav Naringrekar'.split(' ');
+console.log(firstName, lastName);
+
+const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+console.log(newName);
+
+const capitalizeName = function (name) {
+  const names = name.split(' ');
+  console.log(names);
+  let namesUpper = [];
+  //Solution 1
+  // for (const n of names) {
+  //   namesUpper.push(n[0].toUpperCase() + n.slice(1));
+  // }
+  // console.log(namesUpper.join(' '));
+
+  //Solution 2
+  for (const n of names) {
+    namesUpper.push(n.replace(n[0], n[0].toUpperCase()));
+  }
+  console.log(namesUpper.join(' '));
+};
+
+capitalizeName('jessica ann smith davis');
+capitalizeName('pranav naringrekar');
+
+//Padding
+const message = `Go to gate 23`;
+console.log(message.padStart(25, '+'));
+console.log('Pranav'.padStart(25, '+').padEnd(35, '+'));
+
+const maskCreditCard = function (number) {
+  const str = number + '';
+  const str2 = number.toString();
+  console.log(typeof str2);
+  const last = str.slice(-4);
+  return last.padStart(str.length, '*');
+};
+
+console.log(maskCreditCard(4331732644266666));
+console.log(maskCreditCard('250237253029200200'));
+
+//Repeat
+const message2 = 'Bad weather... All Departures Delayed';
+console.log(message2.repeat(5));
+
+const planesInLine = function (n) {
+  console.log(`There are ${n} planes in line ${'🛬'.repeat(n)}`);
+};
+
+planesInLine(10);
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+//9.22 CODING CHALLENGE #4
+
+
+document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+
+const textArea = document.querySelector('textarea');
+const btn = document.querySelector('button');
+btn.textContent = 'Btn';
+
+//document.querySelector('.again').addEventListener('click', function () {
+
+const toCamelCase = function () {
+  const text = textArea.value.split('\n');
+  let textCamel = '';
+
+  //looping through textarea text
+  for (const [i, item] of text.entries()) {
+    const [first, second] = item.trim().toLowerCase().split('_');
+
+    const camelItem = `${first}${second.replace(
+      second[0],
+      second[0].toUpperCase()
+    )}`;
+
+    textCamel += `${camelItem.padEnd(20, ' ')}${'✔'.repeat(i + 1)} \n`;
+  }
+
+  textArea.value = textCamel;
+};
+
+btn.addEventListener('click', toCamelCase);
+
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+//9,23 STRING METHODS PRACTICE
+const flights =
+  '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
+
+const getCode = str => str.slice(0, 3).toUpperCase();
+for (const flight of flights.split('+')) {
+  const [type, from, to, time] = flight.split(';');
+  const output = `${type.startsWith('_Delayed') ? '🛑' : ''}${type.replaceAll(
+    '_',
+    ' '
+  )} from ${getCode(from)} to ${getCode(to)} (${time.replace(
+    ':',
+    'h'
+  )})`.padStart(45);
+  console.log(output);
+}
+
+
+*/
