@@ -339,7 +339,9 @@ currenciesUnique.forEach((value, key, map) => {
 //
 
 //5.  PROJECT: 'BankList' APP
-/* */
+/*
+ */
+//ALL THE PROJECT RELATED STUFF WILL BE AT THE TOP.
 
 //Mutates array
 //splice
