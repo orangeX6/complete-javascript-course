@@ -107,7 +107,6 @@ const game = {
   },
 };
 
-/*
 // 9.1 ARRAY DESTRUCTURING
 // 9.2 OBJECT DESTRUCTURING
 // 9.3 SPREAD OPERATOR (...)
@@ -130,9 +129,10 @@ const game = {
 //9.20 WORKING WITH STRINGS - PART 2
 //9,21 WORKING WITH STRINGS - PART 3
 //9.22 CODING CHALLENGE #4
-//9,23 STRING METHODS PRACTICE 
+//9,23 STRING METHODS PRACTICE
 //(Keeping this here //£)
 
+/*
 //
 //
 //
@@ -1517,6 +1517,7 @@ planesInLine(10);
 
 //9.22 CODING CHALLENGE #4
 
+*/
 
 document.body.append(document.createElement('textarea'));
 document.body.append(document.createElement('button'));
@@ -1535,7 +1536,7 @@ const toCamelCase = function () {
   for (const [i, item] of text.entries()) {
     const [first, second] = item.trim().toLowerCase().split('_');
 
-    const camelItem = `${first}${second.replace(
+    const camelItem = `${first}${second?.replace(
       second[0],
       second[0].toUpperCase()
     )}`;
@@ -1547,9 +1548,6 @@ const toCamelCase = function () {
 };
 
 btn.addEventListener('click', toCamelCase);
-
-
-
 
 //
 //
@@ -1583,6 +1581,3 @@ for (const flight of flights.split('+')) {
   )})`.padStart(45);
   console.log(output);
 }
-
-
-*/

@@ -75,7 +75,7 @@ createBooking('LH123', undefined, 1000);
 //
 
 //2. HOW PASSING ARGUMENTS WORKS: VALUE Vs. REFERENCE
-/*
+/* 
  When we pass primitives into a function like a string, number, boolean etc. a new copy is created. But when we copy an object like an array, object a reference to the value is created and not a copy.
 
  In programming there are two terms used all the time 
@@ -168,7 +168,6 @@ const newPassport = function(person){
 newPassport(pranav)
 checkIn(flight, pranav);
 
-*/
 
 //
 //
@@ -187,6 +186,8 @@ checkIn(flight, pranav);
 //
 //
 //
+
+*/
 
 //3. FIRST-CLASS AND HIGHER-ORDER FUNCTIONS
 //first class
@@ -226,7 +227,7 @@ checkIn(flight, pranav);
 //
 
 //4. FUNCTIONS ACCEPTING CALLBACK FUNCTIONS
-
+/* 
 //callback function
 const oneWord = function (str) {
   return str.replace(/ /g, '').toLowerCase();
@@ -249,7 +250,7 @@ const upperFirstWord = function (str) {
 const transformer = function (str, fn) {
   console.log(`Original string: ${str}`);
   console.log(`Transformed String: ${fn(str)}`);
-
+  
   //Functions also have methods and properties in JS
   //name property
   console.log(`Transformed by: ${fn.name}`);
@@ -268,6 +269,7 @@ document.body.addEventListener('click', high5);
 
 ['Pranav', 'Sakshi', 'Tae'].forEach(high5);
 
+ */
 //
 //
 //
@@ -294,6 +296,7 @@ document.body.addEventListener('click', high5);
 //
 
 //5. FUNCTIONS RETURNING FUNCTIONS
+/*
 const greet = function (greeting) {
   return function (name) {
     console.log(`${greeting} ${name}`);
@@ -313,12 +316,12 @@ greet('Hello')('Sakshi');
 
 //This is useful when you are using functional programming paradigm
 
-
 //Challenge - Write the greet func as arrow
 const greetings = greeting => name => console.log(`${greeting} ${name}`);
 
-greetings('Greetings')('Sakshi')
+greetings('Greetings')('Sakshi');
 
+ */
 //
 //
 //
@@ -345,6 +348,417 @@ greetings('Greetings')('Sakshi')
 //
 
 //6. THE CALL AND APPLY METHODS
+//Setting the this keyword manually
+/*
+const vistara = {
+  airLine: 'Vistara',
+  iataCode: 'VA',
+  bookings: [],
+  book(flightNum, name) {
+    console.log(
+      `${name} booked a seat on ${this.airLine} ${this.iataCode}${flightNum}`
+    );
+    this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
+  },
+};
+
+vistara.book(369, 'Pranav Naringrekar');
+vistara.book(600, 'Sakshi S');
+
+const eurowings = {
+  airLine: 'EuroWings',
+  iataCode: 'EW',
+  bookings: [],
+};
+
+const swiss = {
+  airLine: 'Swiss Air Lines',
+  iataCode: 'SW',
+  bookings: [],
+};
+
+const book = vistara.book;
+
+//Does not work
+//book(23, 'Sarah Williams');
+
+//Call, apply and bind are methods we can use to point this keyword to a particular object.
+
+//CALL Method
+//Call mothod - function.call(object, parametersOfFunction)
+book.call(eurowings, 23, 'Sarah Williams');
+book.call(vistara, 666, 'John Cooper');
+book.call(swiss, 669, 'Edward Newgate');
+// console.log(swiss);
+
+//Apply Method
+//Apply method works the same way as call method, the only difference is apply method does not take a list of arguments after the this keyword(object name) but instead it takes an array of arguments
+const flightData = [583, 'George Costanza'];
+book.apply(swiss, flightData);
+console.log(swiss);
+
+//Apply is not used much as we can do the same functionality using the spread operator in call method.
+book.call(swiss, ...flightData);
+
+
+
+//
+//
+//
+//
+//
+//
+
+ */
+//7. THE BIND METHOD
+/*
+//Bind method
+
+//Bind method basically binds the function to the object and we dont have to call the this keyword again and again to use the function with the same object
+const bookEW = book.bind(eurowings);
+const bookSW = book.bind(swiss);
+const bookVA = book.bind(vistara);
+
+bookEW(23, 'Steven Stevee');
+
+//We can also use bind to bind a specific parameter to the function and whenever we call the bind function. It will use that as the default parameter
+const bookEW23 = book.bind(eurowings, 23);
+bookEW23('Sakshi S');
+
+//with Event Listeners
+vistara.planes = 300;
+vistara.buyPlane = function () {
+  console.log(this);
+  this.planes++;
+  console.log(this.planes);
+};
+
+document.querySelector('.buy').addEventListener('click', vistara.buyPlane); //outputs this keyword as <button class='buy'>Buy new plane</button>
+//This is because in the event handler function the this keyword always points to the element to which the handler is attached to
+
+document
+  .querySelector('.buy')
+  .addEventListener('click', vistara.buyPlane.bind(vistara));
+
+//Bind method - Partial Application
+const addTax = (rate, value) => value + value * rate;
+console.log(addTax(0.1, 200));
+
+const addTaxR = addTax.bind(null, 0.18);
+console.log(addTaxR(100));
+
+// const addTax = (rate,value) => value + value*rate
+
+const addTaxRe = function (rate) {
+  return function (value) {
+    console.log(value + value * rate);
+  };
+};
+
+const addTaxRate = addTaxRe(0.18);
+addTaxRate(200);
+
+const addTaxArrowReturn = rate => value => console.log(value + value * rate);
+
+const arrowReturn = addTaxArrowReturn(0.18);
+arrowReturn(400);
+*/
+
+//call - function.call(object, funcParameters)
+//apply - function.apply(object, [p1,p2,p3])
+//bind - const variable = function.bind(object, parameter) \n variable();
+
+/*
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+//8. CODING CHALLENGE #1
+//Test data for bonus:
+//  § Data 1: [5, 2, 3]
+//  § Data 2: [1, 5, 3, 9, 6, 1]
+
+const poll = {
+  question: 'What is your favorite programming language?',
+  options: ['0: Javascript', '1: Python', '2: Rush', '3: C++'],
+  //This generates [0,0,0,0]
+  answers: new Array(4).fill(0),
+  registerNewAnswer() {
+    //Get Answer
+    const ans = Number(
+      prompt(
+        `${this.question}\n${this.options[0]}\n${this.options[1]}\n${this.options[2]}\n${this.options[3]}\n(Write option number)  `
+      )
+    );
+
+    //Register answer
+    //using ternary
+    // const numAns = Number(ans);
+    // ans == numAns && numAns < this.answers.length
+    //   ? this.answers[numAns]++
+    //   : this.registerNewAnswer();
+
+    //using logical operators
+    typeof ans === 'number' && ans < this.answers.length && this.answers[ans]++;
+
+    //calling display result function
+    this.displayResult();
+    this.displayResult('string');
+  },
+  //defining display results with default parameter as array
+  displayResult(type = 'array') {
+    if (type === 'array') {
+      console.log(this.answers);
+    } else if (type === 'string') {
+      console.log(`Poll results are ${this.answers.join(', ')}`);
+    }
+  },
+};
+
+// poll.registerNewAnswer();
+
+document
+  .querySelector('.poll')
+  .addEventListener('click', poll.registerNewAnswer.bind(poll));
+
+poll.displayResult.call({ answers: [5, 2, 3] }, 'string');
+poll.displayResult.call({ answers: [1, 5, 3, 9, 6, 1] });
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+*/
 
 //FUNCTION METHODS AND PROPERTIES
 //1. name
+
+//9. IMMEDIATELY INVOKED FUNCTION EXPRESSION (IIFE)
+/*
+//Sometimes we might need a function that is only executed once and never again
+//This might be needed in async await
+
+//wrapping a unknown func turns it into an expression and js will not throw error
+//This is required to encapsulate the data which we want to keep private.
+(function () {
+  console.log('This will never run again ');
+  const isPrivate = 23;
+})();
+
+(() => console.log('This will also never run again '))();
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+ */
+
+//10. CLOSURES
+//DEFINITIONS _
+
+//1. A closure is the closed over variable environment of the execution context in which the function was created, even after that execution context is gone;
+//    |
+//    | less formal
+//    v
+//2. A closure gives a function access to all the variables of its parent function, even after the parent function has returned. The function keeps a reference to its outer scope, which preserves the scope chain throughout time.
+//    |
+//    | less formal
+//    V
+//3. A closure makes sure that a function doesn't lose connection to the variables that existed at the function's birth place.
+
+//Closure is not a function we explicitly use.
+//We dont manually create closure like we create array or a function
+//Closures simple happen automatically in certain situations.
+//We just need to identify those.
+
+//CLOSURE -
+// A function always has access to the variable environment of the execution context in which it was created, even after that execution context is gone.
+
+//The closure is then this variable environment attached to the function exactly as it was at the time and place that the function was created.
+
+//In simple words thanks to the closure function does not lose connection to the variables that existed at its birthplace.
+
+//The closure has priority over scope chain. If a variable is not found in the function it will first check closure then scope chain
+
+/*
+
+const secureBooking = function () {
+  let passengerCount = 0;
+
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  };
+};
+
+const booker = secureBooking();
+
+booker(); //1 passengers
+booker(); //2 passengers
+booker(); //3 passengers
+
+console.dir(booker);
+ */
+
+//outputs
+
+// In the context of execution, booker function should not have access to the passengerCount variable as secureBooking function is already executed and we only have the booker function which is the value secure booking returned.
+// This is possible because of the concept of closure
+// The booker function has  access to the passenger count variable because it is basically defined in the scope in which the booker function was actually created.
+//So in a sense the scope chain is actually preserved through a closure, even when the scope is already destroyed because its execution context is gone.
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+//11. MORE CLOSURE EXAMPLES
+
+/*
+ 
+//EXAMPLE 1
+let f;
+
+const g = function () {
+  const a = 23;
+  f = function () {
+    console.log(a * 2);
+  };
+};
+
+const h = function () {
+  const b = 777;
+  f = function () {
+    console.log(b * 2);
+  };
+};
+
+g(); //a becomes 3 and f becomes function
+f(); //f closes over g's variable a
+console.dir(f);
+h(); //Reassigns f function
+f();
+console.dir(f);
+
+
+
+//EXAMPLE 2
+const boardPassengers = function (n, wait) {
+  const perGroup = n / 3;
+
+  setTimeout(function () {
+    console.log(`We are now boarding all ${n} passengers`);
+    console.log(`There are 3 groups, each with ${perGroup} passengers`);
+  }, wait * 1000); // setTimeout(callbackFunction, timeInSeconds)
+
+  console.log(`Will start boarding in ${wait} seconds`);
+};
+
+const perGroup = 1000;
+
+boardPassengers(100, 3);
+
+*/
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+//12. CODING CHALLENGE #2
+/*
+(function () {
+  const header = document.querySelector('h1');
+  header.style.color = 'red';
+
+  document.querySelector('body').addEventListener('click', function () {
+    header.style.color = 'blue';
+  });
+})();
+ */
