@@ -32,7 +32,6 @@ const account4 = {
   interestRate: 1,
   pin: 4444,
 };
-const labelWelcome2 = document.querySelector('.welcome');
 
 const accounts = [account1, account2, account3, account4];
 
@@ -1309,7 +1308,7 @@ console.log(convertTitleCase('and here is another title with an EXAMPLE'));
 //
 
 //26. CODING CHALLENGE #4
-
+/*
 const dogs = [
   { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
   { weight: 8, curFood: 200, owners: ['Matilda'] },
@@ -1364,7 +1363,7 @@ console.log(dogs.filter(checkEatingOkay));
 //8. Create a shallow copy of the 'dogs' array and sort it by recommended food portion in an ascending order (keep in mind that the portions are inside the array's objects �)
 const doggo = dogs.slice().sort((a, b) => a.recFood - b.recFood);
 console.log(doggo);
-
+*/
 /*
 curFood: 250
 owners: (2) ['Alice', 'Bob']
