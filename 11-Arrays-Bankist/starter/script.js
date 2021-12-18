@@ -1149,7 +1149,7 @@ console.log(x);
 // console.log(x.map(() => 5));
 x.fill(1);
 console.log(x); //outputs [1, 1, 1, 1, 1, 1, 1, 1, 1]
-console.log(x.fill(9, 3, 6)); //outputs [empty × 3, 1, 1, empty × 4]
+console.log(x.fill(9, 3, 6)); //outputs  [empty × 3, 9, 9, 9, empty × 3]
 arr.fill(23, 3, 5);
 console.log(arr);
 
