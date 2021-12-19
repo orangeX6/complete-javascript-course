@@ -250,6 +250,7 @@ const logoutTimer = function () {
 
   //Call timer every second
   tick();
+  // [There is no link between global 'timer' variable and 'timer' here
   const timer = setInterval(tick, 1000);
 
   //Returning the timer so that we can clear it if an existing timer is running
