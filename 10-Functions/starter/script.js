@@ -385,7 +385,7 @@ const book = vistara.book;
 //Call, apply and bind are methods we can use to point this keyword to a particular object.
 
 //CALL Method
-//Call mothod - function.call(object, parametersOfFunction)
+//Call method - function.call(object, parametersOfFunction)
 book.call(eurowings, 23, 'Sarah Williams');
 book.call(vistara, 666, 'John Cooper');
 book.call(swiss, 669, 'Edward Newgate');

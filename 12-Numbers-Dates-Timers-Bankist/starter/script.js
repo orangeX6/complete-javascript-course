@@ -16,14 +16,14 @@ const account1 = {
   pin: 1111,
 
   movementsDates: [
-    '2019-11-18T21:31:17.178Z',
-    '2019-12-23T07:42:02.383Z',
-    '2020-01-28T09:15:04.904Z',
-    '2020-04-01T10:17:24.185Z',
-    '2020-05-08T14:11:59.604Z',
-    '2020-05-27T17:01:17.194Z',
-    '2020-07-11T23:36:17.929Z',
-    '2020-07-12T10:51:36.790Z',
+    '2020-11-18T21:31:17.178Z',
+    '2020-12-23T07:42:02.383Z',
+    '2021-01-28T09:15:04.904Z',
+    '2021-04-01T10:17:24.185Z',
+    '2021-11-28T14:11:59.604Z',
+    '2021-12-12T17:01:17.194Z',
+    '2021-12-17T23:36:17.929Z',
+    '2021-12-18T10:51:36.790Z',
   ],
   currency: 'EUR',
   locale: 'pt-PT', // de-DE
@@ -36,17 +36,17 @@ const account2 = {
   pin: 2222,
 
   movementsDates: [
-    '2019-11-01T13:15:33.035Z',
-    '2019-11-30T09:48:16.867Z',
-    '2019-12-25T06:04:23.907Z',
-    '2020-01-25T14:18:46.235Z',
-    '2020-02-05T16:33:06.386Z',
-    '2020-04-10T14:43:26.374Z',
-    '2020-06-25T18:49:59.371Z',
-    '2020-07-26T12:01:20.894Z',
+    '2020-11-01T13:15:33.035Z',
+    '2020-11-30T09:48:16.867Z',
+    '2020-12-25T06:04:23.907Z',
+    '2021-01-25T14:18:46.235Z',
+    '2021-02-05T16:33:06.386Z',
+    '2021-04-10T14:43:26.374Z',
+    '2021-06-25T18:49:59.371Z',
+    '2021-07-26T12:01:20.894Z',
   ],
   currency: 'USD',
-  locale: 'en-US',
+  locale: 'en-GB',
 };
 
 const account3 = {
@@ -93,6 +93,36 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 /////////////////////////////////////////////////
 // Functions
+
+//----------------------DATE--------------------//
+//Format Movement Date
+const formatMovementDate = function (date, locale) {
+  const calcDaysPassed = (date1, date2) =>
+    Math.round(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
+
+  const daysPassed = calcDaysPassed(new Date(), date);
+
+  if (daysPassed === 0) return `Today`;
+  if (daysPassed === 1) return `Yesterday`;
+  if (daysPassed < 10) return `${daysPassed} days ago`;
+  // else {
+  //   const day = `${date.getDate()}`.padStart(2, 0);
+  //   const month = `${date.getMonth() + 1}`.padStart(2, 0);
+  //   const year = date.getFullYear();
+  //   return `${day}/${month}/${year}`;
+  // }
+  return new Intl.DateTimeFormat(locale).format(date);
+};
+
+//----------------CURRENCIES------------------------//
+
+const formattedCurrency = function (value, locale, currency) {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: currency,
+  }).format(value);
+};
+
 //-----------------MOVEMENTS-------------------------//
 //display movements
 const displayMovements = function (acc, sort = false) {
@@ -106,17 +136,15 @@ const displayMovements = function (acc, sort = false) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const date = new Date(acc.movementsDates[i]);
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() + 1}`.padStart(2, 0);
-    const year = date.getFullYear();
+    const displayDate = formatMovementDate(date, acc.locale);
 
-    const displayDate = `${day}/${month}/${year}`;
+    const formattedMov = formattedCurrency(mov, acc.locale, acc.currency);
 
     const html = `
     <div class="movements__row">
     <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
     <div class="movements__date">${displayDate}</div>
-    <div class="movements__value">${mov.toFixed(2)}€</div>
+    <div class="movements__value">${formattedMov}</div>
     </div>
     `;
 
@@ -132,7 +160,12 @@ const displayMovements = function (acc, sort = false) {
 //display balance
 const calcDisplayBalance = function (acc) {
   acc.balance = acc.movements.reduce((bal, mov) => bal + mov, 0);
-  labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
+
+  labelBalance.textContent = formattedCurrency(
+    acc.balance,
+    acc.locale,
+    acc.currency
+  );
 };
 
 //-------------------SUMMARY-----------------------//
@@ -141,13 +174,17 @@ const calcDisplaySummary = function (acc) {
     .filter(mov => mov > 0)
     .reduce((tot, mov) => tot + mov, 0);
 
-  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
+  labelSumIn.textContent = formattedCurrency(incomes, acc.locale, acc.currency);
 
   const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((tot, mov) => mov + tot, 0);
 
-  labelSumOut.textContent = `${Math.abs(out).toFixed(2)}€`;
+  labelSumOut.textContent = formattedCurrency(
+    Math.abs(out),
+    acc.locale,
+    acc.currency
+  );
 
   const interest = acc.movements
     .filter(mov => mov > 0)
@@ -155,7 +192,11 @@ const calcDisplaySummary = function (acc) {
     .filter(int => int > 1)
     .reduce((tot, int) => tot + int, 0);
 
-  labelSumInterest.textContent = `${interest.toFixed(2)}€`;
+  labelSumInterest.textContent = formattedCurrency(
+    interest,
+    acc.locale,
+    acc.currency
+  );
 };
 
 //--------------------USER---------------------------//
@@ -185,13 +226,43 @@ const updateUI = function (acc) {
   calcDisplaySummary(acc);
 };
 
+const logoutTimer = function () {
+  //Set Interval Function
+  const tick = function () {
+    const min = String(Math.floor(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+    //In each callback, print the remaining time to UI
+    labelTimer.textContent = `${min}:${sec}`;
+
+    //When 0 seconds, stop timer and log out
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = `Log in to get started`;
+      containerApp.style.opacity = 0;
+    }
+
+    //Decrease 1s
+    time--;
+  };
+
+  //Set Time to 5 mins
+  let time = 300;
+
+  //Call timer every second
+  tick();
+  const timer = setInterval(tick, 1000);
+
+  //Returning the timer so that we can clear it if an existing timer is running
+  return timer;
+};
+
 ////////////////////EVENT HANDLER\\\\\\\\\\\\\\\\\\
-let currentAccount;
+let currentAccount, timer;
 
 //FAKE ALWAYS LOGGED IN
-currentAccount = account1;
-updateUI(currentAccount);
-containerApp.style.opacity = 100;
+// currentAccount = account1;
+// updateUI(currentAccount);
+// containerApp.style.opacity = 100;
 
 //day/month/year
 
@@ -214,18 +285,37 @@ btnLogin.addEventListener('click', function (e) {
       .at(0)}`;
     containerApp.style.opacity = 100;
 
+    //Create current date and time
     const now = new Date();
-    const day = `${now.getDate()}`.padStart(2, 0);
-    const month = `${now.getMonth() + 1}`.padStart(2, 0);
-    const year = now.getFullYear();
-    const hour = `${now.getHours()}`.padStart(2, 0);
-    const min = `${now.getMinutes()}`.padStart(2, 0);
-    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+      // weekday: 'short',
+      //numeric,long,short,narrow,2-digit
+    };
+
+    //GETS YOUR LANGUAGE CODE
+    // const locale = navigator.language;
+    // console.log(locale);
+    //http://www.lingoes.net/en/translator/langcode.htm
+    // labelDate.textContent = Intl.DateTimeFormat('ko-KR', options).format(now);
+
+    labelDate.textContent = Intl.DateTimeFormat(
+      currentAccount.locale,
+      options
+    ).format(now);
 
     //Clear input fields
     inputLoginPin.value = inputLoginUsername.value = '';
     inputLoginPin.blur(); //removing cursor/focus
     inputLoginUsername.blur();
+
+    //LogOut Time
+    if (timer) clearInterval(timer);
+    timer = logoutTimer();
 
     //Display UI
     updateUI(currentAccount);
@@ -265,6 +355,10 @@ btnTransfer.addEventListener('click', function (e) {
 
     //update UI
     updateUI(currentAccount);
+
+    //Reset Timer
+    clearInterval(timer);
+    timer = logoutTimer();
   }
 });
 
@@ -281,14 +375,20 @@ btnLoan.addEventListener('click', function (e) {
 
   //RULE CHECK
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
-    //Adding movement (loan amount)
-    currentAccount.movements.push(amount);
+    setTimeout(() => {
+      //Adding movement (loan amount)
+      currentAccount.movements.push(amount);
 
-    //Add Loan Date
-    currentAccount.movementsDates.push(new Date().toISOString());
+      //Add Loan Date
+      currentAccount.movementsDates.push(new Date().toISOString());
 
-    //Update UI
-    updateUI(currentAccount);
+      //Update UI
+      updateUI(currentAccount);
+
+      //Reset Timer
+      clearInterval(timer);
+      timer = logoutTimer();
+    }, 5000);
   }
 
   //Clear input field
@@ -739,16 +839,202 @@ console.log(future);
 //
 //
 
-//9.   INTERNATIONALIZING DATES (Intl)
-//10.  INTERNATIONALIZING NUMBERS (Intl)
-//11.  TIMERS: setTimeout AND setInterval
-//12.  IMPLEMENTING A COUNTDOWN TIMER
-
 //8.   OPERATIONS WITH DATES
 /*
- */
 
+
+//FUNCTION THAT CALCULATES THE NUMBER OF DAYS PASSED BETWEEN TWO DATES
 const future = new Date(2037, 10, 19, 15, 23);
 console.log(+future);
 
-//FUNCTION THAT CALCULATES THE NUMBER OF DAYS PASSED BETWEEN TWO DATES
+const calcDaysPassed = (date1, date2) =>
+  Math.round(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
+
+console.log(calcDaysPassed(future, new Date()));
+console.log(calcDaysPassed(new Date(2037, 3, 14), new Date(2037, 3, 24)));
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+//9.   INTERNATIONALIZING DATES (Intl)
+//TO THE TOP
+//JS has a new Internationalization API that allows us to easily format numbers and strings according to diff. languages
+
+//So with this new API we can make our application support different languages for users around the world.
+//We will work on currencies and date in this
+
+//Create current date and time
+const now = new Date();
+const options = {
+  hour: 'numeric',
+  minute: 'numeric',
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  weekday: 'short',
+  //numeric,long,short,narrow,2-digit
+};
+
+//GETS YOUR LANGUAGE CODE
+// const locale = navigator.language;
+// console.log(locale);
+//http://www.lingoes.net/en/translator/langcode.htm
+console.log(Intl.DateTimeFormat('ko-KR', options).format(now));
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+//10.  INTERNATIONALIZING NUMBERS (Intl)
+//IMPLEMENTING CURRENCY IN BANK LIST APP -
+//AT THE TOP
+
+console.log(new Intl.DateTimeFormat('ko-KR').format(new Date()));
+
+const options = {
+  //style: 'unit',
+  // OR
+  style: 'currency',
+  // OR
+  // style: 'percent',
+  //unit: 'mile-per-hour',
+  unit: 'celsius',
+  currency: 'EUR', //€
+  // useGrouping: false,
+};
+
+const num = 4655535616.156;
+console.log('KR:', new Intl.NumberFormat('ko-KR', options).format(num));
+console.log('UK:', new Intl.NumberFormat('en-GB', options).format(num));
+console.log('IN:', new Intl.NumberFormat('hi-IN', options).format(num));
+console.log('JP:', new Intl.NumberFormat('jp-JP', options).format(num));
+console.log('US:', new Intl.NumberFormat('en-US', options).format(num));
+console.log('GER:', new Intl.NumberFormat('de-DE', options).format(num));
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+//11.  TIMERS: setTimeout AND setInterval
+
+/////////////////// SET TIMEOUT \\\\\\\\\\\\\\\\\\
+//As soon  as js hits the setTimeout method, it keeps counting the time in the background and registers the callback function to be called after that time has elapsed
+//This mechanism is called ASYNCHRONOUS JAVASCRIPT
+
+//The set timeout registers the callback function and then calls it after the second argument which is the timer is satisfied
+//The execution does not stop at it will execute the lines of code after the set timeout while waiting
+
+//SIMULATING ORDERING A PIZZA
+setTimeout(() => console.log(`Here is your pizza 🍕`), 3000);
+console.log('Waiting for pizza...');
+
+//Using arguments in setTimeout
+setTimeout(
+  (ing1, ing2) => console.log(`Here is your pizza 🍕 with ${ing1} and ${ing2}`),
+  3000,
+  'olives',
+  'onions'
+);
+
+//Canceling timeout
+const ingredients = ['olives', 'pineapple'];
+const pinePizza = setTimeout(
+  (ing1, ing2) => console.log(`Here is your pizza 🍕 with ${[...ingredients]}`),
+  3000,
+  ...ingredients
+);
+
+if (ingredients.includes('pineapple')) clearTimeout(pinePizza);
+
+//////////////////[/ SET INTERVAL \]\\\\\\\\\\\\\\\\\\
+//Runs the callback function every 'timer' seconds
+
+//setInterval
+setInterval(function () {
+  const now = new Date();
+  console.log(now);
+}, 1000);
+
+//Clock
+setInterval(() => {
+  const now = new Date();
+  const hours = now.getHours();
+  const minute = now.getMinutes();
+  const second = now.getSeconds();
+  console.log(`${hours}:${minute}:${second}`);
+}, 1000);
+
+//CLock using Intl API
+//Does not work properly
+const options = {
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+};
+const nowIntl = new Date();
+setInterval(() => {
+  console.log(Intl.DateTimeFormat('hi-IN', options).format(nowIntl));
+}, 1000);
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+ */
+
+//12.  IMPLEMENTING A COUNTDOWN TIMER
+//AT THE TOP
