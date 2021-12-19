@@ -737,7 +737,7 @@ const openingHoursCompute = {
 
 
 
-//9.11 OPTIONAL CHAINING (.?) (ES 2020)
+//9.11 OPTIONAL CHAINING (?.) (ES 2020)
 //With optional chaining if a certain property does not exist then undefined is returned immediately
 
 //console.log(restaurant.openingHours.mon.open);    

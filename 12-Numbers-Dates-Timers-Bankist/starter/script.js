@@ -684,7 +684,13 @@ console.log(future.getHours());
 console.log(future.getMinutes());
 console.log(future.getSeconds());
 console.log(future.toISOString());
+
+//RETURNS TIMESTAMP 
+console.log(+future);
+console.log(Number(future));
 console.log(future.getTime()); //2142237180000 returns TimeStamp
+
+//TIMESTAMP RETURNING DATE
 console.log(new Date(2142237180000)); //Thu Nov 19 2037 15:23:00 GMT+0530 (India Standard Time)
 
 console.log(Date.now()); //Gives current day's timestamp
@@ -741,3 +747,8 @@ console.log(future);
 //8.   OPERATIONS WITH DATES
 /*
  */
+
+const future = new Date(2037, 10, 19, 15, 23);
+console.log(+future);
+
+//FUNCTION THAT CALCULATES THE NUMBER OF DAYS PASSED BETWEEN TWO DATES
