@@ -2,7 +2,7 @@
 
 ///////////////////////////////////////
 // Modal window
-
+/*
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
@@ -29,6 +29,10 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
+*/
+
+const btnOpenModal = document.querySelector('.btn--show-modal');
+const btnOpenModal = document.querySelector('.btn--show-modal');
 
 // 184. PROJECT: "BANKIST" WEBSITE
 // 185. HOW THE DOM REALLY WORKS
