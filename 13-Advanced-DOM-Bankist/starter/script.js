@@ -31,11 +31,81 @@ document.addEventListener('keydown', function (e) {
 });
 */
 
-const btnOpenModal = document.querySelector('.btn--show-modal');
-const btnOpenModal = document.querySelector('.btn--show-modal');
+const btnOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnCloseModal = document.querySelector('.btn--close-modal');
+const modal = document.querySelector('.modal');
+const overlay = document.querySelector('.overlay');
+
+const openModal = function (e) {
+  //Because the Open account button is present in the navbar, it is a a link, and not a button, if the link is not completely visible on dom and we press it, it will jump down a little whenever we press it. so prevent default to avoid it,
+  e.preventDefault();
+  modal.classList.remove('hidden');
+  overlay.classList.remove('hidden');
+};
+
+const closeModal = function () {
+  modal.classList.add('hidden');
+  overlay.classList.add('hidden');
+};
+
+// for (let i = 0; i < btnOpenModal.length; i++)
+//   btnOpenModal[i].addEventListener('click', openModal);
+
+//FOR OF
+// for (const btn of btnOpenModal) {
+//   btn.addEventListener('click', openModal);
+// }
+
+//ForEach
+//the querySelectorAll method uses nodeList
+//For each method works on nodeList
+btnOpenModal.forEach(btn => btn.addEventListener('click', openModal));
+
+btnCloseModal.addEventListener('click', closeModal);
+overlay.addEventListener('click', closeModal);
+
+document.addEventListener('keydown', function (e) {
+  // console.log(e.key);
+  if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+    closeModal();
+  }
+});
 
 // 184. PROJECT: "BANKIST" WEBSITE
+//  ✔
+
 // 185. HOW THE DOM REALLY WORKS
+//  ✔
+// Whats DOM ?
+//  Basically an interface between the js code and the html documents rendered in and by the browser.
+
+//  Allows us to make js interact with browser
+
+//  We can write Js to create, modify and delete HTML elements;
+
+//  Set styles, classes and attributes; and listen and respond to events.
+
+//  DOM tree is generated from an HTML document, which we can then interact with;
+
+//  DOM is a very complex API that contains lots of methods and properties to interact with the DOM Tree. EXAMPLE _
+// querySelector() /.addEventListener /.createElement /.innerHTML /.textContent /.children /.etc
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // 186. SELECTING, CREATING, AND DELETING ELEMENTS
 // 187. STYLES, ATTRIBUTES AND CLASSES
 // 188. IMPLEMENTING SMOOTH SCROLLING
