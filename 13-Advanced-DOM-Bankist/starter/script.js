@@ -31,6 +31,7 @@ document.addEventListener('keydown', function (e) {
 });
 */
 
+//Modal Window
 const btnOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const modal = document.querySelector('.modal');
@@ -71,6 +72,60 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
+// 188. IMPLEMENTING SMOOTH SCROLLING
+/* <button class="btn--text btn--scroll-to">Learn more ↓</button> */
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.getElementById('section--1');
+
+btnScrollTo.addEventListener('click', function (e) {
+  //MODERN WAY
+  section1.scrollIntoView({ behavior: 'smooth' });
+
+  //OLD WAY
+  /*
+  //Get the co ordinates of the element
+  const s1coords = section1.getBoundingClientRect();
+  console.log(s1coords);
+
+  //Scrolling
+  // window.scrollTo(
+  //   s1coords.left + window.pageXOffset,
+  //   s1coords.top + window.pageYOffset
+  // );
+
+  //Better approach, passing an object
+  window.scrollTo({
+    left: s1coords.left + window.pageXOffset,
+    top: s1coords.top + window.pageYOffset,
+    behavior: 'smooth',
+  });
+
+
+  //get co ordinates of the button
+  console.log(e.target.getBoundingClientRect());
+
+  //Get Current Scroll - X , Y
+  //depricated
+  console.log(`Current Scroll (X/Y)`, window.pageXOffset, window.pageYOffset);
+  //new alternative
+  console.log(`Current Scroll (X/Y)`, window.scrollX, scrollY);
+
+  //height and width of viewport
+  console.log(
+    'height/width viewport ',
+    document.documentElement.clientHeight,
+    document.documentElement.clientWidth
+  );
+ */
+
+  //getBoundingClientRect()
+  //window.scrollTo({left:obj.left + window.scrollX,
+  //                     right:obj.right + window.scrollY,
+  //                  behavior:'smooth' })
+  //  document.documentElement.clientWidth/Height
+  //  section1.scrollIntoView({behavior:'smooth'})
+});
+
 // 184. PROJECT: "BANKIST" WEBSITE
 // 185. HOW THE DOM REALLY WORKS
 // 186. SELECTING, CREATING, AND DELETING ELEMENTS
@@ -91,8 +146,6 @@ document.addEventListener('keydown', function (e) {
 // 201. BUILDING A SLIDER COMPONENT: PART 2
 // 202. LIFECYCLE DOM EVENTS
 // 203. EFFICIENT SCRIPT LOADING: DEFER AND ASYNC
-
-/* */
 
 //
 //
@@ -242,7 +295,7 @@ document.addEventListener('keydown', function (e) {
 //
 
 // 186. SELECTING, CREATING, AND DELETING ELEMENTS
-
+/*
 ///////////////////
 //IMPORTANT LECTURE
 //////////////////
@@ -312,10 +365,11 @@ header.append(message);
 //Before adds element before the element on which the method is called.
 //After adds element after the element on which the method is called
 // header.before(message);
-header.after(message);
+// header.after(message);
 
 //3. --------------------------------------
 //DELETE the element
+header.prepend(message);
 document
   .querySelector('.btn--close-cookie')
   .addEventListener('click', function () {
@@ -323,5 +377,156 @@ document
     // The remove method is quite recent. So before remove method the remove method existed, all we could do was remove the child element
     message.parentElement.removeChild(message);
   });
+*/
+
+//document.documentElement
+//document.head
+//document.body
+//document.querySelector()
+//document.querySelectorAll()
+//getElementById()
+//getElementsByTagName()
+//getElementsByClassName()
+//element.append(childElement)
+//element.prepend(childElement)
+//element.textContent
+//element.insertAdjacentHtml('beforeBegin',html/'afterBegin',html/'beforeEnd',html/'afterEnd',html)
+//element.innerHTML
+//element.classList.add()/remove()/toggle()/contains()
+//header.append(message,cloneNode(true))
+//element.before()
+//element.after()
+//addEventListener()
+//message.parentElement.removeChild(message)
+//message.remove()
 
 // 187. STYLES, ATTRIBUTES AND CLASSES
+/*
+//////////////////
+//STYLES
+//////////////////
+//  set a style on Element
+message.style.backgroundColor = '#37383d';
+message.style.width = '120%';
+//This styles are actually set as inline styles
+
+//1.
+//READING styles using STYLE PROPERTY
+//Using the style property ONLY WORKS while using the inline style that we set ourselves using the style property
+console.log(message.style.color); //wont work. returns empty string
+console.log(message.style.width);
+
+//2. (THE ONE WHICH WORKS ON ALL)
+//getComputedStyle
+console.log(getComputedStyle(message));
+console.log(getComputedStyle(message).color);
+
+//setting STYLE on Element using getComputedStyle
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height) + 40 + 'px';
+console.log(getComputedStyle(message).height);
+
+//CSS Custom Properties (CSS Variables)
+//variables declares in root in style.css
+//root in css is css equivalent of document in js
+//We use setProperty for custom properties.
+document.documentElement.style.setProperty('--color-primary', 'orangered');
+
+//////////////////
+//ATTRIBUTES
+//CHANGING HTML ATTRIBUTES - alt,src,input,class,id,etc.
+//////////////////
+const logo = document.querySelector('.nav__logo');
+console.log(logo.alt);
+console.log(logo.className); //class
+
+logo.alt = 'Beautiful minimalist logo';
+console.log(logo.alt);
+
+//non - standard
+console.log(logo.designer); //wont work on non standard attr
+console.log(logo.getAttribute('designer'));
+logo.setAttribute('company', 'Banklist');
+
+console.log(logo.src); //returns absolute URL
+console.log(logo.getAttribute('src')); //returns url as written in HTML file
+
+const link = document.querySelector('.twitter-link');
+console.log(link.href);
+console.log(link.getAttribute('href'));
+
+const link2 = document.querySelector('.nav__link--btn');
+console.log(link2.href); //returns absolute URL
+console.log(link2.getAttribute('href')); //returns url as written in HTML file
+
+//DATA ATTRIBUTES
+//Data attributes are a special type of attributes
+//These special attributes are always stored in the dataset object
+//It has to start with data-
+//we have to convert the name of the attribute after data- to camel case
+
+//data-version-number="3.0"
+console.log(logo.dataset.versionNumber);
+
+// so we use actually data attributes quite a lot when we work with the UI and especially when we need to store data in user interface
+
+/////////////////
+//CLASSES
+////////////////
+logo.classList.add();
+logo.classList.remove();
+logo.classList.toggle();
+logo.classList.contains();
+
+//Dont use //////////////////////////
+logo.className = 'JONAS';
+//It will overwrite all the existing class names and allows us to only write a single class name
+
+//classList
+//getAttribute
+//setAttribute
+//getComputedStyle
+
+*/
+// 188. IMPLEMENTING SMOOTH SCROLLING
+//*   ✔
+
+//189. TYPES OF EVENTS AND EVENT HANDLER
+//*   ✔
+
+//Mouse Enter Event
+const h1 = document.querySelector('h1');
+const alertH1 = function (e) {
+  console.log(`Reading the Heading`);
+  // alert('I am the monster you created');
+  // REMOVING Event Listener
+  // h1.removeEventListener('mouseenter', alertH1);
+};
+//1.
+h1.addEventListener('mouseenter', alertH1);
+
+//USING setTImeout to remove EventListener
+setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 3000);
+
+//oldSchool way
+//2.
+//Another way of attaching event listener to an element
+//onEvent property
+h1.onmouseenter = function (e) {
+  console.log(`Mouse enter `);
+};
+
+//This is an old school way of listening to any event
+//There are 2 reasons addEventListener is better -
+//1. It always you to add multiple event listeners to the same event.
+//2. We can actually remove event Listener in case we don't need it anymore
+
+//3.
+//USING HTML ATTRIBUTE
+//Should not be used
+//in html file
+//<h1 onclick="alert('HTML ALERT')">
+
+// 190. EVENT PROPAGATION: BUBBLING AND CAPTURING
+//(MOST IMPORTANT PROPERTY OF EVENTS)
+//* ✔
