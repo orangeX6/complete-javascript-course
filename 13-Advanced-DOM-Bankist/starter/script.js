@@ -1,42 +1,16 @@
 'use strict';
 
-///////////////////////////////////////
-// Modal window
-/*
+//Selecting Elements
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
-const btnCloseModal = document.querySelector('.btn--close-modal');
-const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
-
-const openModal = function () {
-  modal.classList.remove('hidden');
-  overlay.classList.remove('hidden');
-};
-
-const closeModal = function () {
-  modal.classList.add('hidden');
-  overlay.classList.add('hidden');
-};
-
-for (let i = 0; i < btnsOpenModal.length; i++)
-  btnsOpenModal[i].addEventListener('click', openModal);
-
-btnCloseModal.addEventListener('click', closeModal);
-overlay.addEventListener('click', closeModal);
-
-document.addEventListener('keydown', function (e) {
-  if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-    closeModal();
-  }
-});
-*/
-
-//Modal Window
 const btnOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnCloseModal = document.querySelector('.btn--close-modal');
-const modal = document.querySelector('.modal');
-const overlay = document.querySelector('.overlay');
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.getElementById('section--1');
 
+///////////////////////////////////////
+
+//Modal Window
 const openModal = function (e) {
   //Because the Open account button is present in the navbar, it is a a link, and not a button, if the link is not completely visible on dom and we press it, it will jump down a little whenever we press it. so prevent default to avoid it,
   e.preventDefault();
@@ -73,16 +47,9 @@ document.addEventListener('keydown', function (e) {
 });
 
 // 188. IMPLEMENTING SMOOTH SCROLLING
-/* <button class="btn--text btn--scroll-to">Learn more ↓</button> */
-const btnScrollTo = document.querySelector('.btn--scroll-to');
-const section1 = document.getElementById('section--1');
-
 btnScrollTo.addEventListener('click', function (e) {
-  //MODERN WAY
-  section1.scrollIntoView({ behavior: 'smooth' });
-
-  //OLD WAY
   /*
+  //OLD WAY
   //Get the co ordinates of the element
   const s1coords = section1.getBoundingClientRect();
   console.log(s1coords);
@@ -94,19 +61,16 @@ btnScrollTo.addEventListener('click', function (e) {
   // );
 
   //Better approach, passing an object
-  window.scrollTo({
-    left: s1coords.left + window.pageXOffset,
-    top: s1coords.top + window.pageYOffset,
-    behavior: 'smooth',
-  });
-
+  // window.scrollTo({
+  //   left: s1coords.left + window.pageXOffset,
+  //   top: s1coords.top + window.pageYOffset,
+  //   behavior: 'smooth',
+  // });
 
   //get co ordinates of the button
   console.log(e.target.getBoundingClientRect());
 
   //Get Current Scroll - X , Y
-  //depricated
-  console.log(`Current Scroll (X/Y)`, window.pageXOffset, window.pageYOffset);
   //new alternative
   console.log(`Current Scroll (X/Y)`, window.scrollX, scrollY);
 
@@ -116,15 +80,66 @@ btnScrollTo.addEventListener('click', function (e) {
     document.documentElement.clientHeight,
     document.documentElement.clientWidth
   );
- */
+  */
 
-  //getBoundingClientRect()
-  //window.scrollTo({left:obj.left + window.scrollX,
-  //                     right:obj.right + window.scrollY,
-  //                  behavior:'smooth' })
-  //  document.documentElement.clientWidth/Height
-  //  section1.scrollIntoView({behavior:'smooth'})
+  //MODERN WAY
+  section1.scrollIntoView({ behavior: 'smooth' });
 });
+
+// 192. EVENT DELEGATION: IMPLEMENTING PAGE NAVIGATION
+
+/* 
+//!WITHOUT EVENTS DELEGATION
+document.querySelectorAll('.nav__link').forEach(function (el) {
+  el.addEventListener('click', function (e) {
+    console.log('Link');
+    e.preventDefault();
+
+    const id = this.getAttribute('href');
+    console.log(id);
+
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  });
+});
+*/
+//! The above works but its not efficient.
+//! So the exact same function is now attached to the 3 elements above and thats kind of unnecessary.
+
+//* EVENT DELEGATION
+//* In event delegation, we use the fact that events bubble up and we do that by putting the eventListener on a common parent of all the elements that we are interested in.
+
+//? 1. First we add the event listener to a common parent element of all the elements that we are interested in
+//? 2. Determine what element originated the event
+
+document.querySelector('.nav__links ').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  //Matching strategy
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
+///////////////////////////////////
 
 // 184. PROJECT: "BANKIST" WEBSITE
 // 185. HOW THE DOM REALLY WORKS
@@ -400,6 +415,29 @@ document
 //message.parentElement.removeChild(message)
 //message.remove()
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 // 187. STYLES, ATTRIBUTES AND CLASSES
 /*
 //////////////////
@@ -482,18 +520,117 @@ logo.classList.contains();
 logo.className = 'JONAS';
 //It will overwrite all the existing class names and allows us to only write a single class name
 
+*/
 //classList
 //getAttribute
 //setAttribute
 //getComputedStyle
 
-*/
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 // 188. IMPLEMENTING SMOOTH SCROLLING
 //*   ✔
+// 188. IMPLEMENTING SMOOTH SCROLLING
+/* <button class="btn--text btn--scroll-to">Learn more ↓</button> */
+/*
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.getElementById('section--1');
+
+btnScrollTo.addEventListener('click', function (e) {
+  //MODERN WAY
+  section1.scrollIntoView({ behavior: 'smooth' });
+
+  //OLD WAY
+  
+  //Get the co ordinates of the element
+  const s1coords = section1.getBoundingClientRect();
+  console.log(s1coords);
+
+  //Scrolling
+  // window.scrollTo(
+  //   s1coords.left + window.pageXOffset,
+  //   s1coords.top + window.pageYOffset
+  // );
+
+  //Better approach, passing an object
+  // window.scrollTo({
+  //   left: s1coords.left + window.pageXOffset,
+  //   top: s1coords.top + window.pageYOffset,
+  //   behavior: 'smooth',
+  // });
+
+  //get co ordinates of the button
+  console.log(e.target.getBoundingClientRect());
+
+  //Get Current Scroll - X , Y
+  //depricated
+  console.log(`Current Scroll (X/Y)`, window.pageXOffset, window.pageYOffset);
+  //new alternative
+  console.log(`Current Scroll (X/Y)`, window.scrollX, scrollY);
+
+  //height and width of viewport
+  console.log(
+    'height/width viewport ',
+    document.documentElement.clientHeight,
+    document.documentElement.clientWidth
+  );
+ 
+  //getBoundingClientRect()
+  //window.scrollTo({left:obj.left + window.scrollX,
+  //                     right:obj.right + window.scrollY,
+  //                  behavior:'smooth' })
+  //  document.documentElement.clientWidth/Height
+  //  section1.scrollIntoView({behavior:'smooth'})
+});
+*/
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 //189. TYPES OF EVENTS AND EVENT HANDLER
 //*   ✔
-
+/*
 //Mouse Enter Event
 const h1 = document.querySelector('h1');
 const alertH1 = function (e) {
@@ -527,6 +664,139 @@ h1.onmouseenter = function (e) {
 //in html file
 //<h1 onclick="alert('HTML ALERT')">
 
+ */
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 // 190. EVENT PROPAGATION: BUBBLING AND CAPTURING
 //(MOST IMPORTANT PROPERTY OF EVENTS)
 //* ✔
+//Events have a capturing phase and a bubbling phase
+
+//Event first happens in the document root and then travels down to the target element. This is capturing
+
+// And from there it bubbles up.
+//Bubbling up means that basically its as if the event had also happened in all of the parent elements
+
+//
+//
+//
+//
+//
+//
+//
+//
+
+// 191. EVENT PROPAGATION IN PRACTICE
+//* addEventListener is always listening to the events in the bubbling phase and not the capture phase. This is the default behavior
+//? That is because the capture phase is not that useful for us but the bubbling phase is very important for event delegation.
+//! If we do really want to catch events during the capturing phase we can define a 3rd parameter in the addEventListener
+//addEventListener('click',function(){},true)
+//? When set to true event handler will listen to capturing events and not bubbling events
+//rgb(255,255,255)
+
+/*
+const randomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
+
+const randomColor = () =>
+  `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`;
+
+console.log(randomColor());
+
+document.querySelector('.nav__link').addEventListener('click', function (e) {
+  //In event handlers the this keyword will always point to the element on which the event handler is attached to
+  this.style.backgroundColor = randomColor();
+  console.log('LINK', e.target, e.currentTarget);
+  console.log(e.currentTarget === this); //true
+  //Stop propagation
+  // e.stopPropagation();
+});
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  this.style.backgroundColor = randomColor();
+  console.log('CONTAINER', e.target, e.currentTarget);
+  console.log(e.currentTarget === this); //true
+});
+
+document.querySelector('.nav').addEventListener(
+  'click',
+  function (e) {
+    this.style.backgroundColor = randomColor();
+    console.log('NAV', e.target, e.currentTarget);
+    console.log(e.currentTarget === this); //true
+  },
+  true //Look for capturing event. so will be executed  first (default - false) coz bubbling is default
+);
+
+//In all the 3 handlers, the target element is the same, the element where the click first happened.
+//So the event that each of them receives is the exact same event
+//That is because of the event bubbling
+//The event originates in the <a> element, and then bubbles up to its parent element and then to its next parent element and so on
+//currentTarget is the element on which the event is attached to
+//currentTarget and the this keyword are going to be exactly the same in any event handler
+
+//STOP PROPAGATION (e.stopPropagation())
+//Stops the propagation of event to the parent elements
+//In general its not a good idea to use stopPropagation but there might be cases where you might need to use it
+*/
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+// 193. DOM TRAVERSING
+// 194. BUILDING A TABBED COMPONENT
+// 195. PASSING ARGUMENTS TO EVENT HANDLERS
+// 196. IMPLEMENTING A STICKY NAVIGATION: THE SCROLL EVENT
+// 197. A BETTER WAY: THE INTERSECTION OBSERVER API
+// 198. REVEALING ELEMENTS ON SCROLL
+// 199. LAZY LOADING IMAGES
+// 200. BUILDING A SLIDER COMPONENT: PART 1
+// 201. BUILDING A SLIDER COMPONENT: PART 2
+// 202. LIFECYCLE DOM EVENTS
+// 203. EFFICIENT SCRIPT LOADING: DEFER AND ASYNC
+
+// 192. EVENT DELEGATION: IMPLEMENTING PAGE NAVIGATION
+// !AT THE TOP
+//*
