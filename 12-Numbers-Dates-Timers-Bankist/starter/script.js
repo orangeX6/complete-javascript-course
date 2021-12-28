@@ -753,8 +753,8 @@ console.log(10n / 3n); //returns 3
 //
 
 //6.   CREATING DATES
-/*
 
+/*
 //Create a date
 //1. new
 const now = new Date();
@@ -842,18 +842,17 @@ console.log(future);
 
 //8.   OPERATIONS WITH DATES
 /*
-
-
 //FUNCTION THAT CALCULATES THE NUMBER OF DAYS PASSED BETWEEN TWO DATES
 const future = new Date(2037, 10, 19, 15, 23);
 console.log(+future);
+console.log(future);
 
 const calcDaysPassed = (date1, date2) =>
   Math.round(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
 
 console.log(calcDaysPassed(future, new Date()));
 console.log(calcDaysPassed(new Date(2037, 3, 14), new Date(2037, 3, 24)));
-
+*/
 //
 //
 //
@@ -892,7 +891,7 @@ const options = {
 //GETS YOUR LANGUAGE CODE
 // const locale = navigator.language;
 // console.log(locale);
-//http://www.lingoes.net/en/translator/langcode.htm
+// http://www.lingoes.net/en/translator/langcode.htm
 console.log(Intl.DateTimeFormat('ko-KR', options).format(now));
 
 //
@@ -911,13 +910,10 @@ console.log(Intl.DateTimeFormat('ko-KR', options).format(now));
 //
 //
 
-
-
-
 //10.  INTERNATIONALIZING NUMBERS (Intl)
 //IMPLEMENTING CURRENCY IN BANK LIST APP -
 //AT THE TOP
-
+/*
 console.log(new Intl.DateTimeFormat('ko-KR').format(new Date()));
 
 const options = {

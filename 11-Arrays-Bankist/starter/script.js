@@ -1470,3 +1470,35 @@ weight: 22
 //(Does not create new array, just loops over it)
 
 /////////////////////////////////
+
+const { deposits, withdrawals } = accounts
+  .flatMap(acc => acc.movements)
+  .reduce(
+    (sums, cur) => {
+      // cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur);
+      sums[cur > 0 ? 'deposits' : 'withdrawals'] += cur;
+      return sums;
+    },
+    { deposits: 0, withdrawals: 0 }
+  );
+
+console.log(deposits, withdrawals);
+
+///
+
+const convertToTitleCase = function (title) {
+  const capitalize = cap => cap[0].toUpperCase() + cap.slice(1);
+
+  const exceptions = ['a', 'an', 'and', 'or', 'the', 'with', 'but', 'on', 'in'];
+
+  const titleCase = title
+    .toLowerCase()
+    .split(' ')
+    .map(word => (exceptions.includes(word) ? word : capitalize(word)))
+    .join(' ');
+  return capitalize(titleCase);
+};
+
+console.log(convertToTitleCase('this is a nice title'));
+console.log(convertToTitleCase('this is a LONG title but not too long'));
+console.log(convertToTitleCase('and here is another title with an EXAMPLE'));

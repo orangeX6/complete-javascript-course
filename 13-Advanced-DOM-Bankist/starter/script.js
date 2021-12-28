@@ -1,16 +1,22 @@
 'use strict';
 
-//Selecting Elements
+//*Selecting Elements
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
+const allSections = document.querySelectorAll('.section');
+const header = document.querySelector('.header');
 const section1 = document.getElementById('section--1');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+const nav = document.querySelector('.nav');
 
 ///////////////////////////////////////
 
-//Modal Window
+//*Modal Window
 const openModal = function (e) {
   //Because the Open account button is present in the navbar, it is a a link, and not a button, if the link is not completely visible on dom and we press it, it will jump down a little whenever we press it. so prevent default to avoid it,
   e.preventDefault();
@@ -46,7 +52,11 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
-// 188. IMPLEMENTING SMOOTH SCROLLING
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+
+//* BUTTON SCROLLING
+//? 188. IMPLEMENTING SMOOTH SCROLLING
 btnScrollTo.addEventListener('click', function (e) {
   /*
   //OLD WAY
@@ -86,7 +96,10 @@ btnScrollTo.addEventListener('click', function (e) {
   section1.scrollIntoView({ behavior: 'smooth' });
 });
 
-// 192. EVENT DELEGATION: IMPLEMENTING PAGE NAVIGATION
+//////////////////////////////////////////////
+//////////////////////////////////////////////
+//*PAGE NAVIGATION
+//? 192. EVENT DELEGATION: IMPLEMENTING PAGE NAVIGATION
 
 /* 
 //!WITHOUT EVENTS DELEGATION
@@ -101,7 +114,9 @@ document.querySelectorAll('.nav__link').forEach(function (el) {
     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
   });
 });
+
 */
+
 //! The above works but its not efficient.
 //! So the exact same function is now attached to the 3 elements above and thats kind of unnecessary.
 
@@ -121,6 +136,145 @@ document.querySelector('.nav__links ').addEventListener('click', function (e) {
   }
 });
 
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+//* TABBED CONTAINER
+//? 194. BUILDING A TABBED COMPONENT
+
+tabsContainer.addEventListener('click', function (e) {
+  // e.preventDefault();
+  const clicked = e.target.closest('.operations__tab');
+  // console.log(clicked);
+  //! returns ERROR if clicked anywhere else on tabs container where it cant find operations tab
+  //SOLUTION ->
+  //* Guard Class - Basically an if statement which will return early if a condition is matched
+  if (!clicked) return;
+
+  //Active Tab
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+  clicked.classList.add('operations__tab--active');
+
+  //Activate Content Area
+  tabsContent.forEach(tc => tc.classList.remove('operations__content--active'));
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+//* MENU FADING ANIMATION
+//? 195. PASSING ARGUMENTS TO EVENT HANDLERS
+
+/*
+// Difference between mouseenter and mouseover ?
+//? MouseEnter does NOT BUBBLE  while mouseover BUBBLES
+// Opposite of mouseover and mouseenter ->
+//* mouseout and mouseleave
+*/
+
+//Handle mouseover and mouseout
+const handleHover = function (e) {
+  // console.log(this, e.currentTarget);
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+
+    siblings.forEach(el => {
+      if (el !== link) el.style.opacity = this;
+    });
+    logo.style.opacity = this;
+  }
+};
+
+//Passing parameter
+//* SOLUTION 1 ->
+/*
+nav.addEventListener('mouseover', function (e) {
+  handleHover(e, 0.5);
+});
+nav.addEventListener('mouseout', function (e) {
+  handleHover(e, 1);
+});
+*/
+
+//* SOLUTION 2 --> BIND METHOD
+nav.addEventListener('mouseover', handleHover.bind(0.5));
+nav.addEventListener('mouseout', handleHover.bind(1));
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+//* STICKY NAVIGATION
+//? 196. IMPLEMENTING A STICKY NAVIGATION: THE SCROLL EVENT
+//!!!!!!!!!! NOT SO EFFICIENT. BAD APPROACH, BAD PERFORMANCE
+//? BETTER APPROACH IN 197
+/*
+const initialCoords = section1.getBoundingClientRect();
+
+window.addEventListener('scroll', function (e) {
+  // console.log(window.scrollY, initialCoords.top);
+  if (this.window.scrollY > initialCoords.top) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+});
+*/
+
+/////////////////////////////////////////////////
+//? 197. A BETTER WAY: THE INTERSECTION OBSERVER API
+
+//*Well, this API allows our code to basically observe changes to the way that a certain target element intersects another element, or the way it intersects the viewport.
+
+//?   The callback function will be called each time that the observed element is intersecting the root element at the threshold we have defined
+//? root - element where target is intersecting
+//? threshold - percentage of intersection at which the call back function will be called. We can have multiple thresholds, we define it with array
+//? rootMargin - adds margin to root
+
+const navHeight = nav.getBoundingClientRect().height;
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  // console.log(entry);
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+
+headerObserver.observe(header);
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+//* REVEAL SECTIONS
+//? 198. REVEALING ELEMENTS ON SCROLL
+
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+  // console.log(entry);
+  //Guard Class
+  if (!entry.isIntersecting) return;
+
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target);
+};
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+
+allSections.forEach(function (section) {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
+
 ///////////////////////////////////
 ///////////////////////////////////
 ///////////////////////////////////
@@ -141,7 +295,7 @@ document.querySelector('.nav__links ').addEventListener('click', function (e) {
 ///////////////////////////////////
 ///////////////////////////////////
 
-// 184. PROJECT: "BANKIST" WEBSITE
+// 184. PROJECT: "BANK LIST" WEBSITE
 // 185. HOW THE DOM REALLY WORKS
 // 186. SELECTING, CREATING, AND DELETING ELEMENTS
 // 187. STYLES, ATTRIBUTES AND CLASSES
@@ -182,7 +336,7 @@ document.querySelector('.nav__links ').addEventListener('click', function (e) {
 //
 //
 
-// 184. PROJECT: "BANKIST" WEBSITE
+// 184. PROJECT: "BANKLIST" WEBSITE
 //  ✔
 
 //
@@ -603,6 +757,15 @@ btnScrollTo.addEventListener('click', function (e) {
   //  document.documentElement.clientWidth/Height
   //  section1.scrollIntoView({behavior:'smooth'})
 });
+
+* e.target.getBoundingClientRect()
+* window.pageXOffset, window.pageYOffset
+* documentElement.clientWidth, documentElement.clientHeight
+* window.scrollTo({element.left+window.pageXOffset, 
+*                  element.top + window.pageYOffset
+*                   behavior:'smooth'})
+* section1.scrollIntoView({behavior:'smooth'})
+
 */
 
 //
@@ -785,18 +948,283 @@ document.querySelector('.nav').addEventListener(
 //
 //
 
+// 192. EVENT DELEGATION: IMPLEMENTING PAGE NAVIGATION
+// !AT THE TOP
+//*
+/* 
+
+//* EVENT DELEGATION
+//* In event delegation, we use the fact that events bubble up and we do that by putting the eventListener on a common parent of all the elements that we are interested in.
+
+//? 1. First we add the event listener to a common parent element of all the elements that we are interested in
+//? 2. Determine what element originated the event
+
+//!WITHOUT EVENTS DELEGATION
+document.querySelectorAll('.nav__link').forEach(function (el) {
+  el.addEventListener('click', function (e) {
+    console.log('Link');
+    e.preventDefault();
+
+    const id = this.getAttribute('href');
+    console.log(id);
+
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+//! The above works but its not efficient.
+//! So the exact same function is now attached to the 3 elements above and thats kind of unnecessary.
+
+document.querySelector('.nav__links ').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  //Matching strategy
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+*/
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 // 193. DOM TRAVERSING
+/*
+//* Basically walking through the DOM, that is selecting element based on other element
+const h1 = document.querySelector('h1');
+
+//Going downwards: child
+console.log(h1.querySelectorAll('.highlight'));
+console.log(h1.childNodes);
+console.log(h1.children);
+h1.firstElementChild.style.color = 'white';
+h1.lastElementChild.style.color = 'cyan';
+
+//Going upwards: parent
+console.log(h1.parentElement);
+console.log(h1.parentNode);
+
+//Important for event delegation
+h1.closest('.header').style.background = 'var(--gradient-secondary)';
+//returns itself if it matches the element on which we are calling closest
+h1.closest('h1').style.background = 'var(--gradient-primary)';
+
+//Going sideways: siblings
+//We can only access direct siblings
+console.log(h1.previousElementSibling);
+console.log(h1.nextElementSibling);
+
+console.log(h1.previousSibling);
+console.log(h1.nextSibling);
+
+//To get all siblings
+//will also include itself
+console.log(h1.parentElement.children);
+[...h1.parentElement.children].forEach(function (el) {
+  if (el !== h1) {
+    el.style.transform = 'scale(0.5)';
+  }
+});
+*/
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 // 194. BUILDING A TABBED COMPONENT
+//! AT THE TOP
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 // 195. PASSING ARGUMENTS TO EVENT HANDLERS
+//! AT THE TOP
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 // 196. IMPLEMENTING A STICKY NAVIGATION: THE SCROLL EVENT
+//!AT THE TOP
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 // 197. A BETTER WAY: THE INTERSECTION OBSERVER API
+//! AT THE TOP
+/*
+//Well, this API allows our code to basically observe changes to the way that a certain target element intersects another element, or the way it intersects the viewport.
+
+//The callback function will be called each time that the observed element is intersecting the root element at the threshold we have defined
+const obsCallBack = function (entries, observer) {
+  entries.forEach(entry => {
+    console.log(entry);
+  });
+};
+
+//root - element where target is intersecting
+//threshold - percentage of intersection at which the call back function will be called. We can have multiple thresholds, we define it with array
+//rootMargin - adds margin to the root 
+const obsOptions = {
+  root: null, //null - viewport
+  threshold: [0, 0.2],
+};
+
+const observer = new IntersectionObserver(obsCallBack, obsOptions);
+observer.observe(section1);
+*/
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 // 198. REVEALING ELEMENTS ON SCROLL
+//USING INTERSECTION OBSERVER API
+//!AT THE TOP
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 // 199. LAZY LOADING IMAGES
 // 200. BUILDING A SLIDER COMPONENT: PART 1
 // 201. BUILDING A SLIDER COMPONENT: PART 2
 // 202. LIFECYCLE DOM EVENTS
 // 203. EFFICIENT SCRIPT LOADING: DEFER AND ASYNC
-
-// 192. EVENT DELEGATION: IMPLEMENTING PAGE NAVIGATION
-// !AT THE TOP
-//*
