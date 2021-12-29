@@ -14,6 +14,11 @@ const tabsContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
 const nav = document.querySelector('.nav');
 
+const slides = document.querySelectorAll('.slide');
+const btnLeft = document.querySelector('.slider__btn--left');
+const btnRight = document.querySelector('.slider__btn--right');
+const dotContainer = document.querySelector('.dots');
+
 ///////////////////////////////////////
 
 //*Modal Window
@@ -70,12 +75,12 @@ btnScrollTo.addEventListener('click', function (e) {
   //   s1coords.top + window.pageYOffset
   // );
 
-  //Better approach, passing an object
-  // window.scrollTo({
-  //   left: s1coords.left + window.pageXOffset,
-  //   top: s1coords.top + window.pageYOffset,
-  //   behavior: 'smooth',
-  // });
+  Better approach, passing an object
+  window.scrollTo({
+    left: s1coords.left + window.pageXOffset,
+    top: s1coords.top + window.pageYOffset,
+    behavior: 'smooth',
+  });
 
   //get co ordinates of the button
   console.log(e.target.getBoundingClientRect());
@@ -272,8 +277,145 @@ const sectionObserver = new IntersectionObserver(revealSection, {
 
 allSections.forEach(function (section) {
   sectionObserver.observe(section);
-  section.classList.add('section--hidden');
+  // section.classList.add('section--hidden');
 });
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+//* LAZY LOADING IMAGES
+//? 199. LAZY LOADING IMAGES
+const imgTargets = document.querySelectorAll('img[data-src]');
+// console.log(imgTargets);
+
+const loadImg = function (entries, observer) {
+  const [entry] = entries;
+  // console.log(entry.target);
+
+  //Guard Class
+  if (!entry.isIntersecting) return;
+
+  //Replace src attribute with data-src
+  entry.target.src = entry.target.dataset.src;
+
+  //Removing the blur class
+  //? We use the load event. It is fired when image is loaded and we can listen to it just like any other event.
+  //* Using the load event listener we will only remove the blur once the image is fully loaded
+  entry.target.addEventListener('load', function () {
+    entry.target.classList.remove('lazy-img');
+  });
+
+  observer.unobserve(entry.target);
+};
+
+const imageObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: '300px',
+});
+
+imgTargets.forEach(img => imageObserver.observe(img));
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+//* SLIDER (Carousel)
+//? 200. BUILDING A SLIDER COMPONENT: PART 1
+
+// const slider = document.querySelector('.slider');
+// slider.style.transform = 'scale(0.4) translateX(-900px)';
+// slider.style.overflow = 'visible';
+
+//SLIDER FUNCTION -------------------------
+const slider = function () {
+  ////////////////////////!
+  //*SLIDER VARIABLES
+  let curSlide = 0;
+  const maxSlide = slides.length - 1;
+
+  ////////////////////!
+  //*FUNCTIONS
+  //Create Dot
+  const createDots = function () {
+    slides.forEach(function (_, i) {
+      const dots = `
+    <button class = "dots__dot" data-slide ="${i}"></button>
+    `;
+      dotContainer.insertAdjacentHTML('beforeend', dots);
+    });
+  };
+
+  //Activate Dot
+  const activateDot = function (slide = 0) {
+    console.log(typeof curSlide, curSlide);
+    document
+      .querySelectorAll('.dots__dot')
+      .forEach(dot => dot.classList.remove('dots__dot--active'));
+
+    document
+      .querySelector(`.dots__dot[data-slide="${slide}"`)
+      .classList.add('dots__dot--active');
+  };
+
+  //SLider
+  const goToSlide = function (slide = 0) {
+    slides.forEach(
+      (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
+    );
+  };
+
+  //Next Slide
+  const nextSlide = function () {
+    if (curSlide === maxSlide) curSlide = 0;
+    else curSlide++;
+    goToSlide(curSlide);
+    activateDot(curSlide);
+  };
+
+  //Prev Slide
+  const prevSlide = function () {
+    if (curSlide === 0) curSlide = maxSlide;
+    else curSlide--;
+    goToSlide(curSlide);
+    activateDot(curSlide);
+  };
+
+  //////////////////////!
+  //*INITIALIZE
+  const init = function () {
+    //0%, 100%, 200%, 300%
+    goToSlide();
+    createDots();
+    activateDot();
+  };
+  init();
+
+  ////////////////////!
+  //* EVENT HANDLERS
+  btnRight.addEventListener('click', nextSlide);
+  btnLeft.addEventListener('click', prevSlide);
+
+  //* Using keyboard event to slide with left and right keys
+  document.addEventListener('keydown', function (e) {
+    console.log(e);
+    if (e.key === 'ArrowLeft') prevSlide();
+    //Short Circuit method
+    e.key === 'ArrowRight' && nextSlide();
+  });
+
+  dotContainer.addEventListener('click', function (e) {
+    if (e.target.classList.contains('dots__dot')) {
+      //using object destructuring
+      const { slide } = e.target.dataset;
+      curSlide = Number(slide);
+      //same as  const slide = e.target.dataset.slide
+      goToSlide(slide);
+      activateDot(slide);
+    }
+  });
+};
+
+slider();
 
 ///////////////////////////////////
 ///////////////////////////////////
@@ -536,7 +678,7 @@ header.append(message);
 // header.before(message);
 // header.after(message);
 
-//3. --------------------------------------
+//3. -------------------------------------
 //DELETE the element
 header.prepend(message);
 document
@@ -1016,8 +1158,8 @@ const h1 = document.querySelector('h1');
 
 //Going downwards: child
 console.log(h1.querySelectorAll('.highlight'));
-console.log(h1.childNodes);
-console.log(h1.children);
+console.log(h1.childNodes); // returns a nodelist of all child nodes
+console.log(h1.children); //returns html collection of child tags
 h1.firstElementChild.style.color = 'white';
 h1.lastElementChild.style.color = 'cyan';
 
@@ -1224,7 +1366,158 @@ observer.observe(section1);
 //
 
 // 199. LAZY LOADING IMAGES
+//USING INTERSECTION OBSERVER API
+//!AT THE TOP
+//One of the most important things when building any website is performance. And images have by far the biggest impact on page loading. And so it's very important that images are optimized on any page. And for that, we can use a strategy called Lazy Loading Images.
+// The idea is to replace low resolution image with a higher resolution image once we scroll to it.
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 // 200. BUILDING A SLIDER COMPONENT: PART 1
+//!AT THE TOP
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 // 201. BUILDING A SLIDER COMPONENT: PART 2
+//!AT THE TOP
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 // 202. LIFECYCLE DOM EVENTS
+
+//*1.
+//DOM Content Loaded - Fired by the document as soon as the html is completely parsed.
+//All scripts must be downloaded and executed before the DOM content loaded event can happen.
+//Does not wait for the images to load, just html and js needs to be loaded
+document.addEventListener('DOMContentLoaded', function (e) {
+  console.log('HTML parsed and DOM tree Built', e);
+});
+
+//*2. LOAD
+//LOAD event is fired when images and external resources like css files are also loaded
+window.addEventListener('load', function (e) {
+  console.log('Page Fully Loaded', e);
+});
+
+//*3. BEFORE UNLOAD
+////////////////////////////////!
+////!  DID NOT WORK FOR ME !\\\\
+// This event is created immediately before a user is about to leave a page. For Example after closing the tab
+// window.add('beforeunload', function (e) {
+//   //required in some browsers
+//   e.preventDefault();
+
+//   console.log(e);
+//   e.returnValue = '';
+// });
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 // 203. EFFICIENT SCRIPT LOADING: DEFER AND ASYNC
+//We can use the async attribute to the script tag, or the defer attribute. And these attributes are gonna influence the way in which the JavaScript file is fetched,which basically means download and then executed.
+
+//ALWAYS AT THE END OF BODY
+//<script  src = "script.js"></script>
+
+//IN HEAD TAG
+//* <script async src = "script.js"></script>
+//? <script defer src = "script.js"></script>
+
+//* ASYNC ->
+//* 1. <script async src = "script.js"></script>
+//* 2. Scripts are fetched asynchronously and executed immediately
+//* 3. Usually the DOM content loaded event waits for all scripts to execute, except for async scripts. So, DOM Content Loaded does not wait for an async script
+//* 4. Scripts are NOT guaranteed to execute in order
+
+//? DEFER ->
+//? 1. <script defer src = "script.js"></script>
+//? 2. Scripts are fetched asynchronously and executed after the HTML is completely parsed
+//? 3. DOMContentLoaded event fires after defer script is executed
+//? 4. Scripts are executed IN ORDER
+
+//* USING DEFER IS THE BEST SOLUTION OVERALL
+//! OLD BROWSERS DONT SUPPORT ASYNC AND DEFER
