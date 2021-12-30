@@ -134,7 +134,7 @@ console.log(x);
 console.log(Boolean(0));
 console.log(Boolean(undefined))
 console.log(Boolean(25));
-console.log(Boolean('Panav'));
+console.log(Boolean('Pranav'));
 console.log(Boolean(''));
 console.log(Boolean({}))
 

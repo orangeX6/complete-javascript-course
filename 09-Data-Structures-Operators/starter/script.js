@@ -1581,3 +1581,200 @@ for (const flight of flights.split('+')) {
   )})`.padStart(45);
   console.log(output);
 }
+
+//->LIST OF STRING METHODS USED  -
+//1 indexOf
+//2 lastIndexOf
+//3 trim
+//4 slice
+//5 toUpperCase
+//6 toLowerCase
+//7 trimStart
+//8 trimEnd
+//9 replace - only replaces first occurrence
+//10 replaceAll
+//11 split
+//12 join
+//13 padStart
+//14 padEnd
+//15 repeat
+//BOOLEAN METHODS -
+//1.1 includes
+//1.2 startsWith
+//1.3 endsWith
+
+//->ARRAY METHODS
+
+//1.TO MUTATE ORIGINAL ARRAY  ////////////////
+//a.  Add to original -
+//i.    .push         (end)
+//ii.   .unshift      (start)
+
+//b.  Remove from original -
+//i.    .pop          (end)
+//ii.   .shift        (start)
+//iii.  .splice       (any)
+
+//c. Others
+//i.    .reverse
+//ii.   .sort
+//iii.  .fill
+
+/////////////////////////////////
+
+//2.A NEW ARRAY   /////////////////
+//a. Computed from original
+//i.    .map          (loop)
+
+//b. Filtered using Condition
+//i.    .filter
+
+//c. Portion of original
+//      .slice
+
+//d. Adding original to other
+//      .concat
+
+//e. Flattening the original
+//i.    .flat
+//ii.   .flatMap
+
+/////////////////////////////////
+
+//3. AN ARRAY INDEX ////////////////
+
+//a. Based on value
+//      .indexOf
+
+//b. Based on TEST CONDITION
+//      .findIndex
+
+/////////////////////////////////
+
+//4. AN ARRAY ELEMENT  ////////////////
+//  Based on TEST Condition
+//      .find
+
+/////////////////////////////////
+
+//5. KNOW IF ARRAY INCLUDES   ////////////////
+//a. Based on value
+//      .includes
+
+//b. Based on Test Condition
+//i.     .some
+//ii.    .every
+
+/////////////////////////////////
+
+//6. A NEW STRING   ////////////////
+//  Based on Separator string -
+//       .join
+
+/////////////////////////////////
+
+//7. TO TRANSFORM TO VALUE    ////////////////
+//      Based on accumulator
+//              .reduce
+//(boil down array to single value of
+//  any type: number, string, boolean,
+//      or even array or object)
+
+/////////////////////////////////
+
+//8. TO JUST LOOP ARRAY   ////////////////
+//  Based on callBack
+//        .forEach
+//(Does not create new array, just loops over it)
+
+/////////////////////////////////
+//////////////////////////////////*
+//-> MAP  ->
+//* const m = new Map()
+//-> m.set('age',2)
+//-> m.get('age')
+//-> m.clear()
+//-> m.delete('age')
+//-> m.size
+//-> m.has()
+//-> const i = new Map([['color','red'],['owner','Bill']])
+//? for(const k of m.keys()){}
+//? for(const v of m.values()){}
+//? for(const [k,v] of m.entries())
+//TO ARRAY
+//? const a = [...m.keys()]
+//? const a = [...m.values()]
+
+//////////////////////////////////*
+//->SET ->
+//* const s = new Set() */
+//-> s.add('one')
+//-> s.has('one')
+//-> s.delete('one')
+//-> s.clear()
+//-> s.size()
+//? s.forEach(v => console.log(v))
+//? const a = [...s.keys()]
+//? const a = [...s.values()]
+
+//looping arrays and objects with for of loop
+//ARRAYS
+//for (const item of menu) console.log(item);
+//for (const [i, el] of menu.entries()) {
+//  console.log(`${i + 1}: ${el}`);
+//}
+
+//////////////////////////////////*
+
+//Objects
+//->const properties = Object.keys(openingHours);
+//for(const day of  properties){console.log(day)}
+
+//->const values = Object.values(openingHours);
+
+//ENTRIES  (FOR ENTIRE OBJECT ) (Object,entries(objName))
+//->const entries = Object.entries(openingHours);
+//? for (const [key, { open, close }] of entries) {
+//?   console.log(`On ${key} we open at ${open} and close at ${close}`);
+//?  }
+
+//////////////////////////////////*
+
+//FOREACH
+//->ACCESSING COUNTER VARIABLE
+//forEach(function(currentElement, index, array))
+//? movements.forEach(function (mov, i, arr) {
+//?  if (mov > 0) {
+//?      console.log(`mov ${i + 1}: You deposited ${Math.abs(mov)}`);
+//?   } else {
+//?      console.log(`mov ${i + 1}: You withdrew ${Math.abs(mov)}`);
+//?    }
+//?   });
+
+//////////////////////////////////*
+
+//->  forEach with MAPS and SETS
+//MAPS
+/*
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
+
+console.log(currencies);
+//forEach for map -> forEach(function(value,key,map){})
+currencies.forEach(function (value, key, map) {
+  console.log(`${key}: ${value}`);
+});
+*/
+
+//SETS
+/*
+const currenciesUnique = new Set(['USD', 'INR', 'EUR', 'USD', 'INR', 'INR']);
+
+//forEach for Set -> forEach(function(value,key,map))
+currenciesUnique.forEach((value, key, map) => {
+  console.log(`${key}: ${value}`); //both value and key will be same as set dont have a key or an index
+});
+*/
