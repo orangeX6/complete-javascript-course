@@ -356,7 +356,64 @@ currenciesUnique.forEach((value, key, map) => {
 ////////////////////////////////////
 //////////////////////////////////////
 
-//209. Prototypes
+//208. Constructor Functions and the new Operator
+
+//Building objects using the constructor functions
+//-> A constructor function is actually  completely normal function. The only difference between a regular function and a function that we call a constructor function, is that we CALL a constructor function with the NEW operator.
+
+//* In OOP there is convention that we always start a constructor function with a CAPITAL LETTER.
+//* In fact, other built in constructors like array or map follow that convention as well.
+//! Function declaration and function expression both works as a function constructor but arrow function does not, as it doesn't have its own this keyword
+
+const Person = function (firstName, birthYear) {
+  // Instance Properties
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+
+  //!NEVER DO THIS
+  //!We can do this but we must never create a method inside a constructor function
+  //?It will create copies for each object and each object will have a method which is very inefficient.
+  //-> We use prototypes to solve this problem
+  //Instance Methods
+  // this.calcAge = function () {
+  //   console.log(2037 - this.birthYear);
+  // };
+};
+
+const pranav = new Person('Pranav', 1996);
+const sakshi = new Person('Sakshi', 1996);
+console.log(pranav, sakshi);
+
+console.log(sakshi instanceof Person); //true
+
+//-> When we call the function with the new keyword, following 4 steps happens
+//  1. New (empty object) {} is created
+//  2. function is called, and this keyword is set to the newly created object. this = {}
+//  3. (The newly created object) {} is linked to prototype
+//  4. function automatically returns (the object) {}
+
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+
 //210. Prototypal Inheritance and The Prototype Chain
 //211. Prototypal Inheritance on Built-In Objects
 //212. Coding Challenge #1
@@ -376,6 +433,13 @@ currenciesUnique.forEach((value, key, map) => {
 //226. ES6 Classes Summary
 //227. Coding Challenge #4
 
-//208. Constructor Functions and the new Operator
+//209. Prototypes
+//-> Each and every function in javascript automatically have a property called prototype
+//-> Every object created by a constructor function will get access to all the methods and the properties that we define on the constructors prototype property.
 
-//Building objects using the constructor functions
+console.log(Person.prototype);
+Person.prototype.calcAge = function () {
+  console.log(2021 - this.birthYear);
+};
+
+sakshi.calcAge();
