@@ -394,28 +394,55 @@ console.log(sakshi instanceof Person); //true
 
 //////////////////////////////////////
 ////////////////////////////////////
-//////////////////////////////////////
-////////////////////////////////////
-//////////////////////////////////////
-////////////////////////////////////
-//////////////////////////////////////
-////////////////////////////////////
-//////////////////////////////////////
-////////////////////////////////////
-//////////////////////////////////////
-////////////////////////////////////
-//////////////////////////////////////
-////////////////////////////////////
-//////////////////////////////////////
-////////////////////////////////////
-//////////////////////////////////////
-////////////////////////////////////
-//////////////////////////////////////
-////////////////////////////////////
-//////////////////////////////////////
+
+//209. Prototypes
+//-> Each and every function in javascript automatically have a property called prototype
+//-> Every object created by a constructor function will get access to all the methods and the properties that we define on the constructors prototype property.
+
+console.log(Person.prototype);
+
+//Setting method on the prototype of the function
+Person.prototype.calcAge = function () {
+  console.log(2021 - this.birthYear);
+};
+
+sakshi.calcAge();
+console.log(pranav.__proto__);
+
+//? The Person.prototype is not a prototype of person but instead it is whats going to be used as the prototype of all the objects that are created using the constructor function
+console.log(pranav.__proto__ === Person.prototype); // returns true
+console.log(sakshi.__proto__ === pranav.__proto__);
+
+//-> isPrototypeOf() method
+console.log(Person.prototype.isPrototypeOf(sakshi)); // returns true
+
+//Setting property on the constructor prototype
+Person.prototype.species = 'Homo Sapiens';
+
+console.log(sakshi, pranav);
+console.log(sakshi.species, pranav.species);
+console.log(pranav.hasOwnProperty('firstName')); //true
+console.log(pranav.hasOwnProperty('species')); //false
 
 //210. Prototypal Inheritance and The Prototype Chain
-//211. Prototypal Inheritance on Built-In Objects
+//-> If a property or a method cannot be found in a certain object JavaScript will look into its prototype and if it is present there it will simply use it. This behavior is called prototypal inheritance or delegation.
+//->The fact that the object pranav and sakshi are connected to the prototype and the ability of looking up methods and properties in the prototype is called as prototypal chain.
+//But it does not end here.Person.prototype is itself also an object and all objects have a prototype. And the prototype of person.prototype is object.prototype.
+
+//*Since pranav is built by Person, person.prototype is the prototype of pranav.
+//* Person.prototype is just a simple object which means it has been built by the built in object constructor function.
+//* And this is actually the function that is called whenever we create an object literal i.e. an object with curly braces {}
+//* Person.prototype itself needs to have a prototype and since its created by the object constructor function, its prototype is going to be the object.prototype.Prototype of Person.prototype is object.prototype
+//? prototype of object.prototype will be null, which marks end of prototype chain.
+
+//////////////////////////////////////
+////////////////////////////////////
+
+//pranav.hasOwnProperty('firstName')
+//Person.isPrototypeOf('pranav')
+//Person.prototype
+//pranav.__proto__
+
 //212. Coding Challenge #1
 //213. ES6 Classes
 //214. Setters and Getters
@@ -433,13 +460,12 @@ console.log(sakshi instanceof Person); //true
 //226. ES6 Classes Summary
 //227. Coding Challenge #4
 
-//209. Prototypes
-//-> Each and every function in javascript automatically have a property called prototype
-//-> Every object created by a constructor function will get access to all the methods and the properties that we define on the constructors prototype property.
+//211. Prototypal Inheritance on Built-In Objects
+console.log(pranav.__proto__);
+//Object.prototype (top of prototype chain)
+console.log(pranav.__proto__.__proto__);
+//null
+console.log(pranav.__proto__.__proto__.__proto__);
 
-console.log(Person.prototype);
-Person.prototype.calcAge = function () {
-  console.log(2021 - this.birthYear);
-};
-
-sakshi.calcAge();
+console.log(Person.prototype.constructor);
+console.dir(Person.prototype.constructor);
