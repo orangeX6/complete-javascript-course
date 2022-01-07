@@ -364,6 +364,7 @@ currenciesUnique.forEach((value, key, map) => {
 //* In OOP there is convention that we always start a constructor function with a CAPITAL LETTER.
 //* In fact, other built in constructors like array or map follow that convention as well.
 //! Function declaration and function expression both works as a function constructor but arrow function does not, as it doesn't have its own this keyword
+/*
 
 const Person = function (firstName, birthYear) {
   // Instance Properties
@@ -438,14 +439,135 @@ console.log(pranav.hasOwnProperty('species')); //false
 //////////////////////////////////////
 ////////////////////////////////////
 
+//211. Prototypal Inheritance on Built-In Objects
+console.log(pranav.__proto__);
+//Object.prototype (top of prototype chain)
+console.log(pranav.__proto__.__proto__);
+//null
+console.log(pranav.__proto__.__proto__.__proto__);
+
+console.log(Person.prototype.constructor);
+console.dir(Person.prototype.constructor);
+
+const arr = [3, 3, 3, 3, 4, 5, 6, 4, 4, 4, 47, 78, 6];
+
+console.log(arr.__proto__);
+console.log(arr.__proto__ === Array.prototype);
+console.log(arr.__proto__.__proto__);
+
+//! Don't use it on built in object as next version of js might add a method with the same name
+Array.prototype.unique = function () {
+  return [...new Set(this)];
+};
+
+console.log(arr.unique());
+
+const h1 = document.querySelector('h1');
+console.dir(h1);
+
+console.dir(x => x + 1);
+
 //pranav.hasOwnProperty('firstName')
 //Person.isPrototypeOf('pranav')
 //Person.prototype
 //pranav.__proto__
 
+//////////////////////////////////////
+////////////////////////////////////
+
 //212. Coding Challenge #1
+const Car = function (make, speed) {
+  this.make = make;
+  this.speed = speed;
+};
+
+Car.prototype.accelerate = function () {
+  this.speed += 10;
+  console.log(`${this.make} is going at ${this.speed}km/h`);
+};
+
+Car.prototype.brake = function () {
+  this.speed -= 5;
+  console.log(`${this.make} is going at ${this.speed}km/h`);
+};
+
+const bmw = new Car('BMW', 120);
+const mercedes = new Car('Mercedes', 95);
+
+bmw.accelerate();
+bmw.accelerate();
+bmw.brake();
+bmw.brake();
+bmw.accelerate();
+*/
+
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+
 //213. ES6 Classes
-//214. Setters and Getters
+//? Its just a different syntax, works the same way
+
+//* Class declaration
+//-> const PersonCl = class {};
+
+//*Class Expression
+//-> class PersonCl {}
+
+class PersonCl {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+
+  //Methods will be added to .prototype property
+  calcAge() {
+    console.log(2021 - this.birthYear);
+  }
+
+  // greet() {
+  //   console.log(`Hey ${this.firstName}`);
+  // }
+}
+
+const jacica = new PersonCl('Jacica', 1995);
+console.log(jacica);
+jacica.calcAge();
+console.log(jacica.__proto__ == PersonCl.prototype);
+
+PersonCl.prototype.greet = function () {
+  console.log(`Hey ${this.firstName}`);
+};
+
+jacica.greet();
+
+//-> 1. Classes are NOT hoisted
+//-> 2. Classes are first-class citizens
+//-> 3. Classes are executed in strict mode
+
+//? Should you use classes or constructor functions ?
+//Personal preference
+
+//////////////////////////////////////
+////////////////////////////////////
 //215. Static Methods
 //216. Object.create
 //217. Coding Challenge #2
@@ -460,12 +582,4 @@ console.log(pranav.hasOwnProperty('species')); //false
 //226. ES6 Classes Summary
 //227. Coding Challenge #4
 
-//211. Prototypal Inheritance on Built-In Objects
-console.log(pranav.__proto__);
-//Object.prototype (top of prototype chain)
-console.log(pranav.__proto__.__proto__);
-//null
-console.log(pranav.__proto__.__proto__.__proto__);
-
-console.log(Person.prototype.constructor);
-console.dir(Person.prototype.constructor);
+//214. Setters and Getters
