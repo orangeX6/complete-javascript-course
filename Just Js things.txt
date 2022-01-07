@@ -1,0 +1,5 @@
+typeof null is object
+typeof NaN is a number 
+Coercion - 
+plus operator converts numbers to strings
+minus,*,/,> operator converts string to number
