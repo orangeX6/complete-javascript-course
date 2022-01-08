@@ -387,6 +387,12 @@ console.log(pranav, sakshi);
 
 console.log(sakshi instanceof Person); //true
 
+Person.hey = function () {
+  console.log('Hey There 🙋‍♀️');
+};
+
+Person.hey();
+
 //-> When we call the function with the new keyword, following 4 steps happens
 //  1. New (empty object) {} is created
 //  2. function is called, and this keyword is set to the newly created object. this = {}
@@ -524,6 +530,7 @@ bmw.accelerate();
 //////////////////////////////////////
 
 //213. ES6 Classes
+/*
 //? Its just a different syntax, works the same way
 
 //* Class declaration
@@ -565,21 +572,661 @@ jacica.greet();
 
 //? Should you use classes or constructor functions ?
 //Personal preference
+*/
 
 //////////////////////////////////////
 ////////////////////////////////////
-//215. Static Methods
-//216. Object.create
-//217. Coding Challenge #2
-//218. Inheritance Between "Classes": Constructor Functions
-//219. Coding Challenge #3
-//220. Inheritance Between "Classes": ES6 Classes
-//221. Inheritance Between "Classes": Object.create
-//222. Another Class Example
-//223. Encapsulation: Protected Properties and Methods
-//224. Encapsulation: Private Class Fields and Methods
-//225. Chaining Methods
-//226. ES6 Classes Summary
-//227. Coding Challenge #4
 
 //214. Setters and Getters
+//? We call these properties assessor properties
+//? While the more normal properties are called data properties
+
+/*
+const account = {
+  owner: 'Pranav',
+  movements: [200, 530, 120, 300],
+
+  get latest() {
+    return this.movements.slice(-1).pop();
+  },
+
+  //need at least one parameter
+  set latest(mov) {
+    this.movements.push(mov);
+  },
+};
+
+//We dont call it, we write it as a property //eg calling - latest()
+console.log(account.latest);
+account.latest = 50;
+console.log(account.movements);
+
+class PersonCl {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  //Methods will be added to .prototype property
+  calcAge() {
+    console.log(2021 - this.birthYear);
+  }
+
+  // greet() {
+  //   console.log(`Hey ${this.fullName}`);
+  // }
+
+  get age() {
+    return 2021 - this.birthYear;
+  }
+
+  //-> We are creating a setter for a property name that already exists. fullName is already a property we are trying to set. So when that code is executed i.e. this.fullName = fullName, this setter is going to be executed.
+
+  //Set a property that already exists
+  set fullName(name) {
+    //! add _ to the fullName as a naming convention to avoid both setter and constructor trying to set the exact same property name, as it gives error
+
+    if (name.includes(' ')) this._fullName = name;
+    else console.log(`${name} is not a full name!`);
+  }
+
+  //Get the property
+  get fullName() {
+    return this._fullName;
+  }
+}
+
+const jacica = new PersonCl('Jacica R', 1995);
+console.log(jacica);
+jacica.calcAge();
+console.log(jacica.age);
+
+console.log(jacica.__proto__ == PersonCl.prototype);
+
+PersonCl.prototype.greet = function () {
+  console.log(`Hey ${this.fullName}`);
+};
+
+jacica.greet();
+
+const walter = new PersonCl('Walter', 1965);
+console.log(walter);
+
+
+//////////////////////////////////////
+////////////////////////////////////
+
+//215. Static Methods
+//Methods which are available on the constructors and not the actual array, number, etc.
+//* EXAMPLE -
+//-> Array.from()
+//-> Number.parseFloat(12)
+
+// Adding a static method
+//1. Constructor Function
+const Person = function (firstName, lastName) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+};
+
+Person.prototype.calcAge = function () {
+  console.log(2021 - this.birthYear);
+};
+
+Person.prototype.species = 'Homo Sapiens';
+
+Person.hey = function () {
+  console.log(this);
+  console.log('Hey There 🙋‍♀️');
+};
+
+Person.hey();
+
+//2. Class
+class PersonCl {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  //Instance Methods
+  calcAge() {
+    console.log(2021 - this.birthYear);
+  }
+
+  greet() {
+    console.log(`Hey ${this.fullName}`);
+  }
+
+  set fullName(name) {
+    if (name.includes(' ')) this._fullName = name;
+    else console.log(`${name} is not a full Name!`);
+  }
+
+  get fullName() {
+    return this._fullName;
+  }
+
+  //Static method
+  static hey() {
+    console.log(`Hey There 🙋‍♀️🙋‍♂️`);
+    console.log(this);
+  }
+}
+
+const jacica = new PersonCl('Jacica R', 1995);
+PersonCl.hey();
+
+//////////////////////////////////////
+////////////////////////////////////
+
+//216. Object.create
+//-> Manually set the prototype of an object to any other object we want
+const PersonProto = {
+  calcAge() {
+    console.log(2021 - this.birthYear);
+  },
+
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven = Object.create(PersonProto);
+console.log(steven);
+steven.firstName = 'Steven';
+steven.birthYear = 2000;
+steven.calcAge();
+
+console.log(steven.__proto__ === PersonProto);
+
+const sarah = Object.create(PersonProto);
+sarah.init('Sarah', 1979);
+sarah.calcAge();
+console.log(sarah.__proto__ === PersonProto);
+
+//////////////////////////////////////
+////////////////////////////////////
+
+//217. Coding Challenge #2
+
+class CarsCl {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+
+  get speedUS() {
+    return this.speed / 1.6;
+  }
+
+  set speedUS(speed) {
+    this.speed = speed * 1.6;
+  }
+
+  accelerate() {
+    this.speed += 10;
+    console.log(`${this.make} is going at ${this.speed}km/h`);
+  }
+
+  brake() {
+    this.speed -= 5;
+    console.log(`${this.make} is going at ${this.speed}km/h`);
+  }
+}
+
+const bmw = new CarsCl('BMW', 120);
+const mercedes = new CarsCl('Mercedes', 95);
+
+bmw.accelerate();
+bmw.accelerate();
+bmw.brake();
+bmw.brake();
+bmw.accelerate();
+
+const ford = new CarsCl('Ford', 120);
+console.log(ford.speedUS);
+ford.accelerate();
+ford.speedUS = 50;
+console.log(ford.speedUS);
+console.log(ford);
+
+*/
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+
+//218. Inheritance Between "Classes": Constructor Functions
+
+//?Call, apply, bind recap -
+//*call - function.call(object, funcParameters)
+//*apply - function.apply(object, [p1,p2,p3])
+//*bind - const variable = function.bind(object, parameter) \n variable();
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+
+Person.prototype.calcAge = function () {
+  console.log(2021 - this.birthYear);
+};
+
+const Student = function (firstName, birthYear, course) {
+  Person.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+//Linking Prototypes
+Student.prototype = Object.create(Person.prototype);
+
+//! We can see below that the constructor of student.prototype is Person which needs to be fixed
+console.log(Student.prototype.constructor);
+console.dir(Student.prototype.constructor);
+
+//Setting Student prototype constructor back to student
+Student.prototype.constructor = Student;
+console.dir(Student.prototype.constructor);
+
+Student.prototype.introduce = function () {
+  console.log(`My name is ${this.firstName} and I study ${this.course}`);
+};
+
+const mike = new Student('Mike', 2000, 'Computer Science');
+console.log(mike);
+mike.introduce();
+mike.calcAge();
+
+console.log(mike.__proto__);
+console.log(mike.__proto__.__proto__);
+
+console.log(mike instanceof Student); //returns true
+console.log(mike instanceof Person); //returns true
+console.log(mike instanceof Object); //returns true
+
+////////////////////////////////////
+///////////////////////////////////
+////////////////////////////////////
+
+//219. Coding Challenge #3
+
+const Car = function (make, speed) {
+  this.make = make;
+  this.speed = speed;
+};
+
+Car.prototype.accelerate = function () {
+  this.speed += 10;
+  console.log(`${this.make} is going at ${this.speed}km/h`);
+};
+
+Car.prototype.brake = function () {
+  this.speed -= 5;
+  console.log(`${this.make} is going at ${this.speed}km/h`);
+};
+
+const bmw = new Car('BMW', 120);
+bmw.accelerate();
+bmw.brake();
+
+const EV = function (make, speed, charge) {
+  Car.call(this, make, speed);
+  this.charge = charge;
+};
+
+//Link the prototype
+EV.prototype = Object.create(Car.prototype);
+EV.prototype.constructor = EV;
+
+EV.prototype.chargeBattery = function (chargeTo) {
+  this.charge = chargeTo;
+};
+
+EV.prototype.accelerate = function () {
+  this.speed += 20;
+  this.charge--;
+  console.log(
+    `${this.make} is going at ${this.speed}km/h with a charge of ${this.charge}`
+  );
+};
+
+const tesla = new EV('Tesla', 120, 25);
+tesla.brake();
+tesla.brake();
+tesla.chargeBattery(70);
+tesla.accelerate();
+
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+
+//220. Inheritance Between "Classes": ES6 Classes
+class PersonCl {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  //Instance Methods
+  calcAge() {
+    console.log(2021 - this.birthYear);
+  }
+
+  greet() {
+    console.log(`Hey ${this.fullName}`);
+  }
+
+  set fullName(name) {
+    if (name.includes(' ')) this._fullName = name;
+    else console.log(`${name} is not a full Name!`);
+  }
+
+  get fullName() {
+    return this._fullName;
+  }
+
+  //Static method
+  static hey() {
+    console.log(`Hey There 🙋‍♀️🙋‍♂️`);
+    console.log(this);
+  }
+}
+
+class StudentCl extends PersonCl {
+  constructor(fullName, birthYear, course) {
+    //Always needs to happen first
+    super(fullName, birthYear);
+    this.course = course;
+  }
+
+  introduce() {
+    console.log(`My name is ${this.fullName} and I study ${this.course}`);
+  }
+
+  calcAge() {
+    console.log(
+      `I am ${
+        2021 - this.birthYear
+      } years old, but as a student I feel more like ${
+        2021 - this.birthYear + 10
+      }.`
+    );
+  }
+}
+
+const sam = new StudentCl('Sam Jones', 2000, 'Computer Science');
+sam.introduce();
+sam.calcAge();
+console.log(sam);
+
+/*
+//*This will work even without constructor function
+class StudentClDup extends PersonCl {}
+const sam2 = new StudentClDup('Sam Jones', 2000);
+console.log(sam2);
+*/
+
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+
+//221. Inheritance Between "Classes": Object.create
+const PersonProto = {
+  calcAge() {
+    console.log(2021 - this.birthYear);
+  },
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+const steven = Object.create(PersonProto);
+
+const StudentProto = Object.create(PersonProto);
+
+StudentProto.init = function (firstName, birthYear, course) {
+  PersonProto.init.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+StudentProto.introduce = function () {
+  console.log(`My name is ${this.firstName} and I study ${this.course}`);
+};
+
+const jay = Object.create(StudentProto);
+jay.init('Jay', 1998, 'Computer Science');
+jay.introduce();
+jay.calcAge();
+
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+
+//222. Another Class Example
+//223. Encapsulation: Protected Properties and Methods
+//! 224. Encapsulation: Private Class Fields and Methods
+//225. Chaining Methods
+//226. ES6 Classes Summary
+
+//******************
+//-> Encapsulation basically means to keep some methods and properties private inside the class so they are not accessible from outside the class
+//-> Then the rest of the methods are exposed as a public interface which we can also called as API
+//* Two big reasons why we need encapsulation and data privacy
+//-> 1. To prevent code from outside of a class to accidentally manipulate data inside the class
+//-> 2. When we expose only a small interface, then we can change all the other methods with more confidence that other code wont break due to this
+//! JS classes do not yet support real data privacy and encapsulation
+
+//////////////////////////////////////
+////////////////////////////////////
+//////////////////////////////////////
+
+//-> /////////////////////////////////////////////
+//! 224. Encapsulation: Private Class Fields and Methods
+//->> NOT YET PART OF THE JAVASCRIPT LANGUAGE
+//-> Soon will be a part of JS.
+//? Currently at stage 3 of approval. probably 4
+// SOME PARTS ALREADY WORK IN GOOGLE CHROME
+
+//->  Different kinds of fields -
+//*  1.PUBLIC FIELDS
+//*  2.PRIVATE FIELDS
+//*  3.PUBLIC METHODS
+//*  4.PRIVATE METHODS
+//* THere is also a static version
+//*  5. STATIC FIELDS
+//*  6. STATIC METHODS
+
+class Account {
+  //* 1. PUBLIC FIELDS (added to instances while methods are added to prototype)
+  locale = navigator.language;
+
+  //* 2. PRIVATE FIELDS
+  #movements = [];
+  #pin;
+
+  //* 5. STATIC FIELD
+  static bank = 'SBI';
+
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+
+    //protected property (use _ as convention)
+    this.#pin = pin;
+    //// this.#movements = [];
+    //// this.locale = navigator.language;
+
+    console.log(`Thanks for opening an account ${this.owner}`);
+  }
+
+  //* 3. Public Methods
+  //Public interface
+  getMovements() {
+    return this.#movements;
+  }
+
+  deposit(val) {
+    this.#movements.push(val);
+    return this;
+  }
+
+  withdraw(val) {
+    this.deposit(-val);
+    return this;
+  }
+
+  requestLoan(val) {
+    if (this._approveLoan(val)) {
+      this.deposit(val);
+      console.log('Loan Approved');
+      return this;
+    }
+  }
+
+  //* 4. PRIVATE METHODS ( //!NOT SUPPORTED YET)
+  //protected method
+  // #approveLoan(val) {
+  _approveLoan(val) {
+    return true;
+  }
+
+  //* 5 STATIC METHOD
+  //WILL ONLY BE AVAILABLE ON CLASS ITSELF Eg. Array.from()
+  static helper() {
+    console.log('Helper');
+  }
+}
+
+const acc1 = new Account('Pranav', 'EUR', 1111);
+console.log(acc1);
+
+// acc1.#movements.push(250);
+// acc1.#movements.push(-80);
+
+acc1.deposit(250);
+acc1.withdraw(140);
+acc1.requestLoan(1000);
+console.log(acc1);
+console.log(acc1.getMovements());
+console.log(acc1.locale);
+
+//STATIC METHODS AND PROPERTIES CALL
+Account.helper();
+console.log(Account.bank);
+
+// console.log(acc1.#approvedLoan(1000));
+
+// console.log(acc1.#movements); //!ERROR!!! cant access private field
+
+//225. Chaining Methods
+//! WOULD NOT WORK IF YOu ARE NOT CALLING IT ON ACCOUNT. SO ALL THE METHODS IN ACCOUNT CLASS SHOULD RETURN this
+acc1.deposit(200).deposit(399).withdraw(45).requestLoan(300);
+console.log(acc1.getMovements());
+
+//226. ES6 Classes Summary
+
+//227. Coding Challenge #4
+class CarCl {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+
+  accelerate() {
+    this.speed += 20;
+    console.log(`${this.make} is going at ${this.speed} km/h`);
+  }
+
+  brake() {
+    this.speed -= 10;
+    console.log(`${this.make} is going at ${this.speed} km/h`);
+    return this;
+  }
+
+  get speedUS() {
+    return this.speed / 1.6;
+  }
+
+  set speedUS(speed) {
+    this.speed = speed * 1.6;
+  }
+}
+
+class EVCl extends CarCl {
+  //Private field
+  #charge;
+
+  constructor(make, speed, charge) {
+    super(make, speed);
+    this.#charge = charge;
+  }
+
+  chargeBattery(chargeTo) {
+    this.#charge = chargeTo;
+    return this;
+  }
+
+  accelerate() {
+    this.speed += 20;
+    this.#charge--;
+    console.log(
+      `${this.make} is going at ${this.speed}km/h, with a charge of ${
+        this.#charge
+      }`
+    );
+    return this;
+  }
+}
+
+const rimac = new EVCl('Rimac Concept 1', 300, 25);
+rimac
+  .accelerate()
+  .chargeBattery(50)
+  .accelerate()
+  .brake()
+  .accelerate()
+  .chargeBattery(86);
+
+console.log(rimac.speed);
+console.log(rimac.speedUS);
+rimac.speedUS = 200;
+console.log(rimac.speed);
+console.log(rimac.speedUS);
+
+// console.log(rimac.#charge);
