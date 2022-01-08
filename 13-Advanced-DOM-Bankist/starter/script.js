@@ -151,6 +151,7 @@ tabsContainer.addEventListener('click', function (e) {
   // e.preventDefault();
   const clicked = e.target.closest('.operations__tab');
   // console.log(clicked);
+  // console.log(clicked.className);
   //! returns ERROR if clicked anywhere else on tabs container where it cant find operations tab
   //SOLUTION ->
   //* Guard Class - Basically an if statement which will return early if a condition is matched
@@ -160,8 +161,10 @@ tabsContainer.addEventListener('click', function (e) {
   tabs.forEach(t => t.classList.remove('operations__tab--active'));
   clicked.classList.add('operations__tab--active');
 
-  //Activate Content Area
+  //Remove Active class
   tabsContent.forEach(tc => tc.classList.remove('operations__content--active'));
+
+  //Activate Content Area
   document
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add('operations__content--active');
@@ -277,7 +280,7 @@ const sectionObserver = new IntersectionObserver(revealSection, {
 
 allSections.forEach(function (section) {
   sectionObserver.observe(section);
-  // section.classList.add('section--hidden');
+  section.classList.add('section--hidden');
 });
 
 /////////////////////////////////////////////////
@@ -347,7 +350,7 @@ const slider = function () {
 
   //Activate Dot
   const activateDot = function (slide = 0) {
-    console.log(typeof curSlide, curSlide);
+    // console.log(typeof curSlide, curSlide);
     document
       .querySelectorAll('.dots__dot')
       .forEach(dot => dot.classList.remove('dots__dot--active'));
@@ -1510,7 +1513,7 @@ window.addEventListener('load', function (e) {
 //* ASYNC ->
 //* 1. <script async src = "script.js"></script>
 //* 2. Scripts are fetched asynchronously and executed immediately
-//* 3. Usually the DOM content loaded event waits for all scripts to execute, except for async scripts. So, DOM Content Loaded does not wait for an async script
+//* 3. Usually the DOM content loaded event waits for all scripts to execute, except for async scripts. So, DOM Content Loaded does not wait for an async script-+
 //* 4. Scripts are NOT guaranteed to execute in order
 
 //? DEFER ->
