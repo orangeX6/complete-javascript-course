@@ -296,26 +296,15 @@ const getCountryData = function (country) {
     });
 };
 
-btn.addEventListener('click', function () {
-  getCountryData('India');
-  // getCountryData('canada');
-});
+// btn.addEventListener('click', function () {
+//   getCountryData('India');
+//   // getCountryData('canada');
+// });
 
 // getCountryData('australia');
 
 //// btn.addEventListener('click', getCountryData.bind('canada'));
 
-//// 257. Asynchronous Behind the Scenes: The Event Loop
-//// 258. The Event Loop in Practice
-//// 259. Building a Simple Promise
-//// 260. Promisifying the Geolocation API
-//// 261. Coding Challenge #2
-//// 262. Consuming Promises with Async/Await
-//// 263. Error Handling With try...catch
-//// 264. Returning Values from Async Functions
-//// 265. Running Promises in Parallel
-//// 266. Other Promise Combinators: race, allSettled and any
-//// 267. Coding Challenge #3
 ///////////////////////////////////////
 ///////////////////////////////////////
 ///////////////////////////////////////
@@ -323,7 +312,7 @@ btn.addEventListener('click', function () {
 ///////////////////////////////////////
 
 // 256. Coding Challenge #1
-
+/*
 const whereAmI = function (lat, lng) {
   fetch(
     `https://geocode.xyz/${lat},${lng}?geoit=json&auth=203587146895865211996x1290`
@@ -355,7 +344,260 @@ const whereAmI = function (lat, lng) {
       countriesContainer.style.opacity = 1;
     });
 };
+*/
+// whereAmI(52.508, 13.381);
+// whereAmI(19.037, 72.873);
+// whereAmI(-33.933, 18.474);
 
-whereAmI(52.508, 13.381);
-whereAmI(19.037, 72.873);
-whereAmI(-33.933, 18.474);
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+
+// 258. The Event Loop in Practice
+//Promise.resolve() basically allows us to build a promise that is immediately resolved, immediately has a success value
+
+//! CAUTION!!!!!!!!!!!! DONT RUN ON SLOW PC
+/*
+//* THE CODE DISPLAYS THAT PROMISES ARE STORED IN MICRO TASKS QUEUE WHICH TAKES PRIORITY OVER CALL BACK QUEUE AND THE CODE IN CALL BACK QUEUE WHICH IN THIS CASE IS 
+//>> setTimeout(() => console.log('0 sec timer'), 0);
+//* WILL ONLY BE EXECUTED AFTER THE PROMISES.
+
+console.log(`Test Start`);
+setTimeout(() => console.log('0 sec timer'), 0);
+Promise.resolve('Resolved promise 1').then(res => console.log(res));
+Promise.resolve('Resolved promise 2').then(res => {
+  for (let i = 0; i < 1000000000; i++) {}
+  console.log(res);
+});
+console.log('Test end');
+*/
+
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+
+// 259. Building a Simple Promise
+//>> We create new promise using the promise constructor.
+//* Promises are just a special kind of object in JS
+//-> Takes one argument i.e executor function
+//*  As soon as the promise constructor runs, it will automatically execute the executor function.
+//* And as it executes this function, it will do so by passing in two other arguments.
+//* And those arguments are the resolve and reject functions.
+
+/*
+//Lets say we win in 50% cases, lose 50% cases
+const lotteryPromise = new Promise(function (resolve, reject) {
+  console.log('Lottery draw is happening 🔮');
+  setTimeout(function () {
+    if (Math.random() >= 0.5) {
+      resolve('YOU WIN!!! 💰💸');
+    } else {
+      reject(new Error('You lost your money 💩'));
+    }
+  }, 2000);
+});
+
+lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
+
+//-> PROMISIFYING
+//>> Promisifying means to convert callback based asynchronous behavior to promise based.
+
+//Ex. Promisifying setTimeout
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+wait(1)
+  .then(() => {
+    console.log('1 sec passed');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('2 sec passed');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('3 sec passed');
+    return wait(1);
+  })
+  .then(() => console.log('4 sec passed'));
+*/
+
+/*
+setTimeout(() => {
+  console.log('1 sec passed');
+  setTimeout(() => {
+    console.log('2 secs passed');
+    setTimeout(() => {
+      console.log('3 secs passed');
+      setTimeout(() => {
+        console.log('4 secs passed');
+      }, 1000);
+    }, 1000);
+  }, 1000);
+}, 1000);
+*/
+
+//-> RESOLVING PROMISE IMMEDIATELY
+/*
+Promise.resolve('abc').then(x => console.log(x));
+Promise.reject(new Error('Problem!')).then(x => console.error(x));
+*/
+
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+
+// 260. Promisifying the Geolocation API
+/*
+// navigator.geolocation.getCurrentPosition(
+//   position => console.log(position),
+//   err => console.error(err)
+// );
+
+console.log('Getting Position');
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    //   navigator.geolocation.getCurrentPosition(
+    //     position => resolve(position),
+    //     err => reject(new Error(err))
+    //   );
+
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+// getPosition().then(pos => console.log(pos));
+
+const whereAmI = function () {
+  getPosition()
+    .then(pos => {
+      const { latitude: lat, longitude: lng } = pos.coords;
+      return fetch(
+        `https://geocode.xyz/${lat},${lng}?geoit=json&auth=203587146895865211996x1290`
+      );
+    })
+    .then(response => {
+      //// console.log(response);
+
+      if (!response.ok)
+        throw new Error(`Problem with Geocoding ${response.status}`);
+      return response.json();
+    })
+    .then(data => {
+      //// console.log(data);
+      console.log(`You are in ${data.city}, ${data.country}`);
+
+      return fetch(
+        `https://restcountries.com/v3.1/name/${data.country}?fullText=true`
+      );
+    })
+    .then(response => {
+      if (!response.ok) throw new Error(`Country not found ${response.status}`);
+
+      return response.json();
+    })
+    .then(data => renderCountry(data[0]))
+    .catch(err => console.error(`${err.message} 💥`))
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
+    });
+};
+
+btn.addEventListener('click', whereAmI);
+
+*/
+
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+
+// 261. Coding Challenge #2
+/*
+const imgContainer = document.querySelector('.images');
+
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+const createImage = function (imagePath) {
+  return new Promise(function (resolve, reject) {
+    const img = document.createElement('img');
+    img.src = imagePath;
+
+    img.addEventListener('load', function () {
+      imgContainer.append(img);
+      resolve(img);
+    });
+
+    img.addEventListener('error', function () {
+      reject(new Error('Failed to load image'));
+    });
+  });
+};
+
+let currentImage;
+createImage('img/img-1.jpg')
+  .then(img => {
+    currentImage = img;
+    console.log(`Image 1 loaded`);
+    return wait(2);
+  })
+  .then(() => {
+    currentImage.style.display = 'none';
+    return createImage('img/img-2.jpg');
+  })
+  .then(img => {
+    currentImage = img;
+    console.log(`Image 2 loaded`);
+    return wait(2);
+  })
+  .then(() => {
+    currentImage.style.display = 'none';
+    return createImage('img/img-3.jpg');
+  })
+  .then(img => {
+    currentImage = img;
+    console.log(`Image 3 loaded`);
+    return wait(2);
+  })
+  .then(() => (currentImage.style.display = 'none'))
+  .catch(err => console.log(err));
+// createImage('img/img-2.jpg');
+// createImage('img/img-3.jpg');
+// createImage('img/img-4.jpg');
+*/
+
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+
+//// 263. Error Handling With try...catch
+//// 264. Returning Values from Async Functions
+//// 265. Running Promises in Parallel
+//// 266. Other Promise Combinators: race, allSettled and any
+//// 267. Coding Challenge #3
+
+// 262. Consuming Promises with Async/Await
+//-> Since ES 17 there is an easier way of consuming promises, and that is async/await
+
+//>> Inside a async function we can have one or more await
+
+const whereAmI = async function (country) {
+  await fetch(`https://restcountries.com/v3.1/name/${country}?fullText=true`);
+};

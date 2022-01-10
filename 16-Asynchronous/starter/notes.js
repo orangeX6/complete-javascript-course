@@ -300,3 +300,56 @@ console.log(request); // outputs Promise Object
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
+
+// 257. Asynchronous Behind the Scenes: The Event Loop
+//>>Components of Javascript Runtime Env -
+//>> 1. JavaScript Engine
+//*     1.1 HEAP
+//*     2.2 CALL STACK
+//>> 2.  Callback queue
+//>> 3.  Event Loop
+//>> 4.  Web APIs
+//*     4.1 DOM
+//*     4.2 Timers
+//*     4.3 FetchAPI
+//*     4.4 etc....
+
+//? JS only has one thread. How can the asynchronous code be executed in a non blocking way if there is only one thread of execution in the engine?
+//-> WEB APIs Environment is where asynchronous tasks run.
+//>> Async tasks examples - timers, ajax calls, load image, etc
+
+//>> Callbacks related to promises do not actually go to the callback queue.
+//-> Callbacks of promises have a special queue for themselves which is called as MICRO TASKS QUEUE.
+//-> The special thing about MICRO TASKS QUEUE is that it has priority over the CALLBACK QUEUE.
+//-> We call the callbacks from promises as micro tasks and therefore the name MicroTasks Queue
+//>> The event loop prioritizes MicroTasks queue over the callback queue and hence if there are like too many MicroTasks then they can basically starve the callback queue. This is not a problem usually, just FYI.
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+// 259. Building a Simple Promise
+
+//>> We create new promise using the promise constructor.
+//* Promises are just a special kind of object in JS
+//-> Takes one argument i.e executor function
+//*  As soon as the promise constructor runs, it will automatically execute the executor function.
+//* And as it executes this function, it will do so by passing in two other arguments.
+//* And those arguments are the resolve and reject functions.
+
+//-> PROMISIFYING
+//>> Promisifying means to convert callback based asynchronous behavior to promise based.
