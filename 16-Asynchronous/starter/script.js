@@ -263,6 +263,7 @@ setTimeout(() => {
 
 const getJSON = function (url, errorMsg = 'Something went wrong') {
   return fetch(url).then(response => {
+    ////Error message
     if (!response.ok) throw new Error(`${errorMsg} (${response.status})`);
 
     return response.json();
@@ -525,60 +526,52 @@ btn.addEventListener('click', whereAmI);
 
 // 261. Coding Challenge #2
 /*
-const imgContainer = document.querySelector('.images');
-
 const wait = function (seconds) {
-  return new Promise(function (resolve) {
-    setTimeout(resolve, seconds * 1000);
-  });
+  return new Promise(resolve => setTimeout(resolve, seconds * 1000));
 };
 
-const createImage = function (imagePath) {
-  return new Promise(function (resolve, reject) {
+const imageContainer = document.querySelector('.images');
+
+const createImage = function (imgPath) {
+  return new Promise(function (response, reject) {
     const img = document.createElement('img');
-    img.src = imagePath;
+    img.src = imgPath;
 
     img.addEventListener('load', function () {
-      imgContainer.append(img);
-      resolve(img);
+      imageContainer.append(img);
+      response(img);
     });
 
     img.addEventListener('error', function () {
-      reject(new Error('Failed to load image'));
+      reject(new Error('Image not found'));
     });
   });
 };
 
-let currentImage;
+let currentImg;
 createImage('img/img-1.jpg')
   .then(img => {
-    currentImage = img;
-    console.log(`Image 1 loaded`);
+    currentImg = img;
     return wait(2);
   })
   .then(() => {
-    currentImage.style.display = 'none';
+    currentImg.style.display = 'none';
     return createImage('img/img-2.jpg');
   })
   .then(img => {
-    currentImage = img;
-    console.log(`Image 2 loaded`);
+    currentImg = img;
     return wait(2);
   })
   .then(() => {
-    currentImage.style.display = 'none';
+    currentImg.style.display = 'none';
     return createImage('img/img-3.jpg');
   })
   .then(img => {
-    currentImage = img;
-    console.log(`Image 3 loaded`);
+    currentImg = img;
     return wait(2);
   })
-  .then(() => (currentImage.style.display = 'none'))
-  .catch(err => console.log(err));
-// createImage('img/img-2.jpg');
-// createImage('img/img-3.jpg');
-// createImage('img/img-4.jpg');
+  .then(() => (currentImg.style.display = 'none'))
+  .catch(err => console.error(`${err.message}`));
 */
 
 ///////////////////////////////////////
@@ -587,17 +580,318 @@ createImage('img/img-1.jpg')
 ///////////////////////////////////////
 ///////////////////////////////////////
 
-//// 263. Error Handling With try...catch
-//// 264. Returning Values from Async Functions
-//// 265. Running Promises in Parallel
-//// 266. Other Promise Combinators: race, allSettled and any
-//// 267. Coding Challenge #3
-
 // 262. Consuming Promises with Async/Await
+// 263. Error Handling With try...catch
+// 264. Returning Values from Async Functions
+
 //-> Since ES 17 there is an easier way of consuming promises, and that is async/await
 
 //>> Inside a async function we can have one or more await
+//? Its just a syntactic sugar over the then method.
+//? fetch(`https://restcountries.com/v3.1/name/${country}?fullText=true`).then(res=> console.log(res);)
 
-const whereAmI = async function (country) {
-  await fetch(`https://restcountries.com/v3.1/name/${country}?fullText=true`);
+/*TRY CATCH EXAMPLE */
+// try {
+//   let y = 1;
+//   const x = 2;
+//   x = 3;
+// } catch (err) {
+//   alert(`${err.message}`);
+// }
+/*
+////Promisifying GeoLocation
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
 };
+
+const whereAmI = async function () {
+  try {
+    ////GeoLocation
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
+
+    ////Reverse GeoCoding
+    const resGeo = await fetch(
+      `https://geocode.xyz/${lat},${lng}?geoit=json&auth=203587146895865211996x1290`
+    );
+    if (!resGeo.ok) throw new Error('Problem getting location data');
+
+    const dataGeo = await resGeo.json();
+    console.log(dataGeo);
+
+    ////RestCountries - Country data
+    const res = await fetch(
+      `https://restcountries.com/v3.1/name/${dataGeo.country}?fullText=true`
+    );
+    if (!res.ok) throw new Error('Problem getting country');
+
+    const data = await res.json();
+    console.log(data);
+    renderCountry(data[0]);
+
+    return `You are in ${dataGeo.city}, ${dataGeo.country}`;
+  } catch (err) {
+    console.error(`CUSTOM MESSAGE ${err}`);
+    renderError(`💥 ${err.message} `);
+
+    //// Reject promise returned from async function
+    throw err;
+  }
+};
+
+//! So this won't work
+// const city = whereAmI();
+// console.log(city); //returns Promise<pending>
+//-> Since async function returns a promise we can use then on it to get the returned value
+////Even if the async function fails, it will still fulfill the promise and hence then will be executed no matter what.
+//// To fix this we have to manually reject promise from catch block of async function
+//? And we do that by re-throwing the error from catch so that we can propagate it down.
+
+// console.log('1: Will get location');
+// whereAmI()
+// .then(city => console.log(`2: ${city}`))
+// .catch(err => console.error(`2: ${err.message} 💥`))
+// .finally(() => console.log('3: Finished Getting Location.'));
+// console.log(
+//   '4: Finished getting location. Will get executed before the async function'
+//   );
+
+//-> Converting the above to async-await as well
+//>> USING iify here (Immediately invoked func)
+console.log('1: Will get location');
+(async function () {
+  try {
+    const city = await whereAmI();
+    console.log(`2: ${city}`);
+  } catch (err) {
+    console.error(`2: ${err.message} 💥`);
+  }
+  ////finally (Executed no matter what)
+  console.log('3: Finished Getting Location.');
+})();
+*/
+
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+
+// 265. Running Promises in Parallel
+//>> Get data of 3 countries at same time
+//-> Promise.all() is a COMBINATOR METHOD
+//-> Promise.all() - Takes an array of promises and returns a new promise which will then run all the promises in the array at the same time
+//! Promise.all() short circuits when one promise rejects
+
+const get3Countries = async function (c1, c2, c3) {
+  try {
+    // const [data1] = await getJSON(
+    //   `https://restcountries.com/v3.1/name/${c1}?fullText=true`
+    // );
+    // const [data2] = await getJSON(
+    //   `https://restcountries.com/v3.1/name/${c2}?fullText=true`
+    // );
+    // const [data3] = await getJSON(
+    //   `https://restcountries.com/v3.1/name/${c3}?fullText=true`
+    // );
+
+    const data = await Promise.all([
+      getJSON(`https://restcountries.com/v3.1/name/${c1}?fullText=true`),
+      getJSON(`https://restcountries.com/v3.1/name/${c2}?fullText=true`),
+      getJSON(`https://restcountries.com/v3.1/name/${c3}?fullText=true`),
+    ]);
+
+    // console.log([data1.capital, data2.capital, data3.capital]);
+    console.log(data.map(d => d[0].capital));
+  } catch (err) {
+    console.error(`${err}`);
+  }
+};
+
+// get3Countries('india', 'South Korea', 'tanzania');
+
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+
+// 266. Other Promise Combinators: race, allSettled and any
+/*
+//->> 1. Promise.race
+//>> Receives in an array of promises, and returns a promise. This promise returned by promise.race is settled as soon as one of the input promise settles.
+
+const getJSON2 = async function (url, errMsg = 'Something went wrong') {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`${errMsg} (${response.status})`);
+
+  return await response.json();
+};
+
+(async function () {
+  const res = await Promise.race([
+    getJSON2(`https://restcountries.com/v3.1/name/italy?fullText=true`),
+    getJSON2(`https://restcountries.com/v3.1/name/india?fullText=true`),
+    getJSON2(`https://restcountries.com/v3.1/name/canada?fullText=true`),
+  ]);
+
+  console.log(res[0], res[0].name);
+})();
+
+const timeout = function (sec) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error('Request took too long!!'));
+    }, sec * 1000);
+  });
+};
+
+Promise.race([
+  getJSON2(`https://restcountries.com/v3.1/name/italy?fullText=true`),
+  timeout(0.4),
+])
+  .then(res => console.log(res[0]))
+  .catch(err => console.error(err));
+
+//->> Promise.allSettled (ES 2020)
+//>> It takes in an array of promises and returns and it will simply return an array of all the settled promises.
+//? No matter if the any of the promises got rejected or not
+
+Promise.allSettled([
+  Promise.resolve('Success'),
+  Promise.reject('ERROR'),
+  Promise.resolve('Another Success'),
+  Promise.resolve('Success'),
+]).then(res => console.log(res));
+
+Promise.all([
+  Promise.resolve('Success'),
+  Promise.reject('ERROR'),
+  Promise.resolve('Another Success'),
+  Promise.resolve('Success'),
+])
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+//->> Promise.any (ES 2021)
+//>> Promise.any takes in an array of multiple promises and then returns the first fulfilled promise
+
+Promise.any([
+  Promise.reject('Success'),
+  Promise.reject('ERROR'),
+  Promise.resolve('Another Success'),
+  Promise.resolve('Success'),
+])
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+  */
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+///////////////////////////////////////
+
+// 267. Coding Challenge #3
+
+const wait = function (seconds) {
+  return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+};
+
+const imageContainer = document.querySelector('.images');
+
+const createImage = function (imgPath) {
+  return new Promise(function (response, reject) {
+    const img = document.createElement('img');
+    img.src = imgPath;
+
+    img.addEventListener('load', function () {
+      imageContainer.append(img);
+      response(img);
+    });
+
+    img.addEventListener('error', function () {
+      reject(new Error('Image not found'));
+    });
+  });
+};
+/*
+let currentImg;
+createImage('img/img-1.jpg')
+  .then(img => {
+    currentImg = img;
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = 'none';
+    return createImage('img/img-2.jpg');
+  })
+  .then(img => {
+    currentImg = img;
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = 'none';
+    return createImage('img/img-3.jpg');
+  })
+  .then(img => {
+    currentImg = img;
+    return wait(2);
+  })
+  .then(() => (currentImg.style.display = 'none'))
+  .catch(err => console.error(`${err.message}`));
+*/
+
+/*
+////Part 1
+const loadNPause = async function () {
+  try {
+    ////Load Images
+    let img = await createImage('img/img-1.jpg');
+    console.log('Image 1 Loaded');
+    await wait(2);
+    img.style.display = 'none';
+
+    img = await createImage('img/img-2.jpg');
+    console.log('Image 2 Loaded');
+    await wait(2);
+    img.style.display = 'none';
+
+    img = await createImage('img/img-3.jpg');
+    console.log('Image 3 Loaded');
+    await wait(2);
+    img.style.display = 'none';
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+
+(async function () {
+  try {
+    await loadNPause();
+    console.log('done');
+  } catch (err) {
+    console.log(err);
+  }
+})();
+
+*/
+
+const loadAll = async function (imgArr) {
+  try {
+    const imgs = await imgArr.map(async img => await createImage(img));
+
+    const imgEl = await Promise.all(imgs);
+    imgEl.forEach(img => img.classList.add('parallel'));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const imgPath = ['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg'];
+
+loadAll(imgPath);
