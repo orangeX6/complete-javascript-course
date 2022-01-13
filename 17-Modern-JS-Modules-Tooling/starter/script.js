@@ -56,4 +56,39 @@ const getLastPost = async function () {
 const lastPost2 = await getLastPost();
 console.log(lastPost2);
 
-//EXAMPLE 2
+//-> 274
+const ShoppingCart2 = (function () {
+  const cart = [];
+  const shippingCost = 10;
+  const totalPrice = 237;
+  const totalQuantity = 23;
+
+  const addToCart = function (product, quantity) {
+    cart.push({ product, quantity });
+    console.log(
+      `${quantity} ${product} added to cart. (Shipping Cost is ${shippingCost})`
+    );
+  };
+
+  const orderStock = function (product, quantity) {
+    console.log(`${quantity} ${product} ordered from the supplier`);
+  };
+
+  return {
+    addToCart,
+    cart,
+    totalPrice,
+    totalQuantity,
+  };
+})();
+
+ShoppingCart2.addToCart('pineapple', 4);
+ShoppingCart2.addToCart('pizza', 2);
+
+//? How do we have access to cart variable and are even able to manipulate it ? even though the function has returned long ago?
+//-> CLOSURES
+console.log(ShoppingCart2);
+console.log(ShoppingCart2.shippingCost); //returns undefined as we are not returning it. but the addToCart() can still access it due to closure
+console.log(ShoppingCart2.cart); // Get cart with mutated values as we have added values to it with addToCart method. This works due to closure
+
+//-> 275 CommonJS
