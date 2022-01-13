@@ -1,3 +1,4 @@
+/*
 //-> 272
 ////Importing Module
 // import { addToCart, totalPrice as price, tq } from './shoppingCart.js';
@@ -90,5 +91,21 @@ ShoppingCart2.addToCart('pizza', 2);
 console.log(ShoppingCart2);
 console.log(ShoppingCart2.shippingCost); //returns undefined as we are not returning it. but the addToCart() can still access it due to closure
 console.log(ShoppingCart2.cart); // Get cart with mutated values as we have added values to it with addToCart method. This works due to closure
-
+*/
 //-> 275 CommonJS
+import cloneDeep from '../../node_modules/lodash-es/cloneDeep.js';
+
+const state = {
+  cart: [
+    { product: 'bread', quantity: 5 },
+    { product: 'pizza', quantity: 5 },
+  ],
+  user: { loggedIn: true },
+};
+
+const stateClone = Object.assign({}, state);
+const stateDeepClone = cloneDeep(state);
+state.user.loggedIn = false;
+
+console.log(stateClone);
+console.log(stateDeepClone);

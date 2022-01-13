@@ -162,3 +162,8 @@ const {addToCart} = require('./shoppingCart.js');
 // 277. Introduction to NPM
 //-> NPM stands for Node Package Manager
 //-> Its both a software on our computer and a package repository
+
+//!!! NEVER include the node module package,package.json file while uploading it to github.
+//-> In case you delete the node module package, u can simply get it back by the following command
+//>> npm i
+//-> It will check the dependencies in package.json file and install all the packages with their version numbers
