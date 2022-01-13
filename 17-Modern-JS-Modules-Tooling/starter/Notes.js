@@ -160,3 +160,5 @@ const {addToCart} = require('./shoppingCart.js');
 /////////////////////////////////////////////////
 
 // 277. Introduction to NPM
+//-> NPM stands for Node Package Manager
+//-> Its both a software on our computer and a package repository
