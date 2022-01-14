@@ -347,3 +347,5 @@ const doubled = arr.map(num => num * 2);
 
 //->> Object.freeze({jonas: 'jonas'})
 //>> Makes an object immutable. You cannot put any new properties on it.
+
+//Object.freeze is not a deep freeze, we can still change objects inside of the object
