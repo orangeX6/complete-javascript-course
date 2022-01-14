@@ -22,6 +22,7 @@ console.log('Importing module');
 // import add from './shoppingCart.js';
 // add('pizza', 2);
 // add('bread', 5);
+*/
 
 //// Live connection Example.
 import { addToCart, cart } from './shoppingCart.js';
@@ -54,8 +55,8 @@ const getLastPost = async function () {
 // lastPost.then(last => console.log(last));
 
 //>> Doing the same with top level await
-const lastPost2 = await getLastPost();
-console.log(lastPost2);
+// const lastPost2 = await getLastPost();
+// console.log(lastPost2);
 
 //-> 274
 const ShoppingCart2 = (function () {
@@ -91,9 +92,12 @@ ShoppingCart2.addToCart('pizza', 2);
 console.log(ShoppingCart2);
 console.log(ShoppingCart2.shippingCost); //returns undefined as we are not returning it. but the addToCart() can still access it due to closure
 console.log(ShoppingCart2.cart); // Get cart with mutated values as we have added values to it with addToCart method. This works due to closure
-*/
+
 //-> 275 CommonJS
-import cloneDeep from '../../node_modules/lodash-es/cloneDeep.js';
+// import cloneDeep from '../../node_modules/lodash-es/cloneDeep.js';
+// import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+import cloneDeep from 'lodash-es';
+// import cloneDeep from 'lodash';
 
 const state = {
   cart: [
@@ -109,3 +113,32 @@ state.user.loggedIn = false;
 
 console.log(stateClone);
 console.log(stateDeepClone);
+
+//-> 278,279
+//>> WE CAN MAINTAIN THE STATES OF THE OBJECTS USING THE FOLLOWING
+//* NOTICE THE OBJECT AFTER EACH RELOAD. LINE 33 console.log(cart) */
+if (module.hot) {
+  module.hot.accept();
+}
+
+//? Using features still not officially part of JS -
+
+class Person {
+  #greeting = 'Hey';
+  constructor(name) {
+    this.name = name;
+    console.log(`${this.#greeting}, ${this.name}`);
+  }
+}
+
+const pranav = new Person('Pranav');
+
+console.log(cart.find(el => el.quantity >= 2));
+Promise.resolve(1).then(() => console.log('Promise resolved'));
+
+//Polyfilling
+//Library Polyfilling ( Methods like array.find())
+import 'core-js/stable';
+
+//Polyfilling async function
+import 'regenerator-runtime/runtime';

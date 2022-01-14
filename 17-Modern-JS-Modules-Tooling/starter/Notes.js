@@ -164,6 +164,9 @@ const {addToCart} = require('./shoppingCart.js');
 //-> Its both a software on our computer and a package repository
 
 //!!! NEVER include the node module package,package.json file while uploading it to github.
+//->> Initialize npm
+//>> npm init
+
 //-> In case you delete the node module package, u can simply get it back by the following command
 //>> npm i
 //-> It will check the dependencies in package.json file and install all the packages with their version numbers
@@ -175,3 +178,118 @@ const {addToCart} = require('./shoppingCart.js');
 /////////////////////////////////////////////////
 
 // 278. Bundling With Parcel and NPM Scripts
+//-> INSTALLING PARCEL
+//>> npm i parcel --save-dev
+//? Installing a specific version>?
+//* npm i parcel@1.12.4
+//->INSTALLING PACKAGES GLOBALLY
+//* npm i parcel -g
+// A dev dependency is basically a tool we need to build an application, but not a dependency that we actually include in our code
+
+// There are two ways to use parcel -
+//* 1. npx
+//>> IN WORKING DIRECTORY
+//-> npx parcel index.html
+
+//* 2. npm scripts (HOW WE OFTEN USE)
+//>> Add the following in scripts tag in package.json
+//->> "start" : "parcel index.html",
+//>> And then in terminal just simply type
+//->> npm run start
+
+//>> Whenever we are done developing the project, it is time to build the final bundle, a bundle which is compressed and has code elimination
+// For that we need another parcel command
+//>> Add the following in scripts tag in package.json
+//-> "build": "parcel build index.html"
+
+//->>/////////////// MAINTAINING STATE \\\\\\\\\\\\\\\\\<<-
+//>>WITH PARCEL WE CAN MAINTAIN THE STATES OF THE OBJECTS USING THE FOLLOWING
+//? The data in the object is not reloaded every time we reload the page.
+/*
+if (module.hot) {
+  module.hot.accept();
+}
+ */
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+// 279. Configuring Babel and Polyfilling
+//>> Babel Converts modern js to old js so as to support older browsers
+//>> Parcel automatically uses Babel.
+//Babel works with presets and plugins.
+//Plugins means for eg, a plugin to change only arrow functions to javascript pre ES 2015.
+//But using plugins doesn't make sense as we would like to change everything
+//>>? Different presets are -
+//* Different presets are -
+//1. @babel/preset-env
+//2. @babel/preset-flow
+//3. @babel/preset-react
+//4. @babel/preset-typescript
+
+//*Focusing on preset-env
+//>>Preset-env doesn't support js which are not yet part of the language, just final features
+//!So features that have not passed the 4 stages of ECMA process are still not included
+
+//Polyfilling
+import 'core-js/stable';
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+// 280. Review: Writing Clean and Modern JavaScript
+//-> Readable Code
+//* Write code so tht others can understand it
+//* Write code so that you can understand it in 1 year
+//* Avoid too 'clever' and 'complex' solutions
+//* Use descriptive variable names: what they contain
+//* Use descriptive function names: what they do
+
+//-> General
+//* Use DRY principles(refactor)
+//* Don't pollute the global namespace, encapsulate your code in modules
+//* Don't use var
+//* Use strong type checks(=== and !==)
+
+//-> Functions
+//* Generally, functions should do only one thing
+//* Don't use too many parameters
+//* Use default parameters when possible
+//* Generally, return the same data type as the function's input
+//* Use arrow functions when they make code more readable
+
+//-> OOP
+//* Use ES6 classes
+//* Encapsulate data and don't mutate it from outside the class
+//* Implement method chaining
+//* Do NOT use arrow functions as methods(in regular objects)
+
+//-> Avoid Nested Code
+//* Use early returns(guard clauses)
+//* Use ternary(conditional) or logical operators instead of if
+//* Use multiple if statements instead of nested if/else statements
+//* Avoid for loops, use array methods instead
+//* Avoid callback-based asynchronous api
+
+//-> Asynchronous Code
+//* Consume promises with async/await for better readability
+//* Whenever possible, run promises in parallel(Promise.all)
+//* Handle errors and promises rejection
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+// 281. Let's Fix Some Bad Code: Part 1
+//clean.js file
+
+// 282. Declarative and Functional JavaScript Principles
+// 283. Let's Fix Some Bad Code: Part 2
