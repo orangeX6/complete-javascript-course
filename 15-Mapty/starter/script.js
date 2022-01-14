@@ -146,6 +146,7 @@ class App {
 
     //Handling Clicks on Map
     this.#map.on('click', this._showForm.bind(this));
+    // this.#map.on('click', e => console.log(e, this));
 
     //Render the markers
     this.#workouts.forEach(work => {
@@ -155,6 +156,8 @@ class App {
 
   //>> DISPLAY FORM
   _showForm(mapE) {
+    //Here mapE is the event and this is the object where we want the eventListener to point to.
+    // console.log(mapE, this);
     this.#mapEvent = mapE;
     form.classList.remove('hidden');
     inputDistance.focus();

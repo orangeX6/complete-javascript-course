@@ -533,10 +533,10 @@ bmw.accelerate();
 /*
 //? Its just a different syntax, works the same way
 
-//* Class declaration
+//* Class expression
 //-> const PersonCl = class {};
 
-//*Class Expression
+//*Class declaration
 //-> class PersonCl {}
 
 class PersonCl {
