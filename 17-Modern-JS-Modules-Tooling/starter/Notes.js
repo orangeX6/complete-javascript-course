@@ -291,5 +291,59 @@ import 'core-js/stable';
 // 281. Let's Fix Some Bad Code: Part 1
 //clean.js file
 
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
 // 282. Declarative and Functional JavaScript Principles
+//>> Imperative vs Declarative
+//-> Imperative -
+//* Programmer explains 'How to do things'
+//* We Explain the computer every single step it has to follow to achieve the result
+//* Example: step by step recipe to make a cake
+//Example: doubling the array
+/*
+const arr = [1, 2, 3, 4, 5];
+const doubled = [];
+for (let i = 0; i < arr.length; i++) {
+  doubled[i] = arr[i] * 2;
+}
+*/
+
+//-> Declarative -
+//>> Programmer tells 'What to do'
+//>> We simply describe the way the computer should do the job
+//>> The HOW(step - by step instructions) gets abstracted away
+//>> Example: Description of the cake
+//Example: doubling the array
+/*
+const arr = [1, 2, 3, 4, 5];
+const doubled = arr.map(num => num * 2);
+*/
+
+//->> Functional Programming
+//* Declarative programming paradigm
+//* Based on the idea of writing software by combining many pure functions, avoiding side effects and mutating data.
+
+//! Side effects:
+//Modifications(mutation) of any data outside of the function(mutating external variables, logging to the console,writing to DOM etc)
+
+//>> Pure functions:
+//* Functions that do not have side effects Does not depend on external variables. Given the same inputs, always return the same outputs
+
+//>> Immutability:
+//* State (data) is never modified! Instead, state is copied and the copy is mutated and returned.
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
 // 283. Let's Fix Some Bad Code: Part 2
+//clean.js file
+
+//->> Object.freeze({jonas: 'jonas'})
+//>> Makes an object immutable. You cannot put any new properties on it.
