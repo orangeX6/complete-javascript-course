@@ -1,5 +1,3 @@
-//// Contain a couple of functions we use over and over in our module
-
 import { TIMEOUT_SEC } from './config.js';
 
 const timeout = function (s) {

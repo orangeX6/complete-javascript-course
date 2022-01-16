@@ -886,7 +886,6 @@ Car.prototype.brake = function () {
 const bmw = new Car('BMW', 120);
 bmw.accelerate();
 bmw.brake();
-
 const EV = function (make, speed, charge) {
   Car.call(this, make, speed);
   this.charge = charge;
