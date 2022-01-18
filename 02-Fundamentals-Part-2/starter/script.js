@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /*
 //Activating strict mode
 
@@ -452,14 +452,13 @@ while (dice !== 6) {
 
 */
 
-const bills = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52]
+const bills = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
 let tips = [];
 let totals = [];
 
 let calcTip = function (bill) {
-  return bill > 49 && bill < 301 ? bill * 0.15 : bill * 0.2
-}
-
+  return bill > 49 && bill < 301 ? bill * 0.15 : bill * 0.2;
+};
 
 for (let i = 0; i < bills.length; i++) {
   tips.push(calcTip(bills[i]));
@@ -468,16 +467,53 @@ for (let i = 0; i < bills.length; i++) {
 
 let calcAvg = function (arr) {
   let sum = 0;
-  let avg = 0
+  let avg = 0;
   for (let i = 0; i < arr.length; i++) {
     sum += arr[i];
   }
   return sum / arr.length;
-}
+};
 
 console.log(bills);
 console.log(tips);
-console.log(totals)
+console.log(totals);
 
-console.log(calcAvg(totals))
-console.log(calcAvg(tips))
+console.log(calcAvg(totals));
+console.log(calcAvg(tips));
+
+const numberToFraction = function (amount) {
+  debugger;
+  // This is a whole number and doesn't need modification.
+  if (parseFloat(amount) === parseInt(amount)) {
+    return amount;
+  }
+  // Next 12 lines are cribbed from https://stackoverflow.com/a/23575406.
+  const gcd = function (a, b) {
+    if (b < 0.0000001) {
+      return a;
+    }
+    return gcd(b, Math.floor(a % b));
+  };
+
+  const len = amount.toString().length - 2;
+  let denominator = Math.pow(10, len);
+
+  let numerator = amount * denominator;
+  let divisor = gcd(numerator, denominator);
+  numerator /= divisor;
+  denominator /= divisor;
+  let base = 0;
+  // In a scenario like 3/2, convert to 1 1/2
+  // by pulling out the base number and reducing the numerator.
+  if (numerator > denominator) {
+    base = Math.floor(numerator / denominator);
+    numerator -= base * denominator;
+  }
+  amount = Math.floor(numerator) + '/' + Math.floor(denominator);
+  if (base) {
+    amount = base + ' ' + amount;
+  }
+  return amount;
+};
+
+console.log(numberToFraction(0.67));
