@@ -43,3 +43,16 @@
 //>> a publisher is some code that knows when to react.
 //>> A subscriber is a code that wants to react. The code which should be executed when the event happens
 //in forkify it will be addHandlerRender() function because it will contain the event listener method
+
+//->> 301
+//// createContextualFragment - converts string to real DOM Node object
+//// document.createRange().createContextualFragment(newMarkup)
+//// newEl.isEqualNode(el) - a method available on all nodes to compare
+//// nodeValue - property of the node interface. returns or sets the value of current node
+
+//->> 309
+// Writing documentations in javascript.
+//>> GO TO View.js
+//>> VISIT jsdoc for more info
+//->> jsdoc.app
+//>> When you hover over the function for whom the comment is written you can get the information about the function in any file in the program
