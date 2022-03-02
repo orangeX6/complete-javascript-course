@@ -17,7 +17,7 @@ const Person = function (firstName, birthYear) {
 const jonas = new Person('Jonas', 1991);
 console.log(jonas);
 
-// 1. New {} is created
+// 1. New empty obj {} is created
 // 2. function is called, this = {}
 // 3. {} linked to prototype
 // 4. function automatically return {}
@@ -304,6 +304,7 @@ const Student = function (firstName, birthYear, course) {
 
 // Linking prototypes
 Student.prototype = Object.create(Person.prototype);
+Student.prototype.constructor = Student;
 
 Student.prototype.introduce = function () {
   console.log(`My name is ${this.firstName} and I study ${this.course}`);
