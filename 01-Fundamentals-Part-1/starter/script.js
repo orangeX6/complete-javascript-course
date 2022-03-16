@@ -277,3 +277,20 @@ const tipsy = bill > 49 && bill < 299 ? bill * 0.15 : bill * 0.2;
 console.log(`The bill was ${bill}, the tip was ${tipsy} and the total value is 
  ${bill + tipsy}`);
 */
+
+// const btn = document.querySelector('.input');
+// {
+//   /* <label for="fname">First name:</label><br />
+// <input type="text" id="fname" name="fname" /><br />
+// <label for="lname">Last name:</label><br />
+// <input type="text" id="lname" name="lname" />
+// <button class="input">submit</button> */
+// }
+// btn.addEventListener('click', e => {
+//   e.preventDefault();
+//   const fir = document.getElementById('fname').value;
+
+//   alert(fir + 'Form submitted');
+// });
+
+console.log('NOOOOOOOOOOOOOOOOOOO ');

@@ -76,7 +76,7 @@
 //  document.documentElement
 //  document.head
 //  document.body
-
+// document.documentElement.style.setProperty('--color-primary', 'orange')
 //EventTarget
 //  .addEventListener()
 //  .removeEventListener()
