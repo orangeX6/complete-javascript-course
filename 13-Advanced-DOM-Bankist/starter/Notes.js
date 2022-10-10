@@ -297,7 +297,7 @@ console.log(h1.parentElement.children);
 //? 194.
 // TABBED COMPONENT
 //* Guard Class - Basically an if statement which will return early if a condition is matched
-if (!clicked) return;
+// * if (!clicked) return;
 
 ///////////////////////////////////////
 ///////////////////////////////////////

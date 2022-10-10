@@ -132,7 +132,6 @@ const game = {
 //9,23 STRING METHODS PRACTICE
 //(Keeping this here //£)
 
-/*
 //
 //
 //
@@ -140,8 +139,9 @@ const game = {
 //
 //
 //
+/* 
 
-//9.1 DESTRUCTURING ARRAYS 
+//9.1 DESTRUCTURING ARRAYS
 //We use [] brackets to destructure arrays
 const arr = [2, 3, 4];
 
@@ -163,7 +163,6 @@ console.log(first, second);
 //fetching the first and third element
 let [main, , secondary] = restaurant.categories;
 console.log(main, secondary);
-
 
 //Switching variables ( Mutating)
 //Without destructuring
@@ -275,7 +274,6 @@ restaurant.orderDelivery({
 //
 //
 //
-
 //9.3 THE SPREAD OPERATOR (...)
 //Spread operator expands the array into all its elements, basically unpacking all the array elements at once.
 
@@ -287,9 +285,9 @@ console.log(badNewArr); //outputs [1, 2, 7, 8, 9]
 const newArr = [1, 2, ...arr];
 console.log(newArr); //outputs [1, 2, 7, 8, 9]
 console.log(...newArr); //outputs 1 2 7 8 9
-//When we need the individual elements of the array we use spread operator, and that is useful when we write an array and we pass multiple elements into a function
+//-> When we need the individual elements of the array we use spread operator, and that is useful when we write an array and we pass multiple elements into a function
 
-//Difference in array destructuring and spread operator is spread operator takes all the elements out from the array and doesnt create new variables and as a consequence we can only use it in places where we write values seperated by commas.
+//-> Difference in array destructuring and spread operator is spread operator takes all the elements out from the array and doesnt create new variables and as a consequence we can only use it in places where we write values seperated by commas.
 
 const newMenu = [...restaurant.mainMenu, 'Gnocchi'];
 console.log(newMenu);
@@ -411,6 +409,7 @@ restaurant.orderPizza('mushrooms', 'garlic');
 //
 //
 //
+
 
 //9.5 SHORT CIRCUITING (&&  and ||)
 //Properties of logical operators -
@@ -894,7 +893,7 @@ console.log(scores);
 //
 
 
-
+*/
 
 //9.14 SETS
 //A set is just a collection of unique values.
@@ -964,8 +963,7 @@ console.log(new Set('pranavnaringrekar').size);
 //
 //
 
-
-
+/*
 
 //9.15 MAPS: FUNDAMENTALS
 // A map is a data structure used to map values to keys.
@@ -1778,3 +1776,92 @@ currenciesUnique.forEach((value, key, map) => {
   console.log(`${key}: ${value}`); //both value and key will be same as set dont have a key or an index
 });
 */
+
+const game2 = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    [
+      'Neuer',
+      'Pavard',
+      'Martinez',
+      'Alaba',
+      'Davies',
+      'Kimmich',
+      'Goretzka',
+      'Coman',
+      'Muller',
+      'Gnarby',
+      'Lewandowski',
+    ],
+    [
+      'Burki',
+      'Schulz',
+      'Hummels',
+      'Akanji',
+      'Hakimi',
+      'Weigl',
+      'Witsel',
+      'Hazard',
+      'Brandt',
+      'Sancho',
+      'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+  printGoals(...players) {
+    console.log(players);
+    console.log(`${players.length} goals were scored`);
+  },
+};
+
+// const [player1, player2] = [...game.players];
+// console.log(player1, player2);
+
+// const [gk, ...fieldPlayers] = player1;
+// console.log(gk, fieldPlayers);
+
+// const allPlayers = [...player1, ...player2];
+// console.log(allPlayers);
+
+// const players1Final = [...player1, 'Thiago', 'x', 'y'];
+// console.log(players1Final);
+
+// const {
+//   odds: { team1, x: draw, team2 },
+// } = game;
+// console.log(team1, draw, team2);
+
+// game2.printGoals('Davies', 'Muller', 'Lewandowski', 'Kimich');
+// game2.printGoals(...game.scored);
+
+for (const [i, player] of game.scored.entries()) {
+  console.log(`Goal ${i + 1}: ${player}`);
+}
+
+let average = 0;
+for (const odds of Object.values(game.odds)) {
+  average += odds;
+}
+console.log(average / Object.values(game.odds).length);
+
+for (const [key, value] of Object.entries(game.odds)) {
+  let team = game[key] || 'draw';
+  console.log(`Odd of victory ${team}: ${value}`);
+}
+
+const scores = {};
+for (const value of game.scored.values()) {
+  if (scores?.[value]) {
+    console.log(scores[value]);
+  }
+  scores?.[value] ? scores[value]++ : (scores[value] = 1);
+}
+console.log(scores);

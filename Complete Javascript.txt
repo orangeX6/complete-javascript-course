@@ -51,9 +51,11 @@ Since ternary operator is an expression we can use it template literal, unlike i
 
 JS has 5 falsy values - 0, '', undefined, null, NaN
 
-
-
-
+typeof null is object
+typeof NaN is a number 
+Coercion - 
+plus operator converts numbers to strings
+minus,*,/,> operator converts string to number
 
 
 Functions 
@@ -99,116 +101,6 @@ typeof - returns type of variable. Eg - number, String, etc.
 
 
 
-Strings - 
-
-length
-indexOf
-slice
-toLowerCase
-toUpperCase
-replace
-
-stringName.length
-stringName.indexOf('stringPart')
-stringName.slice(0,3)
-stringName.toLowerCase();
-stringName.toUpperCase();
-stringName.replace('moz','van');
-
-
-
-
-
-
-
-
-
-
-
-Arrays
-
-let shopping = ['bread', 'milk', 'cheese', 'hummus', 'noodles'];
-let sequence = [1, 1, 2, 3, 5, 8, 13];
-let random = ['tree', 795, [0, 1, 2]];
-
-
-split
-toString
-join
-
-push and unshift - add to array
-pop and shift - remove from array
-
-friends.push('Rosh'); //adds element to the end of the array
-friends.unshift('Akash') // add element to the beginning of the array
-friends.shift(); //removes the first element
-friends.pop() // removes the last element
-
-//In dot notation we have to use the real property name and can not use the expression.
-// we can also store an expression in bracket notation which can hold the key 
-//For eg 
-const nameKey = 'Name'
-console.log(Pranav['first' + nameKey]);
-console.log(Pranav['last' + nameKey]);
-
-//When we need to compute the property name we have to use the bracket notation.In other cases we use the dot notation mostly
-
-
-
-
-
-
-
-
-
-
-
-DOM - Document Object Model - Is a structural representation of HTML documents. Allows Javascript to access 
-HTML elements and styles to manipulate them.
-Document - special element that is the entry point to DOM. Example - document.querySelector()
-DOM is not actually the part of javascript. It is a part of Web APIs that browser use from where we can access our JS code.
-
-
-
-
-
-
-
-
-
-
-
-//WE DONT HAVE TO WRITE BRACKETS FOR ONE LINE OF LOOP
-EG - for (let i = 0; i < btnOpenModal.length; i++)
-        console.log(btnOpenModal[i].textContent);
-
-addEventListener()
-removeEventListener()
-
-//KEYBOARD EVENTS ARE GLOBAL EVENTS, BECAUSE DO NOT HAPPEN ON ONE
-// SPECIFIC ELEMENT, AND FOR GLOBAL EVENTS LIKE KEYBOARD EVENTS, WE LISTEN ON
-// WHOLE DOCUMENTS
-Keyboard events - 1. keydown 2.keypress 3. keyup
-
-GET ELEMENT BY ID - 
-
-const score0 = document.querySelector('#score--0');
-const score1 = document.querySelector('#score--1');
-
-//THE ABOVE CAN ALSO BE WRITTEN AS
-const score0 = document.getElementById('score--0');
-const score1 = document.getElementById('score--1');
-//getElementById is faster than querySelector. We dont need to 
-use the # symbol in getElementById
-
-
-
-
-
-
-
-
-
 
 
 
@@ -218,10 +110,10 @@ JS is a high level, object oriented, multi paradigm programming language
 
 
 
-High Level 
+High Level  
 
 What is a Javascript engine? 
-A computer program that simply executed js code.
+A computer program that simply executes js code.
 Every browser has its own JS engine. 
 Chrome uses the V8 engine. It also powers nodeJS.
 Every JS engine contains 
@@ -315,6 +207,116 @@ By using an event loop : takes long running tasks, executed them in the backgrou
 
 
 
+
+
+
+
+
+
+
+
+
+DOM - Document Object Model - Is a structural representation of HTML documents. Allows Javascript to access 
+HTML elements and styles to manipulate them.
+Document - special element that is the entry point to DOM. Example - document.querySelector()
+DOM is not actually the part of javascript. It is a part of Web APIs that browser use from where we can access our JS code.
+
+
+
+
+
+
+
+
+
+
+
+//WE DONT HAVE TO WRITE BRACKETS FOR ONE LINE OF LOOP
+EG - for (let i = 0; i < btnOpenModal.length; i++)
+        console.log(btnOpenModal[i].textContent);
+
+addEventListener()
+removeEventListener()
+
+//KEYBOARD EVENTS ARE GLOBAL EVENTS, BECAUSE DO NOT HAPPEN ON ONE
+// SPECIFIC ELEMENT, AND FOR GLOBAL EVENTS LIKE KEYBOARD EVENTS, WE LISTEN ON
+// WHOLE DOCUMENTS
+Keyboard events - 1. keydown 2.keypress 3. keyup
+
+GET ELEMENT BY ID - 
+
+const score0 = document.querySelector('#score--0');
+const score1 = document.querySelector('#score--1');
+
+//THE ABOVE CAN ALSO BE WRITTEN AS
+const score0 = document.getElementById('score--0');
+const score1 = document.getElementById('score--1');
+//getElementById is faster than querySelector. We dont need to 
+use the # symbol in getElementById
+
+
+
+
+
+
+
+
+
+
+
+Strings - 
+
+length
+indexOf
+slice
+toLowerCase
+toUpperCase
+replace
+
+stringName.length
+stringName.indexOf('stringPart')
+stringName.slice(0,3)
+stringName.toLowerCase();
+stringName.toUpperCase();
+stringName.replace('moz','van');
+
+
+
+
+
+
+
+
+
+
+
+Arrays
+
+let shopping = ['bread', 'milk', 'cheese', 'hummus', 'noodles'];
+let sequence = [1, 1, 2, 3, 5, 8, 13];
+let random = ['tree', 795, [0, 1, 2]];
+
+
+split
+toString
+join
+
+push and unshift - add to array
+pop and shift - remove from array
+
+friends.push('Rosh'); //adds element to the end of the array
+friends.unshift('Akash') // add element to the beginning of the array
+friends.shift(); //removes the first element
+friends.pop() // removes the last element
+
+//In dot notation we have to use the real property name and can not use the expression.
+// we can also store an expression in bracket notation which can hold the key 
+//For eg 
+const nameKey = 'Name'
+console.log(Pranav['first' + nameKey]);
+console.log(Pranav['last' + nameKey]);
+
+//When we need to compute the property name we have to use the bracket notation.In other cases we use the dot notation mostly
 
 
 

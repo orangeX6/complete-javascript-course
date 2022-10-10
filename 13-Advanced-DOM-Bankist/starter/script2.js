@@ -1296,7 +1296,7 @@ console.log(h1.parentElement.children);
 
 // 197. A BETTER WAY: THE INTERSECTION OBSERVER API
 //! AT THE TOP
-/*
+/**/
 //Well, this API allows our code to basically observe changes to the way that a certain target element intersects another element, or the way it intersects the viewport.
 
 //The callback function will be called each time that the observed element is intersecting the root element at the threshold we have defined
@@ -1308,7 +1308,7 @@ const obsCallBack = function (entries, observer) {
 
 //root - element where target is intersecting
 //threshold - percentage of intersection at which the call back function will be called. We can have multiple thresholds, we define it with array
-//rootMargin - adds margin to the root 
+//rootMargin - adds margin to the root
 const obsOptions = {
   root: null, //null - viewport
   threshold: [0, 0.2],
@@ -1316,7 +1316,6 @@ const obsOptions = {
 
 const observer = new IntersectionObserver(obsCallBack, obsOptions);
 observer.observe(section1);
-*/
 
 //
 //
