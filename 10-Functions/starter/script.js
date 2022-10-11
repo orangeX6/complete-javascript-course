@@ -16,6 +16,7 @@
 
 //1. DEFAULT PARAMETERS
 /*
+
 const bookings = [];
 
 const createBooking = function (
@@ -42,7 +43,7 @@ createBooking('LH123');
 createBooking('LH123', 2, 799);
 //If a parameter value is unknown we can specify it as undefined and the function will take the default parameter value specified.
 createBooking('LH123', undefined, 1000);
-*/
+ */
 
 //
 //
@@ -76,20 +77,19 @@ createBooking('LH123', undefined, 1000);
 
 //2. HOW PASSING ARGUMENTS WORKS: VALUE Vs. REFERENCE
 /* 
- When we pass primitives into a function like a string, number, boolean etc. a new copy is created. But when we copy an object like an array, object a reference to the value is created and not a copy.
+-> When we pass primitives into a function like a string, number, boolean etc. a new copy is created. But when we copy an object like an array, object a reference to the value is created and not a copy.
 
- In programming there are two terms used all the time 
- 1. Passing by reference
- 2. Passing by value 
+-> In programming there are two terms used all the time 
+>> 1. Passing by reference
+>> 2. Passing by value 
 
- JavaScript does not have passing by reference. Only passing by value. Even though it looks like we are passing by a reference.
- As we can see in terms of obj, we do pass reference to the function but we do not pass by a reference
+-> JavaScript does not have passing by reference. Only passing by value. Even though it looks like we are passing by a reference.
 
 
  ////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////
-PASS BY VALUE IN JS EXPLANATION
+->PASS BY VALUE IN JS EXPLANATION
 /////////////////////////////////////////////
 ///////////////////////////
 /////////////////
@@ -101,7 +101,7 @@ The Call Stack remembers identifiers, memory addresses, and values. An identifie
 
 The Heap, or memory heap, remembers addresses and values. Complex types, like objects and arrays, are stored in the Heap.
 
-I'm using bold to signify terms on the Stack and Heap side, and italics to signify variables in our script.
+
 
 Consider the following code:
 
@@ -137,8 +137,10 @@ To understand this behavior, it is time for one last, ultimate plunge into the d
 We tell the engine to look at the identifier of obj2. The engine detects that it points to address 0003, which stores an address, D30F, on the heap. It moves to the corresponding address on the heap and looks for the identifier first within it. It creates a new memory address for it to point to, D30F3, and stores the value 3 there. So, the value of D30F is now {first: 3, second: 2}. Do you see the issue here?
 
 The identifier obj for our object obj, still points at the address 0003, which still stores the address D30F for the heap, which brings us to the value {first: 3, second: 2}, that has now wantonly been modified by another object, obj2.
+ 
+*/
 
-
+/* 
 const flight = 'LH324';
 const pranav = {
     name:'Pranav Naringrekar',
@@ -762,3 +764,97 @@ boardPassengers(100, 3);
   });
 })();
  */
+
+const vistara = {
+  airLine: 'Vistara',
+  iataCode: 'VA',
+  bookings: [],
+  book(flightNum, name) {
+    console.log(
+      `${name} booked a seat on ${this.airLine} ${this.iataCode}${flightNum}`
+    );
+    console.log(this);
+    this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
+  },
+};
+
+vistara.book(369, 'Pranav Naringrekar');
+vistara.book(600, 'Sakshi S');
+
+const eurowings = {
+  airLine: 'EuroWings',
+  iataCode: 'EW',
+  bookings: [],
+};
+
+const book = vistara.book;
+
+book.call(eurowings, 623, 'Sarah Williams');
+
+const bookEW = vistara.book.bind(eurowings);
+bookEW(69, 'Taeyeon');
+vistara.book.bind(eurowings)(89, 'Tiffany');
+
+var bookings = [];
+vistara.book.bind(window)(89, 'Tiffany');
+
+const addTax = (rate, value) => {
+  console.log(this);
+  return value + value * rate;
+};
+const addVat = addTax.bind(null, 0.23);
+
+console.log(addVat(100));
+
+const addTaxHigh = rate => value => value + value * rate;
+
+const addVat2 = addTaxHigh(0.23);
+console.log(addVat2(10));
+
+const poll = {
+  question: 'What is your favorite programming language? ',
+  options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+  answers: new Array(4).fill(0),
+  registerNewAnswer() {
+    const answer = Number(
+      prompt(`${this.question}
+    ${this.options.join('\n    ')}`)
+    );
+    console.log(answer);
+
+    if (typeof answer === 'number' && answer < this.answers.length) {
+      this.answers[answer]++;
+      this.displayResults('string');
+    } else this.registerNewAnswer();
+  },
+  displayResults(type = 'array') {
+    if (type === 'string') {
+      console.log(`Poll results are ${this.answers.join(', ')}`);
+    } else {
+      console.log(this.answers);
+    }
+  },
+};
+
+document
+  .querySelector('.poll')
+  .addEventListener('click', poll.registerNewAnswer.bind(poll));
+
+poll.displayResults.call({ answers: [5, 2, 3] }, 'array');
+poll.displayResults.call({ answers: [5, 2, 3] }, 'string');
+
+console.log(poll);
+
+const secureBooking = function () {
+  let passengerCount = 0;
+
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  };
+};
+
+const booker = secureBooking();
+
+booker();
+booker();
