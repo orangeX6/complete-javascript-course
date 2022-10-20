@@ -765,6 +765,7 @@ boardPassengers(100, 3);
 })();
  */
 
+/*
 const vistara = {
   airLine: 'Vistara',
   iataCode: 'VA',
@@ -772,32 +773,32 @@ const vistara = {
   book(flightNum, name) {
     console.log(
       `${name} booked a seat on ${this.airLine} ${this.iataCode}${flightNum}`
-    );
-    console.log(this);
-    this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
-  },
-};
-
-vistara.book(369, 'Pranav Naringrekar');
-vistara.book(600, 'Sakshi S');
-
-const eurowings = {
-  airLine: 'EuroWings',
-  iataCode: 'EW',
-  bookings: [],
-};
-
-const book = vistara.book;
-
-book.call(eurowings, 623, 'Sarah Williams');
-
-const bookEW = vistara.book.bind(eurowings);
-bookEW(69, 'Taeyeon');
-vistara.book.bind(eurowings)(89, 'Tiffany');
-
-var bookings = [];
-vistara.book.bind(window)(89, 'Tiffany');
-
+      );
+      console.log(this);
+      this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
+    },
+  };
+  
+  vistara.book(369, 'Pranav Naringrekar');
+  vistara.book(600, 'Sakshi S');
+  
+  const eurowings = {
+    airLine: 'EuroWings',
+    iataCode: 'EW',
+    bookings: [],
+  };
+  
+  const book = vistara.book;
+  
+  book.call(eurowings, 623, 'Sarah Williams');
+  
+  const bookEW = vistara.book.bind(eurowings);
+  bookEW(69, 'Taeyeon');
+  vistara.book.bind(eurowings)(89, 'Tiffany');
+  
+  var bookings = [];
+  vistara.book.bind(window)(89, 'Tiffany');
+  
 const addTax = (rate, value) => {
   console.log(this);
   return value + value * rate;
@@ -818,27 +819,27 @@ const poll = {
   registerNewAnswer() {
     const answer = Number(
       prompt(`${this.question}
-    ${this.options.join('\n    ')}`)
-    );
-    console.log(answer);
-
-    if (typeof answer === 'number' && answer < this.answers.length) {
-      this.answers[answer]++;
-      this.displayResults('string');
-    } else this.registerNewAnswer();
-  },
-  displayResults(type = 'array') {
-    if (type === 'string') {
-      console.log(`Poll results are ${this.answers.join(', ')}`);
-    } else {
+      ${this.options.join('\n    ')}`)
+      );
+      console.log(answer);
+      
+      if (typeof answer === 'number' && answer < this.answers.length) {
+        this.answers[answer]++;
+        this.displayResults('string');
+      } else this.registerNewAnswer();
+    },
+    displayResults(type = 'array') {
+      if (type === 'string') {
+        console.log(`Poll results are ${this.answers.join(', ')}`);
+      } else {
       console.log(this.answers);
     }
   },
 };
 
 document
-  .querySelector('.poll')
-  .addEventListener('click', poll.registerNewAnswer.bind(poll));
+.querySelector('.poll')
+.addEventListener('click', poll.registerNewAnswer.bind(poll));
 
 poll.displayResults.call({ answers: [5, 2, 3] }, 'array');
 poll.displayResults.call({ answers: [5, 2, 3] }, 'string');
@@ -847,7 +848,7 @@ console.log(poll);
 
 const secureBooking = function () {
   let passengerCount = 0;
-
+  
   return function () {
     passengerCount++;
     console.log(`${passengerCount} passengers`);
@@ -858,3 +859,53 @@ const booker = secureBooking();
 
 booker();
 booker();
+console.dir(booker);
+
+let f;
+const g = () => {
+  const a = 23;
+  f = function () {
+    console.log(a * 2);
+  };
+};
+
+const h = () => {
+  const b = 777;
+  f = function () {
+    console.log(b * 3);
+  };
+};
+
+g();
+f();
+console.dir(f);
+h();
+f();
+console.dir(f);
+
+const boardPassengers = (n, wait) => {
+  const perGroup = n / 3;
+  
+  setTimeout(() => {
+    console.log(`We are now boarding all ${n} passengers`);
+    console.log(`There  are 3 groups, each with ${perGroup} passengers`);
+  }, wait * 1000);
+  
+  console.log(`Will board in ${wait} seconds`);
+};
+
+// const perGroup = 1000;
+boardPassengers(180, 3);
+
+(() => {
+  const header = document.querySelector('h1');
+  header.style.color = 'red';
+  
+  document.body.addEventListener('click', function () {
+    console.log(this);
+    header.style.color = 'ghostwhite';
+    this.style.background = 'blue';
+  });
+})();
+
+*/
