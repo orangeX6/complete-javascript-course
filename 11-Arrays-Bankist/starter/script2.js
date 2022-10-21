@@ -230,6 +230,18 @@ console.log(y);
 //   const movementsUI2 = [...document.querySelectorAll('.movements__value')];
 // });
 
+// const movRows = document.querySelectorAll('.movements__row');
+
+// console.log(movRows);
+
+// const movRowsArray = Array.from(movRows, el => {
+//   console.log(el);
+//   el.zoro = 'roronoa';
+//   return el;
+// });
+
+// console.log(movRowsArray);
+
 /*
 
 # STRING METHODS USED  -
