@@ -1546,3 +1546,16 @@ window.addEventListener('load', function (e) {
 //message.remove()
 
 //
+// const logoo = document.querySelector('.nav__logo');
+// logoo.setAttribute('data-version-numberr', '3.0');
+// console.log(logoo.dataset.versionNumberr);
+// console.log(logoo.getAttribute('data-version-numberr'));
+// console.log(logoo.getAttribute('designer'));
+// console.log(logoo.alt);
+// console.log(logoo.designer);
+
+// console.log(document.documentElement);
+// addEventListener('mousemove', e => {
+//   console.log(e);
+// });
+// console.log(window);
