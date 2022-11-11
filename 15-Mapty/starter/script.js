@@ -97,6 +97,7 @@ class App {
   #map;
   #mapEvent;
   #mapZoomLevel = 13;
+  // #workouts = new Array(0);
   #workouts = [];
 
   //>> CONSTRUCTOR
@@ -228,6 +229,7 @@ class App {
     // Add new object to workout array
     this.#workouts.push(workout);
     // //console.log(workout);
+    // console.log(this.#workouts);
 
     // Render workout on map as marker
     //? No need to use .bind(this) because we ourselves are calling this method using this
