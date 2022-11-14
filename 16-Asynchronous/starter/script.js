@@ -901,3 +901,25 @@ const loadAll = async function (imgArr) {
 const imgPath = ['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg'];
 
 loadAll(imgPath);
+
+// (async () => {
+//   const imgs = await imgPath.map(async img => await createImage(img));
+//   const x = await Promise.any(imgs);
+//   console.log(x);
+// })();
+
+// const createImage = function (imgPath) {
+//   return new Promise(function (response, reject) {
+//     const img = document.createElement('img');
+//     img.src = imgPath;
+
+//     img.addEventListener('load', function () {
+//       imageContainer.append(img);
+//       response(img);
+//     });
+
+//     img.addEventListener('error', function () {
+//       reject(new Error('Image not found'));
+//     });
+//   });
+// };
