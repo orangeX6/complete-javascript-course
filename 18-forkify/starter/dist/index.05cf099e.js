@@ -564,10 +564,10 @@ const controlRecipes = async function() {
 };
 const controlSearchResults = async function() {
     try {
-        _resultsViewJsDefault.default.renderSpinner();
         //// 1) Get search query
         const query = _searchViewJsDefault.default.getQuery();
         if (!query) return;
+        _resultsViewJsDefault.default.renderSpinner();
         //// 2) Load search results
         await _modelJs.loadSearchResults(query);
         //// 3) Render Results
@@ -819,7 +819,7 @@ parcelHelpers.export(exports, "MODAL_CLOSE_SEC", ()=>MODAL_CLOSE_SEC
 const API_URL = 'https://forkify-api.herokuapp.com/api/v2/recipes/';
 const KEY = 'e9f437ea-1cba-4bcc-b823-07787be862ca';
 const TIMEOUT_SEC = 10;
-const RES_PER_PAGE = 10;
+const RES_PER_PAGE = 12;
 const MODAL_CLOSE_SEC = 2.5;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"ciiiV":[function(require,module,exports) {
@@ -1096,7 +1096,9 @@ class View {
         const curElements = Array.from(this._parentElement.querySelectorAll('*'));
         newElements.forEach((newEl, i)=>{
             const curEl = curElements[i];
-            //// console.log(curEl, newEl.isEqualNode(curEl));
+            // if (!newEl.isEqualNode(curEl)) {
+            //   console.log(curEl.childNodes);
+            // }
             //// Updates changed TEXT
             if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== '') //// console.log('🤍', newEl.firstChild?.nodeValue.trim());
             curEl.textContent = newEl.textContent;
@@ -1110,7 +1112,7 @@ class View {
         const markup = `
           <div class="spinner">
             <svg>
-              <use href="${_iconsSvgDefault.default}g#icon-loader"></use>
+              <use href="${_iconsSvgDefault.default}#icon-loader"></use>
             </svg>
           </div>
           `;
@@ -1450,8 +1452,10 @@ var _viewJsDefault = parcelHelpers.interopDefault(_viewJs);
 class searchView {
     _data;
     _parentEl = document.querySelector('.search');
+    #search = document.querySelector('.search__field');
     getQuery() {
         const query = this._parentEl.querySelector('.search__field').value;
+        // const query = this.#search.value;
         this._clearInput();
         return query;
     }
@@ -1588,42 +1592,37 @@ class paginationView extends _viewJsDefault.default {
             handler(goToPage);
         });
     }
+    _generateButtonMarkup(curPage, next = true) {
+        const left = `
+      <svg class="search__icon">
+      <use href="${_iconsSvgDefault.default}#icon-arrow-left"></use>
+      </svg>
+      <span>Page ${curPage - 1}</span>
+    `;
+        const right = `
+      <span>Page ${curPage + 1}</span>
+      <svg class="search__icon">
+      <use href="${_iconsSvgDefault.default}#icon-arrow-right"></use>
+      </svg>
+    `;
+        return `
+        <button data-goto="${next ? curPage + 1 : curPage - 1}" class="btn--inline pagination__btn--${next ? 'next' : 'prev'} ">
+        ${next ? right : left}
+        </button> 
+        `;
+    }
     _generateMarkup() {
         const curPage = this._data.page;
         const numPages = Math.ceil(this._data.results.length / this._data.resultsPerPage);
         // Page 1, and there are other pages
-        if (curPage === 1 && numPages > 1 && numPages > 1) return `
-        <button data-goto="${curPage + 1}" class="btn--inline pagination__btn--next">
-            <span>Page ${curPage + 1}</span>
-            <svg class="search__icon">
-            <use href="${_iconsSvgDefault.default}#icon-arrow-right"></use>
-            </svg>
-        </button> 
-        `;
+        if (curPage === 1 && numPages > 1 && numPages > 1) return this._generateButtonMarkup(curPage);
         // Last Page
-        if (curPage === numPages && numPages > 1) return `
-      <button data-goto="${curPage - 1}" class="btn--inline pagination__btn--prev">
-        <svg class="search__icon">
-            <use href="${_iconsSvgDefault.default}#icon-arrow-left"></use>
-        </svg>
-        <span>Page ${curPage - 1}</span>
-        </button>
-      `;
+        if (curPage === numPages && numPages > 1) return this._generateButtonMarkup(curPage, false);
         // Other Page
-        if (curPage < numPages) return `
-        <button data-goto ="${curPage - 1}" class="btn--inline pagination__btn--prev">
-            <svg class="search__icon">
-            <use href="${_iconsSvgDefault.default}#icon-arrow-left"></use>
-            </svg>
-            <span>Page ${curPage - 1}</span>
-        </button>
-        <button data-goto ="${curPage + 1}" class="btn--inline pagination__btn--next">
-            <span>Page ${curPage + 1}</span>
-            <svg class="search__icon">
-            <use href="${_iconsSvgDefault.default}#icon-arrow-right"></use>
-            </svg>
-        </button> 
-        `;
+        if (curPage < numPages) {
+            const markup = this._generateButtonMarkup(curPage, false);
+            return markup.concat(this._generateButtonMarkup(curPage));
+        }
         // Page 1, and there are no other pages
         return '';
     }

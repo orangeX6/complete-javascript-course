@@ -923,3 +923,39 @@ loadAll(imgPath);
 //     });
 //   });
 // };
+
+const getJSON2 = async function (url, errMsg = 'Something went wrong') {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`${errMsg} (${response.status})`);
+
+  return await response.json();
+};
+
+// const wait = function (seconds) {
+//   return new Promise(function (resolve) {
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
+
+const timeout = function (s) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error(`Request took too long! Timeout after ${s} second`));
+    }, s * 1000);
+  });
+};
+
+(async function () {
+  try {
+    const res = await Promise.race([
+      getJSON2(`https://restcountries.com/v3.1/name/italy?fullText=true`),
+      getJSON2(`https://restcountries.com/v3.1/name/india?fullText=true`),
+      getJSON2(`https://restcountries.com/v3.1/name/canada?fullText=true`),
+      timeout(5),
+    ]);
+
+    console.log(res[0], res[0].name);
+  } catch (err) {
+    console.error(err);
+  }
+})();

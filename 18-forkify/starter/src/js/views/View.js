@@ -34,8 +34,10 @@ export default class View {
 
     newElements.forEach((newEl, i) => {
       const curEl = curElements[i];
-      //// console.log(curEl, newEl.isEqualNode(curEl));
 
+      // if (!newEl.isEqualNode(curEl)) {
+      //   console.log(curEl.childNodes);
+      // }
       //// Updates changed TEXT
       if (
         !newEl.isEqualNode(curEl) &&
@@ -60,7 +62,7 @@ export default class View {
     const markup = `
           <div class="spinner">
             <svg>
-              <use href="${icons}g#icon-loader"></use>
+              <use href="${icons}#icon-loader"></use>
             </svg>
           </div>
           `;
